@@ -19,7 +19,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
 
-    @Autowired
     private final UserServiceImp userService;
 
     @GetMapping("/{username}")

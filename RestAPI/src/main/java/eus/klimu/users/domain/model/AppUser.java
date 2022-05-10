@@ -1,5 +1,6 @@
 package eus.klimu.users.domain.model;
 
+import eus.klimu.notification.domain.model.UserNotification;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,4 +28,7 @@ public class AppUser {
     private String email;
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Role> roles = new ArrayList<>();
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Collection<UserNotification> notifications = new ArrayList<>();
+
 }
