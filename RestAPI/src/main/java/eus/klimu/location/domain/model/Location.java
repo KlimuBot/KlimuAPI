@@ -22,4 +22,8 @@ public class Location {
     private String city;
     private String country;
 
+    @Override
+    public String toString() {
+        return city + ", " + country;
+    }
 }

@@ -7,12 +7,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
 @Getter
 @Setter
+@XmlRootElement
 @NoArgsConstructor
 @AllArgsConstructor
 public class AppUser {

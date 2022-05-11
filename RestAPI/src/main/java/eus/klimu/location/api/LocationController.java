@@ -8,7 +8,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @Controller
@@ -17,6 +19,14 @@ import java.util.List;
 public class LocationController {
 
     private final LocationService locationService;
+
+    @GetMapping(
+            value = "/{id}",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
+    )
+    public ResponseEntity<Location> getLocationByCity(@PathVariable long id) {
+        return ResponseEntity.ok().body(locationService.getLocationById(id));
+    }
 
     @GetMapping(
             value = "/city/{city}",
@@ -36,7 +46,7 @@ public class LocationController {
 
     @GetMapping(
             value = "/all",
-            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
+            produces = {MediaType.APPLICATION_JSON_VALUE}
     )
     public ResponseEntity<List<Location>> getAllLocations() {
         return ResponseEntity.ok().body(locationService.getAllLocations());
@@ -49,7 +59,9 @@ public class LocationController {
     )
     public ResponseEntity<Location> createLocation(@RequestBody Location location) {
         if (location != null) {
-            return ResponseEntity.status(HttpStatus.CREATED).body(locationService.addNewLocation(location));
+            return ResponseEntity.created(
+                    URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/location/create").toUriString())
+            ).body(locationService.addNewLocation(location));
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
@@ -57,12 +69,14 @@ public class LocationController {
 
     @PostMapping(
             value = "/create-all",
-            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
-            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
+            consumes = {MediaType.APPLICATION_JSON_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE}
     )
     public ResponseEntity<List<Location>> createAllLocations(@RequestBody List<Location> locations) {
         if (locations != null && locations.size() > 0) {
-            return ResponseEntity.status(HttpStatus.CREATED).body(locationService.addAllLocations(locations));
+            return ResponseEntity.created(
+                    URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/location/create").toUriString())
+            ).body(locationService.addAllLocations(locations));
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
@@ -82,43 +96,42 @@ public class LocationController {
     }
 
     @DeleteMapping(value = "/delete/{id}")
-    public HttpStatus deleteLocationById(@PathVariable long id) {
+    public ResponseEntity<?> deleteLocationById(@PathVariable long id) {
         if (id > 0) {
             locationService.deleteLocation(locationService.getLocationById(id));
-            return HttpStatus.OK;
+            return ResponseEntity.ok().build();
         } else {
-            return HttpStatus.BAD_REQUEST;
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @DeleteMapping(value = "/delete/city/{city}")
-    public HttpStatus deleteLocationByCity(@PathVariable String city) {
+    public ResponseEntity<?> deleteLocationByCity(@PathVariable String city) {
         if (city != null) {
             locationService.deleteLocation(locationService.getLocationByCity(city));
-            return HttpStatus.OK;
+            return ResponseEntity.ok().build();
         } else {
-            return HttpStatus.BAD_REQUEST;
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @DeleteMapping(value = "/delete/country/{country}")
-    public HttpStatus deleteLocationByCountry(@PathVariable String country) {
+    public ResponseEntity<?> deleteLocationByCountry(@PathVariable String country) {
         if (country != null) {
             locationService.deleteLocation(locationService.getLocationByCountry(country));
-            return HttpStatus.OK;
+            return ResponseEntity.ok().build();
         } else {
-            return HttpStatus.BAD_REQUEST;
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @DeleteMapping(value = "/delete/{city}/{country}")
-    public HttpStatus deleteLocation(@PathVariable String city, @PathVariable String country) {
+    public ResponseEntity<?> deleteLocation(@PathVariable String city, @PathVariable String country) {
         if (city != null && country != null) {
             locationService.deleteLocation(locationService.getLocationByCityAndCountry(city, country));
-            return HttpStatus.OK;
+            return ResponseEntity.ok().build();
         } else {
-            return HttpStatus.BAD_REQUEST;
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
-
 }
