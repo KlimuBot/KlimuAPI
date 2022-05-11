@@ -1,5 +1,6 @@
 package eus.klimu.users.api;
 
+import eus.klimu.channel.domain.model.Channel;
 import eus.klimu.users.domain.model.Role;
 import eus.klimu.users.domain.service.definition.RoleService;
 import lombok.RequiredArgsConstructor;
@@ -21,11 +22,15 @@ public class RoleController {
     private final RoleService roleService;
 
     @GetMapping(
-            value = "/all",
+            value = "/{id}",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
     )
-    public ResponseEntity<List<Role>> getAllRoles() {
-        return ResponseEntity.ok().body(roleService.getAllRoles());
+    public ResponseEntity<Role> getChannelById(@PathVariable long id) {
+        if (id > 0) {
+            return ResponseEntity.ok().body(roleService.getRole(id));
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
     @GetMapping(
@@ -41,8 +46,16 @@ public class RoleController {
         }
     }
 
+    @GetMapping(
+            value = "/all",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
+    )
+    public ResponseEntity<List<Role>> getAllRoles() {
+        return ResponseEntity.ok().body(roleService.getAllRoles());
+    }
+
     @PostMapping(
-            value = "/save",
+            value = "/create",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
     )
@@ -50,8 +63,7 @@ public class RoleController {
         Role newRole = roleService.addNewRole(role);
         if (newRole != null) {
             return ResponseEntity.created(
-                    // Specify where has the object been created.
-                    URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/role/save").toUriString())
+                    URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/role/create").toUriString())
             ).body(newRole);
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -59,7 +71,7 @@ public class RoleController {
     }
 
     @PostMapping(
-            value = "/save/all",
+            value = "/create/all",
             consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE}
     )
@@ -67,8 +79,7 @@ public class RoleController {
         List<Role> newRoles = roleService.addAllRoles(roles);
         if (newRoles != null) {
             return ResponseEntity.created(
-                    // Specify where has the object been created.
-                    URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/role/save/all").toUriString())
+                    URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/role/create/all").toUriString())
             ).body(newRoles);
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -98,10 +109,20 @@ public class RoleController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping(value = "/remove/{id}")
-    public ResponseEntity<?> deleteRole(@PathVariable long id) {
+    @DeleteMapping(value = "/delete/{id}")
+    public ResponseEntity<?> deleteRoleById(@PathVariable long id) {
         if (id > 0) {
             roleService.deleteRole(roleService.getRole(id));
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
+    @DeleteMapping(value = "/delete")
+    public ResponseEntity<?> deleteRole(@RequestBody Role role) {
+        if (role != null) {
+            roleService.deleteRole(role);
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

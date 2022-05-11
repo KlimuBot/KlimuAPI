@@ -22,16 +22,24 @@ public class UserController {
 
     @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<AppUser> getUserByUsername(@PathVariable long id) {
-        return ResponseEntity.ok().body(userService.getUser(id));
+        if (id > 0) {
+            return ResponseEntity.ok().body(userService.getUser(id));
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
     @GetMapping(value = "/{username}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<AppUser> getUserByUsername(@PathVariable String username) {
-        return ResponseEntity.ok().body(userService.getUser(username));
+        if (username != null) {
+            return ResponseEntity.ok().body(userService.getUser(username));
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
     @PostMapping(
-            value = "/save",
+            value = "/create",
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
     )
@@ -41,7 +49,7 @@ public class UserController {
             AppUser newUser = userService.saveUser(user);
             return ResponseEntity.created(
                     // Specify where has the object been created.
-                    URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/user/save").toUriString())
+                    URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/user/create").toUriString())
             ).body(newUser);
         } else {
             return ResponseEntity.badRequest().header("error", msg).build();
@@ -49,7 +57,7 @@ public class UserController {
     }
 
     @PostMapping(
-            value = "/save/all",
+            value = "/create/all",
             consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE}
     )
@@ -64,7 +72,7 @@ public class UserController {
             }
         }
         return ResponseEntity.created(
-                URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/user/save/all").toUriString())
+                URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/user/create/all").toUriString())
         ).body(userService.saveAllUsers(users));
     }
 
@@ -82,9 +90,19 @@ public class UserController {
     }
 
     @DeleteMapping(value = "/delete/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable int id) {
+    public ResponseEntity<?> deleteUserById(@PathVariable int id) {
         if (id > 0) {
             userService.deleteUser(userService.getUser(id));
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
+    @DeleteMapping(value = "/delete")
+    public ResponseEntity<?> deleteUser(@RequestBody AppUser user) {
+        if (user != null) {
+            userService.deleteUser(user);
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

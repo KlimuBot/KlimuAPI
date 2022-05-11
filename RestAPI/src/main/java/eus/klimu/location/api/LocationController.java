@@ -25,7 +25,11 @@ public class LocationController {
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
     )
     public ResponseEntity<Location> getLocationByCity(@PathVariable long id) {
-        return ResponseEntity.ok().body(locationService.getLocationById(id));
+        if (id > 0) {
+            return ResponseEntity.ok().body(locationService.getLocationById(id));
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
     @GetMapping(
@@ -33,7 +37,11 @@ public class LocationController {
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
     )
     public ResponseEntity<Location> getLocationByCity(@PathVariable String city) {
-        return ResponseEntity.ok().body(locationService.getLocationByCity(city));
+        if (city != null) {
+            return ResponseEntity.ok().body(locationService.getLocationByCity(city));
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
     @GetMapping(
@@ -41,7 +49,26 @@ public class LocationController {
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
     )
     public ResponseEntity<Location> getLocationByCountry(@PathVariable String country) {
-        return ResponseEntity.ok().body(locationService.getLocationByCountry(country));
+        if (country != null) {
+            return ResponseEntity.ok().body(locationService.getLocationByCountry(country));
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
+    @GetMapping(
+            value = "/{city}/{country}",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
+    )
+    public ResponseEntity<Location> getLocationByCityAndCountry(
+            @PathVariable String city,
+            @PathVariable String country
+    ) {
+        if (country != null) {
+            return ResponseEntity.ok().body(locationService.getLocationByCityAndCountry(city, country));
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
     @GetMapping(
@@ -68,14 +95,14 @@ public class LocationController {
     }
 
     @PostMapping(
-            value = "/create-all",
+            value = "/create/all",
             consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE}
     )
     public ResponseEntity<List<Location>> createAllLocations(@RequestBody List<Location> locations) {
         if (locations != null && locations.size() > 0) {
             return ResponseEntity.created(
-                    URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/location/create").toUriString())
+                    URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/location/create/all").toUriString())
             ).body(locationService.addAllLocations(locations));
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -129,6 +156,16 @@ public class LocationController {
     public ResponseEntity<?> deleteLocation(@PathVariable String city, @PathVariable String country) {
         if (city != null && country != null) {
             locationService.deleteLocation(locationService.getLocationByCityAndCountry(city, country));
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
+    @DeleteMapping(value = "/delete")
+    public ResponseEntity<?> deleteLocation(@RequestBody Location location) {
+        if (location != null) {
+            locationService.deleteLocation(location);
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
