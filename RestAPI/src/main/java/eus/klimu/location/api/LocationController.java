@@ -1,6 +1,7 @@
 package eus.klimu.location.api;
 
 import eus.klimu.location.domain.model.Location;
+import eus.klimu.location.domain.model.LocationDTO;
 import eus.klimu.location.domain.service.definition.LocationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -84,11 +86,11 @@ public class LocationController {
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
     )
-    public ResponseEntity<Location> createLocation(@RequestBody Location location) {
+    public ResponseEntity<Location> createLocation(@RequestBody LocationDTO location) {
         if (location != null) {
             return ResponseEntity.created(
                     URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/location/create").toUriString())
-            ).body(locationService.addNewLocation(location));
+            ).body(locationService.addNewLocation(Location.generateLocation(location)));
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
@@ -99,11 +101,14 @@ public class LocationController {
             consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE}
     )
-    public ResponseEntity<List<Location>> createAllLocations(@RequestBody List<Location> locations) {
-        if (locations != null && locations.size() > 0) {
+    public ResponseEntity<List<Location>> createAllLocations(@RequestBody List<LocationDTO> locations) {
+        if (locations != null && !locations.isEmpty()) {
+            List<Location> persistentLocations = new ArrayList<>();
+            locations.forEach(l -> persistentLocations.add(new Location(l.getId(), l.getCity(), l.getCountry())));
+
             return ResponseEntity.created(
                     URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/location/create/all").toUriString())
-            ).body(locationService.addAllLocations(locations));
+            ).body(locationService.addAllLocations(persistentLocations));
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
@@ -114,16 +119,16 @@ public class LocationController {
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
     )
-    public ResponseEntity<Location> updateLocation(@RequestBody Location location) {
+    public ResponseEntity<Location> updateLocation(@RequestBody LocationDTO location) {
         if (location != null && locationService.getLocationById(location.getId()) != null) {
-            return ResponseEntity.ok().body(locationService.updateLocation(location));
+            return ResponseEntity.ok().body(locationService.updateLocation(Location.generateLocation(location)));
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @DeleteMapping(value = "/delete/{id}")
-    public ResponseEntity<?> deleteLocationById(@PathVariable long id) {
+    public ResponseEntity<Object> deleteLocationById(@PathVariable long id) {
         if (id > 0) {
             locationService.deleteLocation(locationService.getLocationById(id));
             return ResponseEntity.ok().build();
@@ -133,7 +138,7 @@ public class LocationController {
     }
 
     @DeleteMapping(value = "/delete/city/{city}")
-    public ResponseEntity<?> deleteLocationByCity(@PathVariable String city) {
+    public ResponseEntity<Object> deleteLocationByCity(@PathVariable String city) {
         if (city != null) {
             locationService.deleteLocation(locationService.getLocationByCity(city));
             return ResponseEntity.ok().build();
@@ -143,7 +148,7 @@ public class LocationController {
     }
 
     @DeleteMapping(value = "/delete/country/{country}")
-    public ResponseEntity<?> deleteLocationByCountry(@PathVariable String country) {
+    public ResponseEntity<Object> deleteLocationByCountry(@PathVariable String country) {
         if (country != null) {
             locationService.deleteLocation(locationService.getLocationByCountry(country));
             return ResponseEntity.ok().build();
@@ -153,7 +158,7 @@ public class LocationController {
     }
 
     @DeleteMapping(value = "/delete/{city}/{country}")
-    public ResponseEntity<?> deleteLocation(@PathVariable String city, @PathVariable String country) {
+    public ResponseEntity<Object> deleteLocation(@PathVariable String city, @PathVariable String country) {
         if (city != null && country != null) {
             locationService.deleteLocation(locationService.getLocationByCityAndCountry(city, country));
             return ResponseEntity.ok().build();
@@ -163,9 +168,9 @@ public class LocationController {
     }
 
     @DeleteMapping(value = "/delete")
-    public ResponseEntity<?> deleteLocation(@RequestBody Location location) {
+    public ResponseEntity<Object> deleteLocation(@RequestBody LocationDTO location) {
         if (location != null) {
-            locationService.deleteLocation(location);
+            locationService.deleteLocation(Location.generateLocation(location));
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

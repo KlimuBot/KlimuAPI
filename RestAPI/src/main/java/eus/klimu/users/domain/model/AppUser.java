@@ -1,6 +1,8 @@
 package eus.klimu.users.domain.model;
 
 import eus.klimu.notification.domain.model.UserNotification;
+import eus.klimu.notification.domain.service.definition.UserNotificationService;
+import eus.klimu.users.domain.service.definition.RoleService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,12 +13,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.Collection;
 
-@Entity
 @Getter
 @Setter
-@XmlRootElement
 @NoArgsConstructor
 @AllArgsConstructor
+@XmlRootElement
+@Entity(name = "app_user")
 public class AppUser {
 
     @Id
@@ -32,5 +34,22 @@ public class AppUser {
     private Collection<Role> roles = new ArrayList<>();
     @ManyToMany(fetch = FetchType.LAZY)
     private Collection<UserNotification> notifications = new ArrayList<>();
+
+    public static AppUser generateAppUser(
+            AppUserDTO appUserDTO, RoleService roleService, UserNotificationService userNotificationService
+    ) {
+        Collection<UserNotification> notifications = new ArrayList<>();
+        Collection<Role> roles = new ArrayList<>();
+
+        appUserDTO.getNotifications().forEach(notificationId -> notifications.add(
+                userNotificationService.getUserNotification(notificationId)
+        ));
+        appUserDTO.getRoles().forEach(roleId -> roles.add(roleService.getRole(roleId)));
+
+        return new AppUser(
+                appUserDTO.getId(), appUserDTO.getUsername(), appUserDTO.getPassword(), appUserDTO.getName(),
+                appUserDTO.getSurname(), appUserDTO.getEmail(), roles, notifications
+        );
+    }
 
 }

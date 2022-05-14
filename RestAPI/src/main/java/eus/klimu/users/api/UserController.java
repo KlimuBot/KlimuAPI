@@ -1,7 +1,10 @@
 package eus.klimu.users.api;
 
+import eus.klimu.notification.domain.service.definition.UserNotificationService;
 import eus.klimu.users.domain.model.AppUser;
-import eus.klimu.users.domain.service.implementation.UserServiceImp;
+import eus.klimu.users.domain.model.AppUserDTO;
+import eus.klimu.users.domain.service.definition.RoleService;
+import eus.klimu.users.domain.service.definition.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,7 +21,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserServiceImp userService;
+    private static final String ERROR_HEADER = "error";
+
+    private final UserService userService;
+    private final RoleService roleService;
+    private final UserNotificationService userNotificationService;
 
     @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<AppUser> getUserByUsername(@PathVariable long id) {
@@ -43,16 +50,18 @@ public class UserController {
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
     )
-    public ResponseEntity<AppUser> createUser(@RequestBody AppUser user) {
-        String msg = userService.checkUser(user);
+    public ResponseEntity<AppUser> createUser(@RequestBody AppUserDTO user) {
+        AppUser newUser = AppUser.generateAppUser(user, roleService, userNotificationService);
+        String msg = userService.checkUser(newUser);
+
         if (msg.equals("OK")) {
-            AppUser newUser = userService.saveUser(user);
+            newUser = userService.saveUser(newUser);
             return ResponseEntity.created(
                     // Specify where has the object been created.
                     URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/user/create").toUriString())
             ).body(newUser);
         } else {
-            return ResponseEntity.badRequest().header("error", msg).build();
+            return ResponseEntity.badRequest().header(ERROR_HEADER, msg).build();
         }
     }
 
@@ -68,7 +77,7 @@ public class UserController {
             msg = userService.checkUser(user);
             if (!msg.equals("OK")) {
                 return ResponseEntity.badRequest()
-                        .header("error", user.getUsername() + " => " + msg).build();
+                        .header(ERROR_HEADER, user.getUsername() + " => " + msg).build();
             }
         }
         return ResponseEntity.created(
@@ -81,16 +90,18 @@ public class UserController {
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
     )
-    public ResponseEntity<AppUser> updateUser(@RequestBody AppUser user) {
-        String msg = userService.checkUser(user);
+    public ResponseEntity<AppUser> updateUser(@RequestBody AppUserDTO user) {
+        AppUser appUser = AppUser.generateAppUser(user, roleService, userNotificationService);
+        String msg = userService.checkUser(appUser);
+
         if (!msg.equals("OK")) {
-            return ResponseEntity.badRequest().header("error", msg).build();
+            return ResponseEntity.badRequest().header(ERROR_HEADER, msg).build();
         }
-        return ResponseEntity.ok().body(userService.updateUser(user));
+        return ResponseEntity.ok().body(userService.updateUser(appUser));
     }
 
     @DeleteMapping(value = "/delete/{id}")
-    public ResponseEntity<?> deleteUserById(@PathVariable int id) {
+    public ResponseEntity<Object> deleteUserById(@PathVariable int id) {
         if (id > 0) {
             userService.deleteUser(userService.getUser(id));
             return ResponseEntity.ok().build();
@@ -100,9 +111,9 @@ public class UserController {
     }
 
     @DeleteMapping(value = "/delete")
-    public ResponseEntity<?> deleteUser(@RequestBody AppUser user) {
+    public ResponseEntity<Object> deleteUser(@RequestBody AppUserDTO user) {
         if (user != null) {
-            userService.deleteUser(user);
+            userService.deleteUser(AppUser.generateAppUser(user, roleService, userNotificationService));
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

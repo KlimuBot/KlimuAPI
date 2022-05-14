@@ -24,4 +24,11 @@ public class NotificationType {
     private String description;
     private String type; // info, warning, danger, etc.
 
+    public static NotificationType generateNotificationType(NotificationTypeDTO notificationTypeDTO) {
+        return new NotificationType(
+                notificationTypeDTO.getId(), notificationTypeDTO.getName(),
+                notificationTypeDTO.getDescription(), notificationTypeDTO.getType()
+        );
+    }
+
 }

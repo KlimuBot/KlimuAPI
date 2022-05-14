@@ -1,0 +1,17 @@
+package eus.klimu.users.domain.model;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.io.Serializable;
+
+@Getter
+@Setter
+@NoArgsConstructor
+public class RoleDTO implements Serializable {
+
+    private long id;
+    private String name;
+
+}

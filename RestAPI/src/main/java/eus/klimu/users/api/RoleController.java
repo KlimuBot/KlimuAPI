@@ -1,7 +1,7 @@
 package eus.klimu.users.api;
 
-import eus.klimu.channel.domain.model.Channel;
 import eus.klimu.users.domain.model.Role;
+import eus.klimu.users.domain.model.RoleDTO;
 import eus.klimu.users.domain.service.definition.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -59,8 +59,8 @@ public class RoleController {
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
     )
-    public ResponseEntity<Role> createRole(@RequestBody Role role) {
-        Role newRole = roleService.addNewRole(role);
+    public ResponseEntity<Role> createRole(@RequestBody RoleDTO role) {
+        Role newRole = roleService.addNewRole(Role.generateRole(role));
         if (newRole != null) {
             return ResponseEntity.created(
                     URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/role/create").toUriString())
@@ -77,7 +77,7 @@ public class RoleController {
     )
     public ResponseEntity<List<Role>> createAllRoles(@RequestBody List<Role> roles) {
         List<Role> newRoles = roleService.addAllRoles(roles);
-        if (newRoles != null) {
+        if (newRoles != null && !roles.isEmpty()) {
             return ResponseEntity.created(
                     URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/role/create/all").toUriString())
             ).body(newRoles);
@@ -91,8 +91,8 @@ public class RoleController {
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
     )
-    public ResponseEntity<Role> updateRole(@RequestBody Role role) {
-        Role updatedRole = roleService.updateRole(role);
+    public ResponseEntity<Role> updateRole(@RequestBody RoleDTO role) {
+        Role updatedRole = roleService.updateRole(Role.generateRole(role));
         if (updatedRole != null) {
             return ResponseEntity.ok().body(updatedRole);
         } else {
@@ -101,7 +101,7 @@ public class RoleController {
     }
 
     @PutMapping(value = "/set")
-    public ResponseEntity<?> setUserRole(
+    public ResponseEntity<Object> setUserRole(
             @RequestParam String username,
             @RequestParam String roleName
     ) {
@@ -110,7 +110,7 @@ public class RoleController {
     }
 
     @DeleteMapping(value = "/delete/{id}")
-    public ResponseEntity<?> deleteRoleById(@PathVariable long id) {
+    public ResponseEntity<Object> deleteRoleById(@PathVariable long id) {
         if (id > 0) {
             roleService.deleteRole(roleService.getRole(id));
             return ResponseEntity.ok().build();
@@ -120,9 +120,9 @@ public class RoleController {
     }
 
     @DeleteMapping(value = "/delete")
-    public ResponseEntity<?> deleteRole(@RequestBody Role role) {
+    public ResponseEntity<Object> deleteRole(@RequestBody RoleDTO role) {
         if (role != null) {
-            roleService.deleteRole(role);
+            roleService.deleteRole(Role.generateRole(role));
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

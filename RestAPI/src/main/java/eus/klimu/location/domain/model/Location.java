@@ -22,6 +22,10 @@ public class Location {
     private String city;
     private String country;
 
+    public static Location generateLocation(LocationDTO locationDTO) {
+        return new Location(locationDTO.getId(), locationDTO.getCity(), locationDTO.getCountry());
+    }
+
     @Override
     public String toString() {
         return city + ", " + country;

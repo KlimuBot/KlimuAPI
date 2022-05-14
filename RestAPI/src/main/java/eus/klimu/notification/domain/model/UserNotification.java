@@ -1,6 +1,8 @@
 package eus.klimu.notification.domain.model;
 
 import eus.klimu.channel.domain.model.Channel;
+import eus.klimu.channel.domain.service.definition.ChannelService;
+import eus.klimu.notification.domain.service.definition.LocalizedNotificationService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,5 +27,18 @@ public class UserNotification {
     private Channel channel;
     @ManyToMany
     private Collection<LocalizedNotification> notifications = new ArrayList<>();
+
+    public static UserNotification getUserNotification(
+            UserNotificationDTO userNotificationDTO, ChannelService channelService,
+            LocalizedNotificationService localizedNotificationService
+    ) {
+        Collection<LocalizedNotification> localizedNotifications = new ArrayList<>();
+        userNotificationDTO.getLocalizedNotifications().forEach(
+                localizedNotificationId -> localizedNotifications.add(
+                        localizedNotificationService.getLocalizedNotification(localizedNotificationId))
+        );
+        return new UserNotification(userNotificationDTO.getId(),
+                channelService.getChannel(userNotificationDTO.getChannelId()), localizedNotifications);
+    }
 
 }

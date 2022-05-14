@@ -6,11 +6,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@XmlRootElement
 @Entity(name = "channel")
 public class Channel {
 
@@ -20,5 +22,9 @@ public class Channel {
     @Column(name = "name", unique = true)
     private String name;
     private String icon;
+
+    public static Channel generateChannel(ChannelDTO channelDTO) {
+        return new Channel(channelDTO.getId(), channelDTO.getName(), channelDTO.getIcon());
+    }
 
 }
