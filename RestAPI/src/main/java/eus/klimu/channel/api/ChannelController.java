@@ -110,9 +110,9 @@ public class ChannelController {
         }
     }
 
-    @DeleteMapping(value = "/delete")
+    @DeleteMapping(value = "/delete", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<Object> deleteLocation(@RequestBody ChannelDTO channel) {
-        if (channel != null) {
+        if (channel != null && channelService.getChannel(channel.getId()) != null) {
             channelService.deleteChannel(Channel.generateChannel(channel));
             return ResponseEntity.ok().build();
         } else {

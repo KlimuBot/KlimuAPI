@@ -110,9 +110,9 @@ public class UserController {
         }
     }
 
-    @DeleteMapping(value = "/delete")
+    @DeleteMapping(value = "/delete", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<Object> deleteUser(@RequestBody AppUserDTO user) {
-        if (user != null) {
+        if (user != null && userService.getUser(user.getId()) != null) {
             userService.deleteUser(AppUser.generateAppUser(user, roleService, userNotificationService));
             return ResponseEntity.ok().build();
         } else {

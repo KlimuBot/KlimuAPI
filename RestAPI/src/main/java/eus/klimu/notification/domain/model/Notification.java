@@ -30,7 +30,7 @@ public class Notification {
     @JoinColumn(name = "location_id")
     private Location location;
 
-    private static Notification generateNotification(
+    public static Notification generateNotification(
             NotificationDTO notificationDTO, NotificationTypeService notificationTypeService, LocationService locationService
     ) {
         return new Notification(

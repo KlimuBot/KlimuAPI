@@ -119,9 +119,9 @@ public class RoleController {
         }
     }
 
-    @DeleteMapping(value = "/delete")
+    @DeleteMapping(value = "/delete", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<Object> deleteRole(@RequestBody RoleDTO role) {
-        if (role != null) {
+        if (role != null && roleService.getRole(role.getId()) != null) {
             roleService.deleteRole(Role.generateRole(role));
             return ResponseEntity.ok().build();
         } else {

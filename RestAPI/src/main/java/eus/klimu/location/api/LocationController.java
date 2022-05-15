@@ -104,7 +104,7 @@ public class LocationController {
     public ResponseEntity<List<Location>> createAllLocations(@RequestBody List<LocationDTO> locations) {
         if (locations != null && !locations.isEmpty()) {
             List<Location> persistentLocations = new ArrayList<>();
-            locations.forEach(l -> persistentLocations.add(new Location(l.getId(), l.getCity(), l.getCountry())));
+            locations.forEach(l -> persistentLocations.add(Location.generateLocation(l)));
 
             return ResponseEntity.created(
                     URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/location/create/all").toUriString())
@@ -167,9 +167,9 @@ public class LocationController {
         }
     }
 
-    @DeleteMapping(value = "/delete")
+    @DeleteMapping(value = "/delete", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<Object> deleteLocation(@RequestBody LocationDTO location) {
-        if (location != null) {
+        if (location != null && locationService.getLocationById(location.getId()) != null) {
             locationService.deleteLocation(Location.generateLocation(location));
             return ResponseEntity.ok().build();
         } else {
