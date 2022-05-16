@@ -6,10 +6,12 @@ import eus.klimu.notification.domain.model.NotificationType;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface LocalizedNotificationRepository extends JpaRepository<LocalizedNotification, Long> {
 
     List<LocalizedNotification> getAllByLocation(Location location);
     List<LocalizedNotification> getAllByType(NotificationType notificationType);
+    Optional<LocalizedNotification> getByLocationAndType(Location location, NotificationType notificationType);
 
 }

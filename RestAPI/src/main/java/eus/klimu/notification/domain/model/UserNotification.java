@@ -28,7 +28,7 @@ public class UserNotification {
     @ManyToMany
     private Collection<LocalizedNotification> notifications = new ArrayList<>();
 
-    public static UserNotification getUserNotification(
+    public static UserNotification generateUserNotification(
             UserNotificationDTO userNotificationDTO, ChannelService channelService,
             LocalizedNotificationService localizedNotificationService
     ) {
