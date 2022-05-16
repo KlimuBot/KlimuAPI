@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -41,7 +42,10 @@ public class UserNotificationServiceImp implements UserNotificationService {
     @Override
     public List<UserNotification> getUserNotificationsByChannel(List<Channel> channels) {
         log.info("Fetching user notifications for {} channel(s)", channels.size());
-        return userNotificationRepository.getAllByChannel(channels);
+        List<UserNotification> userNotifications = new ArrayList<>();
+        channels.forEach(c ->
+                userNotifications.addAll(userNotificationRepository.getAllByChannel(c)));
+        return userNotifications;
     }
 
     @Override
@@ -53,7 +57,10 @@ public class UserNotificationServiceImp implements UserNotificationService {
     @Override
     public List<UserNotification> getUserNotificationsByNotification(List<LocalizedNotification> localizedNotifications) {
         log.info("Fetching user notifications for {} localized notification(s)", localizedNotifications.size());
-        return userNotificationRepository.getAllByNotifications(localizedNotifications);
+        List<UserNotification> userNotifications = new ArrayList<>();
+        localizedNotifications.forEach(ln ->
+                userNotifications.addAll(userNotificationRepository.getAllByNotifications(ln)));
+        return userNotifications;
     }
 
     @Override

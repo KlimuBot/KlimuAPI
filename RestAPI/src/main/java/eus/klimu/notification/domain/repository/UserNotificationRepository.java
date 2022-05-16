@@ -10,8 +10,6 @@ import java.util.List;
 public interface UserNotificationRepository extends JpaRepository<UserNotification, Long> {
 
     List<UserNotification> getAllByChannel(Channel channel);
-    List<UserNotification> getAllByChannel(List<Channel> channels);
     List<UserNotification> getAllByNotifications(LocalizedNotification notification);
-    List<UserNotification> getAllByNotifications(List<LocalizedNotification> notification);
 
 }

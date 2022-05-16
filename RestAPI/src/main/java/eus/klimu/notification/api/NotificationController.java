@@ -40,6 +40,7 @@ public class NotificationController {
     }
 
     @GetMapping(
+            value = "/location",
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE}
     )
@@ -53,6 +54,7 @@ public class NotificationController {
     }
 
     @GetMapping(
+            value = "/type",
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE}
     )
@@ -66,7 +68,7 @@ public class NotificationController {
     }
 
     @GetMapping(
-            value = "/date",
+            value = "/date/location",
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE}
     )
@@ -84,7 +86,7 @@ public class NotificationController {
     }
 
     @GetMapping(
-            value = "/date",
+            value = "/date/type",
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE}
     )
