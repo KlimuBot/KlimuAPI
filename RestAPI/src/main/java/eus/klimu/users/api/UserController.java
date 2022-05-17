@@ -28,7 +28,7 @@ public class UserController {
     private final UserNotificationService userNotificationService;
 
     @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<AppUser> getUserByUsername(@PathVariable long id) {
+    public ResponseEntity<AppUser> getUser(@PathVariable long id) {
         if (id > 0) {
             return ResponseEntity.ok().body(userService.getUser(id));
         } else {
@@ -37,12 +37,25 @@ public class UserController {
     }
 
     @GetMapping(value = "/{username}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<AppUser> getUserByUsername(@PathVariable String username) {
+    public ResponseEntity<AppUser> getUser(@PathVariable String username) {
         if (username != null) {
             return ResponseEntity.ok().body(userService.getUser(username));
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
+    }
+
+    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<AppUser> getUser(
+            @RequestParam String username, @RequestParam String password
+    ) {
+        if (username != null && password != null) {
+            AppUser user = userService.getUser(username, password);
+            if (user != null) {
+                return ResponseEntity.ok().body(user);
+            }
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     @PostMapping(

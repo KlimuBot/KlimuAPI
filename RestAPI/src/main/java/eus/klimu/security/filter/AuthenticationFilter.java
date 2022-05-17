@@ -52,8 +52,8 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                 user, request.getRequestURL().toString(), TokenManagement.REFRESH_TIME
         );
         // Save the tokens on the header.
-        response.setHeader("accessToken", accessToken);
-        response.setHeader("refreshToken", refreshToken);
+        response.setHeader("accessToken", TokenManagement.TOKEN_SIGNATURE_NAME + accessToken);
+        response.setHeader("refreshToken", TokenManagement.TOKEN_SIGNATURE_NAME + refreshToken);
     }
 
     @Override

@@ -74,6 +74,12 @@ public class UserServiceImp implements UserService, UserDetailsService {
         return userRepository.findByUsername(username).orElse(null);
     }
 
+    @Override
+    public AppUser getUser(String username, String password) {
+        log.info("Fetching user {} using username and password", username);
+        return userRepository.findByUsernameAndPassword(username, password).orElse(null);
+    }
+
     /**
      * Check if a user meets all the criteria to be properly created. The user must meet the following:
      * <ul>
