@@ -64,6 +64,7 @@
     </dependencies>
 
     <build>
+        <finalName>ROOT</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -77,7 +78,17 @@
                     </excludes>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <update>true</update>
+                    <server>maven-tomcat-war-deployment-server</server>
+                    <url>http://34.135.44.229:8080/manager/text</url>
+                    <path>/${project.build.finalName}</path>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
-
 </project>
