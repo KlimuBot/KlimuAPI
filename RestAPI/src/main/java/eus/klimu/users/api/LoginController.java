@@ -1,10 +1,8 @@
 package eus.klimu.users.api;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -13,14 +11,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
+@Slf4j
 @Controller
-@RequestMapping("/login")
+@RequestMapping("/")
 @RequiredArgsConstructor
 public class LoginController {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-    @GetMapping(value = "/grant-access")
+    @GetMapping(value = "/login/grant-access")
     public ResponseEntity<Object> getTokens(@RequestParam String username, @RequestParam String password) {
         String loginUrl = "http://localhost:8080/login";
 
@@ -35,4 +34,9 @@ public class LoginController {
         return restTemplate.postForEntity(loginUrl, request, Object.class);
     }
 
+    @GetMapping(value = "/login/denied")
+    public ResponseEntity<String> permissionDenied() {
+        log.error("Denying request");
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You do not have the authority to access this page!");
+    }
 }

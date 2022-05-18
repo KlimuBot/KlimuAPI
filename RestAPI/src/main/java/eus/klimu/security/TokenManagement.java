@@ -11,7 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -36,6 +36,10 @@ public class TokenManagement {
     public static final int REFRESH_TIME = 6 * 60 * 60 * 1000;
 
     public static final String TOKEN_SIGNATURE_NAME = "Bearer ";
+    private static final String ROLES = "roles";
+
+    public static final String ACCESS_TOKEN_HEADER = "accessToken";
+    public static final String REFRESH_TOKEN_HEADER = "refreshToken";
 
     private final Algorithm algorithm;
     private final JWTVerifier verifier;
@@ -51,14 +55,14 @@ public class TokenManagement {
                 .withSubject(user.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + durationTime))
                 .withIssuer(requestURL)
-                .withClaim("roles", user.getAuthorities().stream()
+                .withClaim(ROLES, user.getAuthorities().stream()
                         .map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .sign(algorithm);
     }
 
-    public void setTokenOnSession(String accessToken, String refreshToken, HttpSession session) {
-        session.setAttribute("accessToken", TOKEN_SIGNATURE_NAME + accessToken);
-        session.setAttribute("refreshToken", TOKEN_SIGNATURE_NAME + refreshToken);
+    public void setTokenOnResponse(String accessToken, String refreshToken, HttpServletResponse response) {
+        response.setHeader(ACCESS_TOKEN_HEADER, TOKEN_SIGNATURE_NAME + accessToken);
+        response.setHeader(REFRESH_TOKEN_HEADER, TOKEN_SIGNATURE_NAME + refreshToken);
         log.info("The user has been authenticated, their tokens have been generated");
     }
 
@@ -67,7 +71,7 @@ public class TokenManagement {
         DecodedJWT decodedJWT = verifier.verify(token);
 
         String username = decodedJWT.getSubject();
-        String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
+        String[] roles = decodedJWT.getClaim(ROLES).asArray(String.class);
 
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         stream(roles).forEach(role -> authorities.add(new SimpleGrantedAuthority(role)));
@@ -82,7 +86,7 @@ public class TokenManagement {
         DecodedJWT decodedJWT = verifier.verify(token);
 
         String username = decodedJWT.getSubject();
-        Collection<String> roles = decodedJWT.getClaim("roles").asList(String.class);
+        Collection<String> roles = decodedJWT.getClaim(ROLES).asList(String.class);
 
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         roles.forEach(role -> authorities.add(new SimpleGrantedAuthority(role)));

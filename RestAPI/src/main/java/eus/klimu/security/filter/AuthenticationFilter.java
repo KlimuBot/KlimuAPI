@@ -59,6 +59,6 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
                                               AuthenticationException failed) throws IOException, ServletException {
-        response.sendRedirect("/login/sign-in?error=User-not-found");
+        response.sendRedirect("/login/denied");
     }
 }
