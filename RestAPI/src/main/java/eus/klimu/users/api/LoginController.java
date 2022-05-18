@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Slf4j
 @Controller
-@RequestMapping("/")
+@RequestMapping
 @RequiredArgsConstructor
 public class LoginController {
 
