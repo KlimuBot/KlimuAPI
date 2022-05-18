@@ -85,7 +85,7 @@
                 <configuration>
                     <update>true</update>
                     <server>maven-tomcat-war-deployment-server</server>
-                    <url>http://34.135.44.229:8080/manager/text</url>
+                    <url>http://klimu.duckdns.org:8080/manager/text</url>
                     <path>/${project.build.finalName}</path>
                 </configuration>
             </plugin>
