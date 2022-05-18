@@ -19,11 +19,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        if (
-                !request.getServletPath().startsWith("/css") &&
-                !request.getServletPath().startsWith("/js") &&
-                !request.getServletPath().startsWith("/media")
-        ) {
+        if (!request.getServletPath().startsWith("/login")) {
             TokenManagement tokenManagement = new TokenManagement();
 
             // Check the access token.
