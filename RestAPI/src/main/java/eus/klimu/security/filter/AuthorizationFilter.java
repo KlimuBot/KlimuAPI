@@ -19,7 +19,10 @@ public class AuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        if (!request.getServletPath().startsWith("/login")) {
+        if (
+                !request.getServletPath().startsWith("/login") &&
+                !request.getServletPath().startsWith("/access")
+        ) {
             TokenManagement tokenManagement = new TokenManagement();
 
             // Check the access token.
