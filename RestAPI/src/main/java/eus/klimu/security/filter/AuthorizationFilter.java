@@ -21,7 +21,8 @@ public class AuthorizationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         if (
                 !request.getServletPath().startsWith("/login") &&
-                !request.getServletPath().startsWith("/access")
+                !request.getServletPath().startsWith("/access") &&
+                !request.getServletPath().equals("/user")
         ) {
             TokenManagement tokenManagement = new TokenManagement();
 
