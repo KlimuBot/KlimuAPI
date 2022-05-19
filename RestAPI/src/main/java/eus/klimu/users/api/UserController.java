@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -27,6 +28,8 @@ public class UserController {
     private final RoleService roleService;
     private final UserNotificationService userNotificationService;
 
+    private final PasswordEncoder passwordEncoder;
+
     @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<AppUser> getUser(@PathVariable long id) {
         if (id > 0) {
@@ -43,19 +46,6 @@ public class UserController {
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-    }
-
-    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public ResponseEntity<AppUser> getUser(
-            @RequestParam String username, @RequestParam String password
-    ) {
-        if (username != null && password != null) {
-            AppUser user = userService.getUser(username, password);
-            if (user != null) {
-                return ResponseEntity.ok().body(user);
-            }
-        }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     @PostMapping(

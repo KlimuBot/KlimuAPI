@@ -50,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         // ACL list.
         http.authorizeRequests()
-                .antMatchers("/login/**", "/access/**", "/user").permitAll()
+                .antMatchers("/login/**", "/access/**").permitAll()
                 .anyRequest().authenticated()
             .and()
                 .formLogin().loginProcessingUrl("/login").permitAll()
