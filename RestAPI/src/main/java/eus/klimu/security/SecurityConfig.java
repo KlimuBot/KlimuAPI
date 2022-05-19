@@ -51,11 +51,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // ACL list.
         http.authorizeRequests()
                 .antMatchers("/login/**").permitAll()
-                .anyRequest().authenticated()
+                .antMatchers("/RestAPI/**").authenticated()
+                .anyRequest().permitAll()
             .and()
                 .formLogin().loginProcessingUrl("/login").permitAll()
             .and()
-                .exceptionHandling().accessDeniedPage("/login/denied");
+                .exceptionHandling().accessDeniedPage("/access/denied");
 
         // Add filters.
         http.addFilter(authenticationFilter);

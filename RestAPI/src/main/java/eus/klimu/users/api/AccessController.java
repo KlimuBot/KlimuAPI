@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Slf4j
 @Controller
-@RequestMapping("/login")
+@RequestMapping("/access")
 @RequiredArgsConstructor
-public class LoginController {
+public class AccessController {
 
     @GetMapping(value = "/denied")
     public ResponseEntity<String> permissionDenied() {
