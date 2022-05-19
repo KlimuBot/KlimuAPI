@@ -29,7 +29,13 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         // Get the user parameters.
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        log.info("Trying to log user {}", username);
+
+        // Check if parameters are not null.
+        if (username != null && password != null) {
+            log.info("Trying to log user {}", username);
+        } else {
+            log.error("Username or password were null, authentication won't be possible");
+        }
 
         // Create an authentication token for the user.
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
