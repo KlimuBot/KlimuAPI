@@ -31,8 +31,8 @@ public class NotificationTypeController {
         }
     }
 
-    @GetMapping(value = "/{name}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public ResponseEntity<NotificationType> getNotificationType(@PathVariable String name) {
+    @GetMapping(value = "/name/{name}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<NotificationType> getNotificationTypeByName(@PathVariable String name) {
         if (name != null) {
             return ResponseEntity.ok().body(notificationTypeService.getNotificationType(name));
         } else {

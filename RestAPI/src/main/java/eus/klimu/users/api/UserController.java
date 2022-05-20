@@ -28,8 +28,6 @@ public class UserController {
     private final RoleService roleService;
     private final UserNotificationService userNotificationService;
 
-    private final PasswordEncoder passwordEncoder;
-
     @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<AppUser> getUser(@PathVariable long id) {
         if (id > 0) {
@@ -39,8 +37,8 @@ public class UserController {
         }
     }
 
-    @GetMapping(value = "/{username}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<AppUser> getUser(@PathVariable String username) {
+    @GetMapping(value = "/username/{username}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<AppUser> getUserByUsername(@PathVariable String username) {
         if (username != null) {
             return ResponseEntity.ok().body(userService.getUser(username));
         } else {

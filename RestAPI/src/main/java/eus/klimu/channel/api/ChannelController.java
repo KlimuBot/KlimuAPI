@@ -35,7 +35,7 @@ public class ChannelController {
     }
 
     @GetMapping(
-            value = "/{name}",
+            value = "/name/{name}",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
     )
     public ResponseEntity<Channel> getChannelByName(@PathVariable String name) {

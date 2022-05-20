@@ -34,10 +34,10 @@ public class RoleController {
     }
 
     @GetMapping(
-            value = "/{roleName}",
+            value = "/name/{roleName}",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
     )
-    public ResponseEntity<Role> getRole(@PathVariable String roleName) {
+    public ResponseEntity<Role> getRoleByName(@PathVariable String roleName) {
         Role role = roleService.getRole(roleName);
         if (role != null) {
             return ResponseEntity.ok().body(role);
