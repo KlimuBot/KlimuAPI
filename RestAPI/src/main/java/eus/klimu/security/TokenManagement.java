@@ -5,17 +5,19 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONObject;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.Arrays.stream;
@@ -60,10 +62,35 @@ public class TokenManagement {
                 .sign(algorithm);
     }
 
-    public void setTokenOnResponse(String accessToken, String refreshToken, HttpServletResponse response) {
-        response.setHeader(ACCESS_TOKEN_HEADER, TOKEN_SIGNATURE_NAME + accessToken);
-        response.setHeader(REFRESH_TOKEN_HEADER, TOKEN_SIGNATURE_NAME + refreshToken);
+    public Map<String, String> getTokensFromJSON(String json) {
+        JSONObject jsonObject = new JSONObject(json);
+        Map<String, String> tokens = new HashMap<>();
+
+        tokens.put(TokenManagement.ACCESS_TOKEN_HEADER, jsonObject.getString(TokenManagement.ACCESS_TOKEN_HEADER));
+        tokens.put(TokenManagement.REFRESH_TOKEN_HEADER, jsonObject.getString(TokenManagement.REFRESH_TOKEN_HEADER));
+
+        return tokens;
+    }
+
+    public void setTokenOnResponse(String accessToken, String refreshToken, HttpServletResponse response) throws IOException {
+        Map<String, String> responseBody = new HashMap<>();
+
+        responseBody.put(TokenManagement.ACCESS_TOKEN_HEADER, TokenManagement.TOKEN_SIGNATURE_NAME + accessToken);
+        responseBody.put(TokenManagement.REFRESH_TOKEN_HEADER, TokenManagement.TOKEN_SIGNATURE_NAME + refreshToken);
+
+        response.setStatus(HttpServletResponse.SC_CREATED);
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+
+        new ObjectMapper().writeValue(response.getOutputStream(), responseBody);
         log.info("The user has been authenticated, their tokens have been generated");
+    }
+
+    public void setErrorOnResponse(String errorMsg, HttpServletResponse response) throws IOException {
+        Map<String, String> error = new HashMap<>();
+        error.put("errorMsg", errorMsg);
+
+        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        new ObjectMapper().writeValue(response.getOutputStream(), error);
     }
 
     public UsernamePasswordAuthenticationToken getUsernamePasswordToken(String authToken) throws JWTVerificationException {

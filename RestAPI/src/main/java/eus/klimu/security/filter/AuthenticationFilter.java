@@ -57,14 +57,14 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         String refreshToken = tokenManagement.generateToken(
                 user, request.getRequestURL().toString(), TokenManagement.REFRESH_TIME
         );
-        // Save the tokens on the header.
-        response.setHeader("accessToken", TokenManagement.TOKEN_SIGNATURE_NAME + accessToken);
-        response.setHeader("refreshToken", TokenManagement.TOKEN_SIGNATURE_NAME + refreshToken);
+        // Save the tokens on the body.
+        tokenManagement.setTokenOnResponse(accessToken, refreshToken, response);
     }
 
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
                                               AuthenticationException failed) throws IOException, ServletException {
-        response.sendRedirect("/RestAPI/access/denied");
+        TokenManagement tokenManagement = new TokenManagement();
+        tokenManagement.setErrorOnResponse("You don't have permission to access this path", response);
     }
 }

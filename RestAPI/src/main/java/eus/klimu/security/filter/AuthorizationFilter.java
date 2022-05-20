@@ -19,10 +19,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        if (
-                !request.getServletPath().startsWith("/login") &&
-                !request.getServletPath().startsWith("/access")
-        ) {
+        if (!request.getServletPath().startsWith("/login")) {
             TokenManagement tokenManagement = new TokenManagement();
 
             // Check the access token.
@@ -30,32 +27,21 @@ public class AuthorizationFilter extends OncePerRequestFilter {
 
             if (accessToken != null && accessToken.startsWith(TokenManagement.TOKEN_SIGNATURE_NAME)) {
                 try {
+                    // Try accessing with the access token.
                     UsernamePasswordAuthenticationToken authToken = tokenManagement.getUsernamePasswordToken(accessToken);
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                 } catch (Exception accessException) {
                     String refreshToken = request.getHeader(TokenManagement.REFRESH_TOKEN_HEADER);
                     try {
+                        // Try accessing with the refresh token.
                         UsernamePasswordAuthenticationToken authToken = tokenManagement.getUsernamePasswordToken(refreshToken);
                         SecurityContextHolder.getContext().setAuthentication(authToken);
-
-                        // Generate a new access and refresh token for the user.
-                        User user = tokenManagement.getUserFromToken(refreshToken);
-                        tokenManagement.setTokenOnResponse(
-                                tokenManagement.generateToken(user, request.getRequestURL().toString(), TokenManagement.ACCESS_TIME),
-                                tokenManagement.generateToken(user, request.getRequestURL().toString(), TokenManagement.REFRESH_TIME),
-                                response
-                        );
                     } catch (Exception refreshException) {
-                        response.setHeader("error", refreshException.getMessage());
+                        response.setHeader("errorMsg", refreshException.getMessage());
                         response.sendError(HttpServletResponse.SC_FORBIDDEN);
                     }
                 }
             }
-        }
-        if (request.getParameter(TokenManagement.ACCESS_TOKEN_HEADER) != null &&
-                request.getParameter(TokenManagement.REFRESH_TOKEN_HEADER) != null) {
-            response.setHeader(TokenManagement.ACCESS_TOKEN_HEADER, request.getParameter(TokenManagement.ACCESS_TOKEN_HEADER));
-            response.setHeader(TokenManagement.REFRESH_TOKEN_HEADER, request.getParameter(TokenManagement.REFRESH_TOKEN_HEADER));
         }
         filterChain.doFilter(request, response);
     }

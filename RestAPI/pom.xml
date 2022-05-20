@@ -61,6 +61,11 @@
             <artifactId>java-jwt</artifactId>
             <version>3.19.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20220320</version>
+        </dependency>
     </dependencies>
 
     <build>
