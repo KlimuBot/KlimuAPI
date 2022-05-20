@@ -92,6 +92,7 @@ public class TokenManagement {
 
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         new ObjectMapper().writeValue(response.getOutputStream(), error);
+        response.flushBuffer();
     }
 
     public UsernamePasswordAuthenticationToken getUsernamePasswordToken(String authToken) throws JWTVerificationException {
