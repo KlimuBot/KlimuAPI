@@ -83,6 +83,7 @@ public class TokenManagement {
 
         new ObjectMapper().writeValue(response.getOutputStream(), responseBody);
         log.info("The user has been authenticated, their tokens have been generated");
+        response.flushBuffer();
     }
 
     public void setErrorOnResponse(String errorMsg, HttpServletResponse response) throws IOException {
