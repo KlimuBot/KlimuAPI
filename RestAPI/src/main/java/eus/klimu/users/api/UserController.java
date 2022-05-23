@@ -1,8 +1,6 @@
 package eus.klimu.users.api;
 
-import com.google.gson.Gson;
 import eus.klimu.notification.domain.service.definition.UserNotificationService;
-import eus.klimu.security.TokenManagement;
 import eus.klimu.users.domain.model.AppUser;
 import eus.klimu.users.domain.model.AppUserDTO;
 import eus.klimu.users.domain.service.definition.RoleService;
@@ -25,7 +23,6 @@ public class UserController {
 
     private static final String ERROR_HEADER = "errorMsg";
 
-    private final Gson gson;
     private final UserService userService;
     private final RoleService roleService;
     private final UserNotificationService userNotificationService;
@@ -46,12 +43,6 @@ public class UserController {
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-    }
-
-    @GetMapping(value = "/token")
-    public ResponseEntity<String> getUsernamePasswordToken(@RequestBody String token) {
-        TokenManagement tokenManagement = new TokenManagement();
-        return ResponseEntity.ok().body(gson.toJson(tokenManagement.getUsernamePasswordToken(token)));
     }
 
     @PostMapping(

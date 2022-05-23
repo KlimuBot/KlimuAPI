@@ -1,8 +1,10 @@
 package eus.klimu.users.api;
 
+import com.google.gson.Gson;
 import eus.klimu.security.TokenManagement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONObject;
 import org.springframework.http.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,6 +24,21 @@ import java.util.Map;
 @RequestMapping("/access")
 @RequiredArgsConstructor
 public class AccessController {
+
+    private final Gson gson;
+
+    @GetMapping(value = "/auth")
+    public ResponseEntity<String> getUsernamePasswordToken(@RequestBody String tokenJSON) {
+        TokenManagement tokenManagement = new TokenManagement();
+        JSONObject token = new JSONObject(tokenJSON);
+
+        if (token.has("token")) {
+            return ResponseEntity.ok().body(gson.toJson(
+                    tokenManagement.getUsernamePasswordToken(token.getString("token"))));
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 
     @GetMapping(value = "/refresh")
     public ResponseEntity<Map<String, String>> refreshTokens(
