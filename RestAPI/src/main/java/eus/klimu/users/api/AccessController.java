@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,13 +29,14 @@ public class AccessController {
     private final Gson gson;
 
     @GetMapping(value = "/auth")
-    public ResponseEntity<String> getUsernamePasswordToken(@RequestBody String tokenJSON) {
+    public ResponseEntity<String> getUsernamePasswordToken(@RequestParam String token) {
         TokenManagement tokenManagement = new TokenManagement();
-        JSONObject token = new JSONObject(tokenJSON);
+        JSONObject tokenJSON = new JSONObject(token);
 
-        if (token.has("token")) {
+        log.info("Authenticating token {}" + token);
+        if (tokenJSON.has("token")) {
             return ResponseEntity.ok().body(gson.toJson(
-                    tokenManagement.getUsernamePasswordToken(token.getString("token"))));
+                    tokenManagement.getUsernamePasswordToken(tokenJSON.getString("token"))));
         } else {
             return ResponseEntity.badRequest().build();
         }
