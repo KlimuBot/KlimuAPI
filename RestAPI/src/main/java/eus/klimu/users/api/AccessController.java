@@ -31,12 +31,10 @@ public class AccessController {
     @GetMapping(value = "/auth")
     public ResponseEntity<String> getUsernamePasswordToken(@RequestParam String token) {
         TokenManagement tokenManagement = new TokenManagement();
-        JSONObject tokenJSON = new JSONObject(token);
 
         log.info("Authenticating token {}" + token);
-        if (tokenJSON.has("token")) {
-            return ResponseEntity.ok().body(gson.toJson(
-                    tokenManagement.getUsernamePasswordToken(tokenJSON.getString("token"))));
+        if (token != null) {
+            return ResponseEntity.ok().body(gson.toJson(tokenManagement.getUsernamePasswordToken(token)));
         } else {
             return ResponseEntity.badRequest().build();
         }
