@@ -4,7 +4,9 @@ import eus.klimu.channel.domain.model.Channel;
 import eus.klimu.channel.domain.service.definition.ChannelService;
 import eus.klimu.location.domain.model.Location;
 import eus.klimu.location.domain.service.definition.LocationService;
+import eus.klimu.notification.domain.model.LocalizedNotification;
 import eus.klimu.notification.domain.model.NotificationType;
+import eus.klimu.notification.domain.model.UserNotification;
 import eus.klimu.notification.domain.service.definition.NotificationTypeService;
 import eus.klimu.users.domain.model.AppUser;
 import eus.klimu.users.domain.model.Role;
@@ -26,6 +28,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 @Slf4j
 @SpringBootApplication
@@ -107,16 +110,6 @@ public class RestApiApplication {
                 log.info("Generating default roles USER_ROLE and ADMIN_ROLE");
                 roleService.addAllRoles(roles);
             }
-            if (userService.countAll() <= 0) {
-                log.info("Generating default users klimu.user and klimu.admin");
-                PasswordEncoder passwordEncoder = passwordEncoder();
-                appUsers.forEach(user -> user.setPassword(passwordEncoder.encode(user.getPassword())));
-
-                userService.saveAllUsers(appUsers);
-                roleService.addRoleToUser(appUsers.get(0).getUsername(), roles.get(0).getName());
-                roleService.addRoleToUser(appUsers.get(1).getUsername(), roles.get(0).getName());
-                roleService.addRoleToUser(appUsers.get(1).getUsername(), roles.get(1).getName());
-            }
             if (locationService.countAll() <= 0) {
                 log.info("Generating default locations from file");
                 JSONArray locationArray = new JSONArray(new String(Files.readAllBytes(resourceFile.toPath())));
@@ -139,6 +132,41 @@ public class RestApiApplication {
             if (notificationTypeService.countAll() <= 0) {
                 log.info("Generating default notification types");
                 notificationTypeService.addAllNotificationTypes(notificationTypes);
+            }
+            if (userService.countAll() <= 0) {
+                log.info("Generating default users klimu.user and klimu.admin");
+                PasswordEncoder passwordEncoder = passwordEncoder();
+                appUsers.forEach(user -> user.setPassword(passwordEncoder.encode(user.getPassword())));
+
+                userService.saveAllUsers(appUsers);
+                roleService.addRoleToUser(appUsers.get(0).getUsername(), roles.get(0).getName());
+                roleService.addRoleToUser(appUsers.get(1).getUsername(), roles.get(0).getName());
+                roleService.addRoleToUser(appUsers.get(1).getUsername(), roles.get(1).getName());
+
+                Random random = new Random();
+                AppUser admin = appUsers.get(1);
+                List<Location> locations = locationService.getAllLocations();
+                List<NotificationType> types = notificationTypeService.getAllNotificationTypes();
+
+                List<UserNotification> userNotifications = new ArrayList<>();
+                channelService.getAllChannels().forEach(channel -> {
+                    List<LocalizedNotification> localizedNotifications = new ArrayList<>();
+
+                    for (int i = 0; i < 6; i++) {
+                        localizedNotifications.add(
+                                new LocalizedNotification(
+                                        null,
+                                        types.get(random.nextInt(types.size())),
+                                        locations.get(random.nextInt(locations.size()))
+                                )
+                        );
+                    }
+                    userNotifications.add(new UserNotification(
+                            null, channel, localizedNotifications
+                    ));
+                });
+                admin.setNotifications(userNotifications);
+                userService.updateUser(admin);
             }
             log.info("All the elements have already been generated");
         };
