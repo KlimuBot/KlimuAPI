@@ -110,7 +110,7 @@ public class TokenManagement {
         );
     }
 
-    public User getUserFromToken(String authToken) {
+    public User getUserFromToken(String authToken) throws JWTVerificationException {
         String token = authToken.substring(TOKEN_SIGNATURE_NAME.length());
         DecodedJWT decodedJWT = verifier.verify(token);
 

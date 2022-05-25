@@ -1,6 +1,8 @@
 package eus.klimu.users.api;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import eus.klimu.notification.domain.service.definition.UserNotificationService;
+import eus.klimu.security.TokenManagement;
 import eus.klimu.users.domain.model.AppUser;
 import eus.klimu.users.domain.model.AppUserDTO;
 import eus.klimu.users.domain.service.definition.RoleService;
@@ -25,6 +27,7 @@ public class UserController {
 
     private final UserService userService;
     private final RoleService roleService;
+    private final TokenManagement tokenManagement;
     private final UserNotificationService userNotificationService;
 
     @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -43,6 +46,21 @@ public class UserController {
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
+    }
+
+    @GetMapping(value = "/from-token/{token}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<AppUser> getUserFromToken(@PathVariable String token) {
+        try {
+            String username = tokenManagement.getUserFromToken(token).getUsername();
+            AppUser user = userService.getUser(username);
+
+            if (user != null) {
+                return ResponseEntity.ok().body(user);
+            }
+        } catch (JWTVerificationException e) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @PostMapping(

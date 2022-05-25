@@ -105,8 +105,12 @@ public class RoleController {
             @RequestParam String username,
             @RequestParam String roleName
     ) {
-        roleService.addRoleToUser(username, roleName);
-        return ResponseEntity.ok().build();
+        if (username != null && roleName != null) {
+            roleService.addRoleToUser(username, roleName);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @DeleteMapping(value = "/delete/{id}")
