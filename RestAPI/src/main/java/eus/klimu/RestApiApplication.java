@@ -7,7 +7,9 @@ import eus.klimu.location.domain.service.definition.LocationService;
 import eus.klimu.notification.domain.model.LocalizedNotification;
 import eus.klimu.notification.domain.model.NotificationType;
 import eus.klimu.notification.domain.model.UserNotification;
+import eus.klimu.notification.domain.service.definition.LocalizedNotificationService;
 import eus.klimu.notification.domain.service.definition.NotificationTypeService;
+import eus.klimu.notification.domain.service.definition.UserNotificationService;
 import eus.klimu.users.domain.model.AppUser;
 import eus.klimu.users.domain.model.Role;
 import eus.klimu.users.domain.service.definition.RoleService;
@@ -25,6 +27,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -101,7 +104,8 @@ public class RestApiApplication {
     @Bean
     public CommandLineRunner run(
             UserService userService, RoleService roleService, ChannelService channelService,
-            LocationService locationService, NotificationTypeService notificationTypeService
+            LocationService locationService, NotificationTypeService notificationTypeService,
+            LocalizedNotificationService localizedNotificationService, UserNotificationService userNotificationService
     ) {
         return args -> {
             log.info("Generating default configuration of the application");
@@ -143,7 +147,7 @@ public class RestApiApplication {
                 roleService.addRoleToUser(appUsers.get(1).getUsername(), roles.get(0).getName());
                 roleService.addRoleToUser(appUsers.get(1).getUsername(), roles.get(1).getName());
 
-                Random random = new Random();
+                Random random = SecureRandom.getInstanceStrong();
                 AppUser admin = appUsers.get(1);
                 List<Location> locations = locationService.getAllLocations();
                 List<NotificationType> types = notificationTypeService.getAllNotificationTypes();
@@ -160,10 +164,16 @@ public class RestApiApplication {
                                         locations.get(random.nextInt(locations.size()))
                                 )
                         );
+                        localizedNotificationService.addNewLocalizedNotification(
+                                localizedNotifications.get(locations.size() - 1)
+                        );
                     }
                     userNotifications.add(new UserNotification(
                             null, channel, localizedNotifications
                     ));
+                    userNotificationService.addNewUserNotification(
+                            userNotifications.get(userNotifications.size() - 1)
+                    );
                 });
                 admin.setNotifications(userNotifications);
                 userService.updateUser(admin);
