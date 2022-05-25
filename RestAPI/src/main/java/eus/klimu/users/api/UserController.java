@@ -27,7 +27,7 @@ public class UserController {
 
     private final UserService userService;
     private final RoleService roleService;
-    private final TokenManagement tokenManagement;
+    private final TokenManagement tokenManagement = new TokenManagement();
     private final UserNotificationService userNotificationService;
 
     @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
