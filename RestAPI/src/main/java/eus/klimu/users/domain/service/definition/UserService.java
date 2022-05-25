@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface UserService {
 
+    Long countAll();
     AppUser getUser(long id);
     AppUser getUser(String username);
-    AppUser getUser(String username, String password);
     String checkUser(AppUser user);
     AppUser saveUser(AppUser user);
     List<AppUser> saveAllUsers(List<AppUser> users);

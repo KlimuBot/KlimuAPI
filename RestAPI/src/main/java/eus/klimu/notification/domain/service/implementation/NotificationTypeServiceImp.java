@@ -19,6 +19,13 @@ public class NotificationTypeServiceImp implements NotificationTypeService {
     private final NotificationTypeRepository notificationTypeRepository;
 
     @Override
+    public Long countAll() {
+        long count = notificationTypeRepository.count();
+        log.info("Found {} notification types on the database", count);
+        return count;
+    }
+
+    @Override
     public NotificationType getNotificationType(long id) {
         log.info("Fetching notification type with id={}", id);
         return notificationTypeRepository.findById(id).orElse(null);

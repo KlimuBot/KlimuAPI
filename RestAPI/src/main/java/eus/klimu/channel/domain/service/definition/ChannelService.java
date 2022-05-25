@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface ChannelService {
 
+    Long countAll();
     Channel getChannel(long id);
     Channel getChannel(String name);
     List<Channel> getAllChannels();

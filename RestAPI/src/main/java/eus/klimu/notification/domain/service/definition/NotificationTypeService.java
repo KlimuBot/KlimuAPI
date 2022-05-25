@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface NotificationTypeService {
 
+    Long countAll();
     NotificationType getNotificationType(long id);
     NotificationType getNotificationType(String name);
     List<NotificationType> getAllNotificationTypes();

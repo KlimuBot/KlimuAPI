@@ -23,6 +23,13 @@ public class RoleServiceImp implements RoleService {
     private final RoleRepository roleRepository;
 
     @Override
+    public Long countAll() {
+        long count = roleRepository.count();
+        log.info("Found {} roles on the database", count);
+        return count;
+    }
+
+    @Override
     public Role getRole(long id) {
         log.info("Fetching role with id={} from repository", id);
         return roleRepository.findById(id).orElse(null);

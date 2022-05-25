@@ -51,15 +51,10 @@ public class UserServiceImp implements UserService, UserDetailsService {
     }
 
     @Override
-    public AppUser saveUser(AppUser user) {
-        log.info("Saving user {} on the database", user.getUsername());
-        return userRepository.save(user);
-    }
-
-    @Override
-    public List<AppUser> saveAllUsers(List<AppUser> users) {
-        log.info("Saving {} user(s) on the database", users.size());
-        return userRepository.saveAll(users);
+    public Long countAll() {
+        long count = userRepository.count();
+        log.info("Found {} users on the database", count);
+        return count;
     }
 
     @Override
@@ -72,12 +67,6 @@ public class UserServiceImp implements UserService, UserDetailsService {
     public AppUser getUser(String username) {
         log.info("Looking for user with username={}", username);
         return userRepository.findByUsername(username).orElse(null);
-    }
-
-    @Override
-    public AppUser getUser(String username, String password) {
-        log.info("Fetching user {} using username and password", username);
-        return userRepository.findByUsernameAndPassword(username, password).orElse(null);
     }
 
     /**
@@ -111,6 +100,18 @@ public class UserServiceImp implements UserService, UserDetailsService {
             message = PasswordManager.check(user.getPassword());
         }
         return message;
+    }
+
+    @Override
+    public AppUser saveUser(AppUser user) {
+        log.info("Saving user {} on the database", user.getUsername());
+        return userRepository.save(user);
+    }
+
+    @Override
+    public List<AppUser> saveAllUsers(List<AppUser> users) {
+        log.info("Saving {} user(s) on the database", users.size());
+        return userRepository.saveAll(users);
     }
 
     @Override

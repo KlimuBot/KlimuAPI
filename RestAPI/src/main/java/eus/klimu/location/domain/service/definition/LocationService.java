@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface LocationService {
 
+    Long countAll();
     List<Location> getAllLocations();
     Location getLocationById(long id);
     Location getLocationByCity(String city);

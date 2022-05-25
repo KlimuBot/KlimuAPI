@@ -19,6 +19,13 @@ public class ChannelServiceImp implements ChannelService {
     private final ChannelRepository channelRepository;
 
     @Override
+    public Long countAll() {
+        long count = channelRepository.count();
+        log.info("Found {} channels on the database", count);
+        return count;
+    }
+
+    @Override
     public Channel getChannel(long id) {
         log.info("Fetching channel with id={}", id);
         return channelRepository.findById(id).orElse(null);

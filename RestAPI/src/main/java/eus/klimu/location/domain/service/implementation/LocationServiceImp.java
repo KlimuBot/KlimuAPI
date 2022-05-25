@@ -19,6 +19,13 @@ public class LocationServiceImp implements LocationService {
     private final LocationRepository locationRepository;
 
     @Override
+    public Long countAll() {
+        long count = locationRepository.count();
+        log.info("Found {} locations on the database", count);
+        return count;
+    }
+
+    @Override
     public List<Location> getAllLocations() {
         log.info("Fetching all locations");
         return locationRepository.findAll();
