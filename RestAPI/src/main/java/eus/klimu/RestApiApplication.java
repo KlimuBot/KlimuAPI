@@ -109,6 +109,9 @@ public class RestApiApplication {
             }
             if (userService.countAll() <= 0) {
                 log.info("Generating default users klimu.user and klimu.admin");
+                PasswordEncoder passwordEncoder = passwordEncoder();
+                appUsers.forEach(user -> user.setPassword(passwordEncoder.encode(user.getPassword())));
+
                 userService.saveAllUsers(appUsers);
                 roleService.addRoleToUser(appUsers.get(0).getUsername(), roles.get(0).getName());
                 roleService.addRoleToUser(appUsers.get(1).getUsername(), roles.get(0).getName());
