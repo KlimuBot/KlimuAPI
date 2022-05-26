@@ -158,21 +158,19 @@ public class RestApiApplication {
 
                     for (int i = 0; i < 6; i++) {
                         localizedNotifications.add(
-                                new LocalizedNotification(
-                                        null,
-                                        types.get(random.nextInt(types.size())),
-                                        locations.get(random.nextInt(locations.size()))
+                                localizedNotificationService.addNewLocalizedNotification(
+                                        new LocalizedNotification(
+                                                null,
+                                                types.get(random.nextInt(types.size())),
+                                                locations.get(random.nextInt(locations.size()))
+                                        )
                                 )
                         );
-                        localizedNotificationService.addNewLocalizedNotification(
-                                localizedNotifications.get(locations.size() - 1)
-                        );
                     }
-                    userNotifications.add(new UserNotification(
-                            null, channel, localizedNotifications
-                    ));
-                    userNotificationService.addNewUserNotification(
-                            userNotifications.get(userNotifications.size() - 1)
+                    userNotifications.add(
+                            userNotificationService.addNewUserNotification(
+                                    new UserNotification(null, channel, localizedNotifications)
+                            )
                     );
                 });
                 admin.setNotifications(userNotifications);
