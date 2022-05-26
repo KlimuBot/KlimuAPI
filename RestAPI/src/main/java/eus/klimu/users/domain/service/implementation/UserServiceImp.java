@@ -117,8 +117,12 @@ public class UserServiceImp implements UserService, UserDetailsService {
     @Override
     public AppUser updateUser(AppUser user) {
         log.info("Updating user {}", user.getUsername());
-        Optional<AppUser> userFound = userRepository.findById(user.getId());
-        return userFound.map(userRepository::save).orElse(null);
+        AppUser userFound = userRepository.findById(user.getId()).orElse(null);
+
+        if (userFound != null) {
+            return userRepository.save(user);
+        }
+        return null;
     }
 
     @Override
