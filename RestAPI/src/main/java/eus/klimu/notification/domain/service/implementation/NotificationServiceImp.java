@@ -24,7 +24,7 @@ public class NotificationServiceImp implements NotificationService {
     @Override
     public Notification getNotificationById(long id) {
         log.info("Fetching notification with id={}", id);
-        return notificationRepository.getById(id);
+        return notificationRepository.findById(id).orElse(null);
     }
 
     @Override

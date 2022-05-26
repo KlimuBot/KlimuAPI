@@ -23,22 +23,18 @@ public class AuthorizationFilter extends OncePerRequestFilter {
 
             // Check the access token.
             String accessToken = request.getHeader(TokenManagement.ACCESS_TOKEN_HEADER);
-            log.info("Trying to authenticate with accessToken {}", accessToken);
 
             if (accessToken != null && accessToken.startsWith(TokenManagement.TOKEN_SIGNATURE_NAME)) {
                 try {
                     // Try accessing with the access token.
                     UsernamePasswordAuthenticationToken authToken = tokenManagement.getUsernamePasswordToken(accessToken);
                     SecurityContextHolder.getContext().setAuthentication(authToken);
-                    log.info("The user was authenticated");
                 } catch (Exception accessException) {
                     String refreshToken = request.getHeader(TokenManagement.REFRESH_TOKEN_HEADER);
-                    log.warn("Couldn't authenticate with access token, trying refresh token");
                     try {
                         // Try accessing with the refresh token.
                         UsernamePasswordAuthenticationToken authToken = tokenManagement.getUsernamePasswordToken(refreshToken);
                         SecurityContextHolder.getContext().setAuthentication(authToken);
-                        log.info("The user was authenticated with the refresh token");
                     } catch (Exception refreshException) {
                         log.error("Couldn't authenticate the user");
                         response.setHeader("errorMsg", refreshException.getMessage());

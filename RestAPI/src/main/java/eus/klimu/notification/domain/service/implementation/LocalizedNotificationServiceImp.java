@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -23,7 +24,7 @@ public class LocalizedNotificationServiceImp implements LocalizedNotificationSer
     @Override
     public LocalizedNotification getLocalizedNotification(long id) {
         log.info("Fetching notification with id={}", id);
-        return localizedNotificationRepository.getById(id);
+        return localizedNotificationRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -54,13 +55,23 @@ public class LocalizedNotificationServiceImp implements LocalizedNotificationSer
     @Override
     public LocalizedNotification addNewLocalizedNotification(LocalizedNotification localizedNotification) {
         log.info("Saving localized notification {} on the database", localizedNotification.toString());
+        LocalizedNotification ln = localizedNotificationRepository.getByLocationAndType(
+                localizedNotification.getLocation(),
+                localizedNotification.getType()
+        ).orElse(null);
+
+        if (ln != null) {
+            return ln;
+        }
         return localizedNotificationRepository.save(localizedNotification);
     }
 
     @Override
     public List<LocalizedNotification> addAllLocalizedNotifications(List<LocalizedNotification> localizedNotifications) {
         log.info("Saving {} localized notifications on the database", localizedNotifications.size());
-        return localizedNotificationRepository.saveAll(localizedNotifications);
+        List<LocalizedNotification> savedLN = new ArrayList<>();
+        localizedNotifications.forEach(ln -> savedLN.add(addNewLocalizedNotification(ln)));
+        return savedLN;
     }
 
     @Override

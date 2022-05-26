@@ -59,25 +59,6 @@ public class UserNotificationController {
     }
 
     @GetMapping(
-            value = "/all/channel",
-            consumes = {MediaType.APPLICATION_JSON_VALUE},
-            produces = {MediaType.APPLICATION_JSON_VALUE}
-    )
-    public ResponseEntity<List<UserNotification>> getUserNotificationsByChannel(@RequestBody List<ChannelDTO> channels) {
-        if (channels != null && !channels.isEmpty()) {
-            List<Channel> persistentChannels = new ArrayList<>();
-            channels.forEach(c -> {
-                if (channelService.getChannel(c.getName()) != null) {
-                    persistentChannels.add(Channel.generateChannel(c));
-                }
-            });
-            return ResponseEntity.ok().body(userNotificationService.getUserNotificationsByChannel(persistentChannels));
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-    }
-
-    @GetMapping(
             value = "/all/notification",
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE}
@@ -94,26 +75,6 @@ public class UserNotificationController {
             {
                 return ResponseEntity.ok().body(userNotificationService
                         .getUserNotificationsByNotification(persistentNotification));
-            }
-        }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-    }
-
-    @GetMapping(
-            value = "/all/notification",
-            consumes = {MediaType.APPLICATION_JSON_VALUE},
-            produces = {MediaType.APPLICATION_JSON_VALUE}
-    )
-    public ResponseEntity<List<UserNotification>> getUserNotificationsByNotification(
-            @RequestBody List<LocalizedNotificationDTO> notifications
-    ) {
-        if (notifications != null && !notifications.isEmpty()) {
-            List<LocalizedNotification> persistentLocalizedNotifications = LocalizedNotification.generateLocalizedNotifications(
-                    notifications, localizedNotificationService, notificationTypeService, locationService
-            );
-            if (!persistentLocalizedNotifications.isEmpty()) {
-                return ResponseEntity.ok().body(userNotificationService
-                        .getUserNotificationsByNotification(persistentLocalizedNotifications));
             }
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

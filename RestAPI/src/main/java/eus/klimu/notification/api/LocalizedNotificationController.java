@@ -16,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -31,10 +30,12 @@ public class LocalizedNotificationController {
     @GetMapping(value = "{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<LocalizedNotification> getLocalizedNotification(@PathVariable long id) {
         if (id > 0) {
-            return ResponseEntity.ok().body(localizedNotificationService.getLocalizedNotification(id));
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            LocalizedNotification ln = localizedNotificationService.getLocalizedNotification(id);
+            if (ln != null) {
+                return ResponseEntity.ok().body(ln);
+            }
         }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     @GetMapping(

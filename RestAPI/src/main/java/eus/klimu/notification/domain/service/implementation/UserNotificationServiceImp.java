@@ -24,7 +24,7 @@ public class UserNotificationServiceImp implements UserNotificationService {
     @Override
     public UserNotification getUserNotification(long id) {
         log.info("Fetching user notification with id={}", id);
-        return userNotificationRepository.getById(id);
+        return userNotificationRepository.findById(id).orElse(null);
     }
 
     @Override
