@@ -77,7 +77,7 @@ public class UserNotificationServiceImp implements UserNotificationService {
 
     @Override
     public UserNotification updateUserNotification(UserNotification userNotification) {
-        log.info("Updating user notification with id={}", userNotification);
+        log.info("Updating user notification with id={}", userNotification.getId());
         return userNotificationRepository.save(userNotification);
     }
 
