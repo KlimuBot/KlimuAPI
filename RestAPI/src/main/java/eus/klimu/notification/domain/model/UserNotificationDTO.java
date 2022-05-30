@@ -12,8 +12,8 @@ import java.util.Collection;
 @NoArgsConstructor
 public class UserNotificationDTO implements Serializable {
 
-    private long id;
-    private long channelId;
+    private Long id;
+    private Long channelId;
     private Collection<Long> localizedNotifications;
 
 }

@@ -9,8 +9,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class LocalizedNotificationDTO {
 
-    private long id;
-    private long notificationTypeId;
-    private long locationId;
+    private Long id;
+    private Long notificationTypeId;
+    private Long locationId;
 
 }

@@ -11,7 +11,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class LocationDTO implements Serializable {
 
-    private long id;
+    private Long id;
     private String city;
     private String country;
 

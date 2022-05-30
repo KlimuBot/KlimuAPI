@@ -11,7 +11,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class ChannelDTO implements Serializable {
 
-    private long id;
+    private Long id;
     private String name;
     private String icon;
 

@@ -12,7 +12,7 @@ import java.util.Collection;
 @NoArgsConstructor
 public class AppUserDTO implements Serializable {
 
-    private long id;
+    private Long id;
     private String username;
     private String password;
     private String name;

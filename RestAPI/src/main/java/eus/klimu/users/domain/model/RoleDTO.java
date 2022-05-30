@@ -11,7 +11,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class RoleDTO implements Serializable {
 
-    private long id;
+    private Long id;
     private String name;
 
 }

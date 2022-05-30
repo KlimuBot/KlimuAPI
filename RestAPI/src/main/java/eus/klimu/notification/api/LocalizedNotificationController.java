@@ -105,9 +105,13 @@ public class LocalizedNotificationController {
             );
             if (localizedNotificationService.getLocalizedNotification(
                     persistentLocalizedNotification.getLocation(), persistentLocalizedNotification.getType()
-            ) != null) {
+            ) == null) {
                 return ResponseEntity.ok().body(localizedNotificationService
                         .addNewLocalizedNotification(persistentLocalizedNotification));
+            } else {
+                return ResponseEntity.ok().body(localizedNotificationService.getLocalizedNotification(
+                        persistentLocalizedNotification.getLocation(), persistentLocalizedNotification.getType()
+                ));
             }
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
