@@ -54,9 +54,13 @@ public class RestApiApplication {
      */
     private static final List<AppUser> appUsers = Arrays.asList(
             new AppUser(null, "klimu.user", "klimu@user", "klimu", "user",
-                    "klimubot@gmail.com", "654321987", new ArrayList<>(), new ArrayList<>()),
+                    "klimubot@gmail.com", "654321987", null,
+                    new ArrayList<>(), new ArrayList<>()
+            ),
             new AppUser(null, "klimu.admin", "klimu@admin", "klimu", "admin",
-                    "popbl6_talde2-group@alumni.mondragon.edu", "654321987", new ArrayList<>(), new ArrayList<>())
+                    "popbl6_talde2-group@alumni.mondragon.edu", "654321987", null,
+                    new ArrayList<>(), new ArrayList<>()
+            )
     );
 
     /**

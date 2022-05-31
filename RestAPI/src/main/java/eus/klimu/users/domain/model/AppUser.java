@@ -31,6 +31,7 @@ public class AppUser {
     private String surname;
     private String email;
     private String number;
+    private String telegramId;
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Role> roles = new ArrayList<>();
     @ManyToMany(fetch = FetchType.LAZY)
@@ -49,7 +50,8 @@ public class AppUser {
 
         return new AppUser(
                 appUserDTO.getId(), appUserDTO.getUsername(), appUserDTO.getPassword(), appUserDTO.getName(),
-                appUserDTO.getSurname(), appUserDTO.getEmail(), appUserDTO.getNumber(), roles, notifications
+                appUserDTO.getSurname(), appUserDTO.getEmail(), appUserDTO.getNumber(), appUserDTO.getTelegramId(),
+                roles, notifications
         );
     }
 

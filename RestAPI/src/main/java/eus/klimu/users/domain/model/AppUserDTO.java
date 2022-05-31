@@ -19,6 +19,7 @@ public class AppUserDTO implements Serializable {
     private String surname;
     private String email;
     private String number;
+    private String telegramId;
     private Collection<Long> roles;
     private Collection<Long> notifications;
 
