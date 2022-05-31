@@ -8,15 +8,19 @@
         <version>2.6.7</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+
     <groupId>eus.klimu</groupId>
     <artifactId>RestAPI</artifactId>
     <version>1.0.0</version>
     <packaging>war</packaging>
     <name>RestAPI</name>
     <description>RestAPI</description>
+
     <properties>
         <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
