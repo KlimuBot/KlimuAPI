@@ -20,7 +20,8 @@ public class AuthorizationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         if (
                 !request.getServletPath().startsWith("/login") &&
-                !request.getServletPath().equals("/channel/all")
+                !request.getServletPath().equals("/channel/all") &&
+                !request.getServletPath().equals("/user-notification/all")
         ) {
             TokenManagement tokenManagement = new TokenManagement();
 
