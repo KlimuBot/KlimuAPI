@@ -1,6 +1,10 @@
 package eus.klimu.users.api;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import eus.klimu.location.domain.service.definition.LocationService;
+import eus.klimu.notification.domain.model.LocalizedNotification;
+import eus.klimu.notification.domain.service.definition.LocalizedNotificationService;
+import eus.klimu.notification.domain.service.definition.NotificationTypeService;
 import eus.klimu.notification.domain.service.definition.UserNotificationService;
 import eus.klimu.security.TokenManagement;
 import eus.klimu.users.domain.model.AppUser;
@@ -15,7 +19,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.websocket.server.PathParam;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -27,8 +33,11 @@ public class UserController {
 
     private final UserService userService;
     private final RoleService roleService;
-    private final TokenManagement tokenManagement = new TokenManagement();
+    private final LocationService locationService;
     private final UserNotificationService userNotificationService;
+    private final NotificationTypeService notificationTypeService;
+    private final LocalizedNotificationService localizedNotificationService;
+    private final TokenManagement tokenManagement = new TokenManagement();
 
     @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<AppUser> getUser(@PathVariable long id) {
@@ -61,6 +70,26 @@ public class UserController {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping(value = "/{locationId}/{typeId}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<List<AppUser>> getUsersWithNotifications(
+            @PathVariable Long locationId,
+            @PathVariable Long typeId
+    ) {
+        List<AppUser> users = userService.findAll();
+        LocalizedNotification ln = localizedNotificationService.getLocalizedNotification(
+                locationService.getLocationById(locationId),
+                notificationTypeService.getNotificationType(typeId)
+        );
+
+        List<AppUser> notifiedUsers = new ArrayList<>();
+        users.forEach(user -> user.getNotifications().forEach(userNotification -> {
+            if (!notifiedUsers.contains(user) && userNotification.getNotifications().contains(ln)) {
+                notifiedUsers.add(user);
+            }
+        }));
+        return ResponseEntity.ok().body(notifiedUsers);
     }
 
     @PostMapping(

@@ -9,6 +9,7 @@ public interface UserService {
     Long countAll();
     AppUser getUser(long id);
     AppUser getUser(String username);
+    List<AppUser> findAll();
     String checkUser(AppUser user);
     AppUser saveUser(AppUser user);
     List<AppUser> saveAllUsers(List<AppUser> users);

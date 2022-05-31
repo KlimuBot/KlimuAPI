@@ -69,6 +69,12 @@ public class UserServiceImp implements UserService, UserDetailsService {
         return userRepository.findByUsername(username).orElse(null);
     }
 
+    @Override
+    public List<AppUser> findAll() {
+        log.info("Fetching all users from the database");
+        return userRepository.findAll();
+    }
+
     /**
      * Check if a user meets all the criteria to be properly created. The user must meet the following:
      * <ul>
