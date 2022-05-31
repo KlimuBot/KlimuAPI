@@ -22,6 +22,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
                 !request.getServletPath().startsWith("/login") &&
                 !request.getServletPath().startsWith("/role/name/") &&
                 !request.getServletPath().equals("/channel/all") &&
+                !request.getServletPath().equals("/user/create") &&
                 !request.getServletPath().equals("/user-notification/create")
         ) {
             TokenManagement tokenManagement = new TokenManagement();
