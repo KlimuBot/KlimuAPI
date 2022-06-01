@@ -28,7 +28,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
             TokenManagement tokenManagement = new TokenManagement();
 
             // Check the access token.
-            String accessToken = request.getHeader(TokenManagement.ACCESS_TOKEN_HEADER);
+            String accessToken = request.getHeader(TokenManagement.ACCESS_TOKEN);
 
             if (accessToken != null && accessToken.startsWith(TokenManagement.TOKEN_SIGNATURE_NAME)) {
                 try {
@@ -36,7 +36,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
                     UsernamePasswordAuthenticationToken authToken = tokenManagement.getUsernamePasswordToken(accessToken);
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                 } catch (Exception accessException) {
-                    String refreshToken = request.getHeader(TokenManagement.REFRESH_TOKEN_HEADER);
+                    String refreshToken = request.getHeader(TokenManagement.REFRESH_TOKEN);
                     try {
                         // Try accessing with the refresh token.
                         UsernamePasswordAuthenticationToken authToken = tokenManagement.getUsernamePasswordToken(refreshToken);

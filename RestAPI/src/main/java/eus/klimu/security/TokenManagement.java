@@ -40,8 +40,8 @@ public class TokenManagement {
     public static final String TOKEN_SIGNATURE_NAME = "Bearer ";
     private static final String ROLES = "roles";
 
-    public static final String ACCESS_TOKEN_HEADER = "accessToken";
-    public static final String REFRESH_TOKEN_HEADER = "refreshToken";
+    public static final String ACCESS_TOKEN = "accessToken";
+    public static final String REFRESH_TOKEN = "refreshToken";
 
     private final Algorithm algorithm;
     private final JWTVerifier verifier;
@@ -66,8 +66,8 @@ public class TokenManagement {
         JSONObject jsonObject = new JSONObject(json);
         Map<String, String> tokens = new HashMap<>();
 
-        tokens.put(TokenManagement.ACCESS_TOKEN_HEADER, jsonObject.getString(TokenManagement.ACCESS_TOKEN_HEADER));
-        tokens.put(TokenManagement.REFRESH_TOKEN_HEADER, jsonObject.getString(TokenManagement.REFRESH_TOKEN_HEADER));
+        tokens.put(TokenManagement.ACCESS_TOKEN, jsonObject.getString(TokenManagement.ACCESS_TOKEN));
+        tokens.put(TokenManagement.REFRESH_TOKEN, jsonObject.getString(TokenManagement.REFRESH_TOKEN));
 
         return tokens;
     }
@@ -75,8 +75,8 @@ public class TokenManagement {
     public void setTokenOnResponse(String accessToken, String refreshToken, HttpServletResponse response) throws IOException {
         Map<String, String> responseBody = new HashMap<>();
 
-        responseBody.put(TokenManagement.ACCESS_TOKEN_HEADER, TokenManagement.TOKEN_SIGNATURE_NAME + accessToken);
-        responseBody.put(TokenManagement.REFRESH_TOKEN_HEADER, TokenManagement.TOKEN_SIGNATURE_NAME + refreshToken);
+        responseBody.put(TokenManagement.ACCESS_TOKEN, TokenManagement.TOKEN_SIGNATURE_NAME + accessToken);
+        responseBody.put(TokenManagement.REFRESH_TOKEN, TokenManagement.TOKEN_SIGNATURE_NAME + refreshToken);
 
         response.setStatus(HttpServletResponse.SC_CREATED);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);

@@ -6,11 +6,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@XmlRootElement
 @Entity(name = "notification_type")
 public class NotificationType {
 
