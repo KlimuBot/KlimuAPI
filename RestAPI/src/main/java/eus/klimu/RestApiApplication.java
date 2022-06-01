@@ -5,9 +5,11 @@ import eus.klimu.channel.domain.service.definition.ChannelService;
 import eus.klimu.location.domain.model.Location;
 import eus.klimu.location.domain.service.definition.LocationService;
 import eus.klimu.notification.domain.model.LocalizedNotification;
+import eus.klimu.notification.domain.model.Notification;
 import eus.klimu.notification.domain.model.NotificationType;
 import eus.klimu.notification.domain.model.UserNotification;
 import eus.klimu.notification.domain.service.definition.LocalizedNotificationService;
+import eus.klimu.notification.domain.service.definition.NotificationService;
 import eus.klimu.notification.domain.service.definition.NotificationTypeService;
 import eus.klimu.notification.domain.service.definition.UserNotificationService;
 import eus.klimu.users.domain.model.AppUser;
@@ -28,6 +30,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.io.File;
 import java.nio.file.Files;
 import java.security.SecureRandom;
+import java.util.Date;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -109,10 +114,12 @@ public class RestApiApplication {
     public CommandLineRunner run(
             UserService userService, RoleService roleService, ChannelService channelService,
             LocationService locationService, NotificationTypeService notificationTypeService,
-            LocalizedNotificationService localizedNotificationService, UserNotificationService userNotificationService
+            UserNotificationService userNotificationService, NotificationService notificationService,
+            LocalizedNotificationService localizedNotificationService
     ) {
         return args -> {
             log.info("Generating default configuration of the application");
+            Random random = SecureRandom.getInstanceStrong();
 
             if (roleService.countAll() <= 0) {
                 log.info("Generating default roles USER_ROLE and ADMIN_ROLE");
@@ -151,7 +158,6 @@ public class RestApiApplication {
                 roleService.addRoleToUser(appUsers.get(1).getUsername(), roles.get(0).getName());
                 roleService.addRoleToUser(appUsers.get(1).getUsername(), roles.get(1).getName());
 
-                Random random = SecureRandom.getInstanceStrong();
                 AppUser admin = appUsers.get(1);
                 List<Location> locations = locationService.getAllLocations();
                 List<NotificationType> types = notificationTypeService.getAllNotificationTypes();
@@ -179,6 +185,17 @@ public class RestApiApplication {
                 });
                 admin.setNotifications(userNotifications);
                 userService.updateUser(admin);
+            }
+            List<Location> locations = locationService.getAllLocations();
+            List<NotificationType> types = notificationTypeService.getAllNotificationTypes();
+
+            for (int i = 0; i < 20; i++) {
+                notificationService.addNewNotification(new Notification(
+                        null, "Danger notification, be careful",
+                        Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                        types.get(random.nextInt(types.size())),
+                        locations.get(random.nextInt(locations.size()))
+                ));
             }
             log.info("All the elements have already been generated");
         };

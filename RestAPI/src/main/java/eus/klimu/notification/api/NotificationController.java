@@ -16,6 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -74,8 +75,14 @@ public class NotificationController {
     )
     public ResponseEntity<List<Notification>> getNotifications(
             @RequestBody LocationDTO location,
-            @RequestBody DatePeriod datePeriod
+            @RequestBody Date startDate,
+            @RequestBody Date endDate
     ) {
+        DatePeriod datePeriod = null;
+
+        if (startDate != null && endDate != null) {
+            datePeriod = new DatePeriod(startDate, endDate);
+        }
         if (location != null && datePeriod != null && datePeriod.check()) {
             return ResponseEntity.ok().body(notificationService.getNotificationsByDateBetween(
                     Location.generateLocation(location), datePeriod.getStartDate(), datePeriod.getEndDate()
@@ -92,8 +99,14 @@ public class NotificationController {
     )
     public ResponseEntity<List<Notification>> getNotifications(
             @RequestBody NotificationTypeDTO notificationType,
-            @RequestBody DatePeriod datePeriod
+            @RequestBody Date startDate,
+            @RequestBody Date endDate
     ) {
+        DatePeriod datePeriod = null;
+
+        if (startDate != null && endDate != null) {
+            datePeriod = new DatePeriod(startDate, endDate);
+        }
         if (notificationType != null && datePeriod != null && datePeriod.check()) {
             return ResponseEntity.ok().body(notificationService.getNotificationsByDateBetween(
                     NotificationType.generateNotificationType(notificationType),
@@ -109,7 +122,15 @@ public class NotificationController {
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE}
     )
-    public ResponseEntity<List<Notification>> getNotifications(@RequestBody DatePeriod datePeriod) {
+    public ResponseEntity<List<Notification>> getNotifications(
+            @RequestBody Date startDate,
+            @RequestBody Date endDate
+    ) {
+        DatePeriod datePeriod = null;
+
+        if (startDate != null && endDate != null) {
+            datePeriod = new DatePeriod(startDate, endDate);
+        }
         if (datePeriod != null && datePeriod.check()) {
             return ResponseEntity.ok().body(notificationService.getAllNotifications(
                     datePeriod.getStartDate(), datePeriod.getEndDate()
