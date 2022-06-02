@@ -159,6 +159,23 @@ public class UserController {
         return ResponseEntity.badRequest().build();
     }
 
+    @PostMapping(
+            value = "/set/chatId/{username}/{chatId}",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
+    )
+    public ResponseEntity<AppUser> setChatId(
+            @PathVariable String username,
+            @PathVariable String chatId
+    ) {
+        AppUser user = userService.getUser(username);
+
+        if (user != null && user.getTelegramId().isEmpty() && userService.getUserFromTelegram(chatId) == null) {
+            user.setTelegramId(chatId);
+            return ResponseEntity.ok().body(userService.updateUser(user));
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
     @PutMapping(
             value = "/update",
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
