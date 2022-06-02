@@ -1,8 +1,10 @@
 package eus.klimu.users.api;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import eus.klimu.location.domain.model.Location;
 import eus.klimu.location.domain.service.definition.LocationService;
 import eus.klimu.notification.domain.model.LocalizedNotification;
+import eus.klimu.notification.domain.model.NotificationType;
 import eus.klimu.notification.domain.service.definition.LocalizedNotificationService;
 import eus.klimu.notification.domain.service.definition.NotificationTypeService;
 import eus.klimu.notification.domain.service.definition.UserNotificationService;
@@ -129,6 +131,32 @@ public class UserController {
         return ResponseEntity.created(
                 URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/user/create/all").toUriString())
         ).body(userService.saveAllUsers(users));
+    }
+
+    @PostMapping("/add/{chatId}/{channel}/{locationId}/{typeId}")
+    public ResponseEntity<Object> addLocalizedAlertToUser(
+            @PathVariable String chatId,
+            @PathVariable String channel,
+            @PathVariable long locationId,
+            @PathVariable long typeId
+    ) {
+        Location location = locationService.getLocationById(locationId);
+        NotificationType type = notificationTypeService.getNotificationType(typeId);
+        AppUser user = userService.getUserFromTelegram(chatId);
+
+        if (location != null && type != null && user != null) {
+            LocalizedNotification localizedNotification = localizedNotificationService
+                    .addNewLocalizedNotification(new LocalizedNotification(null, type, location));
+
+            user.getNotifications().forEach(userNotification -> {
+                if (userNotification.getChannel().getName().equalsIgnoreCase(channel)) {
+                    userNotification.getNotifications().add(localizedNotification);
+                    userNotificationService.updateUserNotification(userNotification);
+                }
+            });
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
     }
 
     @PutMapping(

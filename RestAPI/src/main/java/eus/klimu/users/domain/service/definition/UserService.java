@@ -9,6 +9,7 @@ public interface UserService {
     Long countAll();
     AppUser getUser(long id);
     AppUser getUser(String username);
+    AppUser getUserFromTelegram(String chatId);
     List<AppUser> findAll();
     String checkUser(AppUser user);
     AppUser saveUser(AppUser user);

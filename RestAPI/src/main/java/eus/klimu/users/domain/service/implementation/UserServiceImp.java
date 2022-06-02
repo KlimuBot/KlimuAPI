@@ -70,6 +70,12 @@ public class UserServiceImp implements UserService, UserDetailsService {
     }
 
     @Override
+    public AppUser getUserFromTelegram(String chatId) {
+        log.info("Fetching user with chatId={}", chatId);
+        return userRepository.findByTelegramId(chatId).orElse(null);
+    }
+
+    @Override
     public List<AppUser> findAll() {
         log.info("Fetching all users from the database");
         return userRepository.findAll();

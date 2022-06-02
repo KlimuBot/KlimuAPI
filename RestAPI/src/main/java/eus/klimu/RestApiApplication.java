@@ -63,7 +63,7 @@ public class RestApiApplication {
                     new ArrayList<>(), new ArrayList<>()
             ),
             new AppUser(null, "klimu.admin", "klimu@admin", "klimu", "admin",
-                    "popbl6_talde2-group@alumni.mondragon.edu", "654321987", null,
+                    "popbl6_talde2-group@alumni.mondragon.edu", "654321987", "998339641",
                     new ArrayList<>(), new ArrayList<>()
             )
     );

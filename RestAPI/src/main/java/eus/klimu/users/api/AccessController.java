@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,9 +34,15 @@ public class AccessController {
      * <h1>GET REQUEST</h1>
      * <h2>Authenticate User Token</h2>
      *
-     * <a href='https://klimu.eus/RestAPI/access/auth/{token}'>https://klimu.eus/RestAPI/access/auth/{token}</a>
-     *
      * <p>Get a UsernamePasswordToken from a JWT token. Transforms the UsernamePasswordToken into a JSON string.</p>
+     *
+     * <ul>
+     *     <li>Consumes: text/plain</li>
+     *     <li>Produces: text/plain</li>
+     *     <li>Requires: Access and Refresh tokens as headers.</li>
+     * </ul>
+     *
+     * <p><a href='https://klimu.eus/RestAPI/access/auth/{token}'>https://klimu.eus/RestAPI/access/auth/{token}</a></p>
      *
      * @param token The JWT token that is going to be used for getting the UsernamePasswordToken.
      * @return A 200 ok with the UsernamePasswordToken if everything went well. If not, returns a 400 bad request.
@@ -62,17 +67,21 @@ public class AccessController {
      * <h1>GET REQUEST</h1>
      * <h2>Refresh User Token</h2>
      *
-     * <a href='https://klimu.eus/RestAPI/access/refresh'>https://klimu.eus/RestAPI/access/refresh</a>
-     *
      * <p>Get a new pack of tokens (accessToken and refreshToken) from the server as a JSON. Requires a request body
      * with an access and a refresh token. One of the tokens need to not be expired for it to work.</p>
      *
+     * <ul>
+     *     <li>Produces: application/json</li>
+     *     <li>Requires: Access and Refresh tokens as header.</li>
+     * </ul>
+     *
+     * <p><a href='https://klimu.eus/RestAPI/access/refresh'>https://klimu.eus/RestAPI/access/refresh</a></p>
+     *
      * @param request The HttpServletRequest made to the server.
-     * @param session The user session.
      * @return A 200 ok with a json that contains the access and the refresh token. If not, returns a 400 bad request.
      */
     @GetMapping(value = "/refresh")
-    public ResponseEntity<Map<String, String>> refreshTokens(HttpServletRequest request, HttpSession session) {
+    public ResponseEntity<Map<String, String>> refreshTokens(HttpServletRequest request) {
         log.info("Trying to refresh tokens");
         TokenManagement tokenManagement = new TokenManagement();
         Map<String, String> tokens = new HashMap<>();
@@ -131,9 +140,14 @@ public class AccessController {
      * <h1>GET REQUEST</h1>
      * <h2>Deny Access</h2>
      *
-     * <a href='https://klimu.eus/RestAPI/access/denied'>https://klimu.eus/RestAPI/access/denied</a>
-     *
      * <p>Obtains an error message as a JSON with a DENIED type of response.</p>
+     *
+     * <ul>
+     *     <li>Consumes: application/json, application/xml</li>
+     *     <li>Produces: application/json</li>
+     * </ul>
+     *
+     * <p><a href='https://klimu.eus/RestAPI/access/denied'>https://klimu.eus/RestAPI/access/denied</a></p>
      *
      * @return A 403 error with a message explaining that the user has no authorities.
      */

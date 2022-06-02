@@ -1,5 +1,6 @@
 package eus.klimu.notification.api;
 
+import com.google.gson.Gson;
 import eus.klimu.location.domain.model.Location;
 import eus.klimu.location.domain.model.LocationDTO;
 import eus.klimu.location.domain.service.definition.LocationService;
@@ -7,6 +8,7 @@ import eus.klimu.notification.domain.model.*;
 import eus.klimu.notification.domain.service.definition.NotificationService;
 import eus.klimu.notification.domain.service.definition.NotificationTypeService;
 import lombok.RequiredArgsConstructor;
+import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +29,7 @@ public class NotificationController {
     private final NotificationTypeService notificationTypeService;
     private final NotificationService notificationService;
     private final LocationService locationService;
+    private final Gson gson = new Gson();
 
     @GetMapping(
             value = "/{id}",
@@ -122,14 +125,15 @@ public class NotificationController {
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE}
     )
-    public ResponseEntity<List<Notification>> getNotifications(
-            @RequestBody Date startDate,
-            @RequestBody Date endDate
-    ) {
+    public ResponseEntity<List<Notification>> getNotifications(@RequestBody String dates) {
         DatePeriod datePeriod = null;
 
-        if (startDate != null && endDate != null) {
-            datePeriod = new DatePeriod(startDate, endDate);
+        if (dates != null) {
+            JSONObject json = new JSONObject(dates);
+            datePeriod = new DatePeriod(
+                    gson.fromJson(json.getString("startDate"), Date.class),
+                    gson.fromJson(json.getString("endDate"), Date.class)
+            );
         }
         if (datePeriod != null && datePeriod.check()) {
             return ResponseEntity.ok().body(notificationService.getAllNotifications(
