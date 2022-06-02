@@ -12,7 +12,8 @@ public interface NotificationService {
     Notification getNotificationById(long id);
     List<Notification> getAllNotifications(Location location);
     List<Notification> getAllNotifications(NotificationType type);
-    List<Notification> getAllNotifications(Date startDate, Date endDate);
+    List<Notification> getAllNotifications();
+    List<Notification> getAllNotificationsLimited();
     List<Notification> getNotificationsByDateBetween(Location location, Date startDate, Date endDate);
     List<Notification> getNotificationsByDateBetween(NotificationType type, Date startDate, Date endDate);
     Notification addNewNotification(Notification notification);

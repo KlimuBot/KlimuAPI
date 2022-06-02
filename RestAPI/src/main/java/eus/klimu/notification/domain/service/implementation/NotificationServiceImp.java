@@ -7,9 +7,13 @@ import eus.klimu.notification.domain.repository.NotificationRepository;
 import eus.klimu.notification.domain.service.definition.NotificationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.awt.print.Pageable;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
@@ -40,9 +44,15 @@ public class NotificationServiceImp implements NotificationService {
     }
 
     @Override
-    public List<Notification> getAllNotifications(Date startDate, Date endDate) {
-        log.info("Fetching all notifications between {} and {}", startDate, endDate);
-        return notificationRepository.getAllByDateBetween(startDate, endDate);
+    public List<Notification> getAllNotifications() {
+        log.info("Fetching last 50 notifications");
+        return notificationRepository.findAll();
+    }
+
+    @Override
+    public List<Notification> getAllNotificationsLimited() {
+        log.info("Fetching last 50 notifications");
+        return notificationRepository.findFirst50ByOrderByDateDesc();
     }
 
     @Override

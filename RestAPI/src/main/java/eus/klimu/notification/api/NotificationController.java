@@ -1,6 +1,5 @@
 package eus.klimu.notification.api;
 
-import com.google.gson.Gson;
 import eus.klimu.location.domain.model.Location;
 import eus.klimu.location.domain.model.LocationDTO;
 import eus.klimu.location.domain.service.definition.LocationService;
@@ -8,7 +7,6 @@ import eus.klimu.notification.domain.model.*;
 import eus.klimu.notification.domain.service.definition.NotificationService;
 import eus.klimu.notification.domain.service.definition.NotificationTypeService;
 import lombok.RequiredArgsConstructor;
-import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +27,6 @@ public class NotificationController {
     private final NotificationTypeService notificationTypeService;
     private final NotificationService notificationService;
     private final LocationService locationService;
-    private final Gson gson = new Gson();
 
     @GetMapping(
             value = "/{id}",
@@ -122,26 +119,18 @@ public class NotificationController {
 
     @GetMapping(
             value = "/all",
-            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE}
     )
-    public ResponseEntity<List<Notification>> getNotifications(@RequestBody String dates) {
-        DatePeriod datePeriod = null;
+    public ResponseEntity<List<Notification>> getNotifications() {
+        return ResponseEntity.ok().body(notificationService.getAllNotifications());
+    }
 
-        if (dates != null) {
-            JSONObject json = new JSONObject(dates);
-            datePeriod = new DatePeriod(
-                    gson.fromJson(json.getString("startDate"), Date.class),
-                    gson.fromJson(json.getString("endDate"), Date.class)
-            );
-        }
-        if (datePeriod != null && datePeriod.check()) {
-            return ResponseEntity.ok().body(notificationService.getAllNotifications(
-                    datePeriod.getStartDate(), datePeriod.getEndDate()
-            ));
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
+    @GetMapping(
+            value = "/all/limited",
+            produces = {MediaType.APPLICATION_JSON_VALUE}
+    )
+    public ResponseEntity<List<Notification>> getNotificationsLimited() {
+        return ResponseEntity.ok().body(notificationService.getAllNotificationsLimited());
     }
 
     @PostMapping(

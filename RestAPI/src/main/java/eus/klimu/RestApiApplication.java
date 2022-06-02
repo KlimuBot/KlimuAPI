@@ -30,9 +30,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.io.File;
 import java.nio.file.Files;
 import java.security.SecureRandom;
+import java.time.LocalTime;
+import java.time.ZoneOffset;
 import java.util.Date;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -192,7 +193,7 @@ public class RestApiApplication {
             for (int i = 0; i < 20; i++) {
                 notificationService.addNewNotification(new Notification(
                         null, "Danger notification, be careful",
-                        Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                        Date.from(LocalDate.now().atTime(LocalTime.now()).toInstant(ZoneOffset.UTC)),
                         types.get(random.nextInt(types.size())),
                         locations.get(random.nextInt(locations.size()))
                 ));
