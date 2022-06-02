@@ -58,6 +58,19 @@ public class UserController {
         }
     }
 
+    @GetMapping(value = "/chatId/{chatId}")
+    public ResponseEntity<AppUser> getUserByChatId(@PathVariable String chatId) {
+        if (chatId != null) {
+            AppUser user = userService.getUserFromTelegram(chatId);
+
+            if (user != null) {
+                return ResponseEntity.ok().body(user);
+            }
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
     @GetMapping(value = "/from-token/{token}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<AppUser> getUserFromToken(@PathVariable String token) {
         try {
