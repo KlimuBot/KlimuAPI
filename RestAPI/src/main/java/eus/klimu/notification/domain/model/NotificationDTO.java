@@ -1,12 +1,12 @@
 package eus.klimu.notification.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
-import java.util.Date;
 
 @Getter
 @Setter
@@ -16,7 +16,7 @@ public class NotificationDTO implements Serializable {
 
     private Long id;
     private String message;
-    private Date date;
+    private String date;
     private Long notificationTypeId;
     private Long locationId;
 

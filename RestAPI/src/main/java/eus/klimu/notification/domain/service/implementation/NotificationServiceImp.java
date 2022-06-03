@@ -70,7 +70,7 @@ public class NotificationServiceImp implements NotificationService {
     @Override
     public Notification addNewNotification(Notification notification) {
         log.info(
-                "Saving notification {} on the database", notification.getType() +
+                "Saving notification {} on the database", notification.getType().getName() +
                 " (" + notification.getLocation() + ")[" + notification.getDate() + "]"
         );
         return notificationRepository.save(notification);

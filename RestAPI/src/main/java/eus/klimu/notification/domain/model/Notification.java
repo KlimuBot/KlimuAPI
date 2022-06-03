@@ -10,6 +10,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
@@ -35,11 +38,17 @@ public class Notification {
     public static Notification generateNotification(
             NotificationDTO notificationDTO, NotificationTypeService notificationTypeService, LocationService locationService
     ) {
-        return new Notification(
-                notificationDTO.getId(), notificationDTO.getMessage(), notificationDTO.getDate(),
-                notificationTypeService.getNotificationType(notificationDTO.getNotificationTypeId()),
-                locationService.getLocationById(notificationDTO.getLocationId())
-        );
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd,HH:mm:ss");
+        try {
+            return new Notification(
+                    notificationDTO.getId(), notificationDTO.getMessage(), dateFormat.parse(notificationDTO.getDate()),
+                    notificationTypeService.getNotificationType(notificationDTO.getNotificationTypeId()),
+                    locationService.getLocationById(notificationDTO.getLocationId())
+            );
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }
