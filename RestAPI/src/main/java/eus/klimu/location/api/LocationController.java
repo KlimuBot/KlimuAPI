@@ -15,6 +15,11 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Create, update, delete and get information for the Notifications. They represent the different places the
+ * notifications can come from. Takes care of all the CRUD methods, working with the database through an internal
+ * Service.
+ */
 @Controller
 @RequestMapping("/location")
 @RequiredArgsConstructor

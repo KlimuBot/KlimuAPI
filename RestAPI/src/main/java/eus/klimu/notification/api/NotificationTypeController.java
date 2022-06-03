@@ -15,6 +15,10 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Create, update, delete and get information for the Notification Types. They represent the different notifications
+ * that can be generated. Takes care of all the CRUD methods, working with the database through an internal Service.
+ */
 @Controller
 @RequestMapping("/notification-type")
 @RequiredArgsConstructor

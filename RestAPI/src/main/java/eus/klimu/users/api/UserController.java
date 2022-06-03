@@ -25,6 +25,10 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Create, update, delete and get information for the AppUsers. They save the information about the users of the
+ * application. Takes care of all the CRUD methods, working with the database through an internal Service.
+ */
 @Controller
 @RequestMapping("/user")
 @RequiredArgsConstructor

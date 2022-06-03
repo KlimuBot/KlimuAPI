@@ -1,10 +1,20 @@
 # KlimuAPI
 
-REST petition management service for the different elements of the KLIMU system. This application manages the authentication of all other applications in the KLIMU system. It also manages the access to the database.
-
-This service can be found on the main server for the KLIMU system, located under the domain https://klimu.eus/RestAPI/. Most of the methods of this service require the user to be logged on the application.
+REST petition management service for the different elements of the KLIMU system. This application manages the authentication of all other applications in the KLIMU system. It also manages the access to the database. Most of the methods of this service require the user to be logged on the application.
 
 The application uses _JSON Web Tokens_ for the authentication, so if any request requires them, they must be sent on the headers as **accessToken** and **refreshToken**.
+
+## Index
+
+1. [Rest Application](#rest)
+2. [Data Variables](#data)
+3. [Application Authentication](#auth)
+
+<h2 id="rest">Rest Application</h2>
+
+---
+
+The KLIMU rest application provides different ways to interact with the database, allowing multiple types of requests from any location. This service can be found on the main server for the KLIMU system, located under the domain https://klimu.eus/RestAPI/.
 
 The following methods can be found on the API:
 
@@ -18,11 +28,11 @@ The following methods can be found on the API:
 - [User Request Methods](#user)
 - [UserNotification Request Methods](#user_notification)
 
-<h2 id="access">1. AccessController</h2>
+<h3 id="access">1. <b>AccessController</b></h3>
 
 Manage the user access to the server, providing _Json Web Tokens_ to those users that have already been registered on the database. It also provides different methods to manage the access to the services.
 
-### 1.1 GET REQUEST - Authenticate User Token
+#### 1.1 GET REQUEST - Authenticate User Token
 
 ---
 
@@ -56,7 +66,7 @@ Manage the user access to the server, providing _Json Web Tokens_ to those users
 
 <br>
 
-### 1.2 GET REQUEST - Refresh User Tokens
+#### 1.2 GET REQUEST - Refresh User Tokens
 
 ---
 
@@ -89,7 +99,7 @@ Manage the user access to the server, providing _Json Web Tokens_ to those users
 
 <br>
 
-### 1.3 GET REQUEST - Deny Access
+#### 1.3 GET REQUEST - Deny Access
 
 ---
 
@@ -112,7 +122,7 @@ Manage the user access to the server, providing _Json Web Tokens_ to those users
 
 <br>
 
-### 1.4 POST REQUEST - Login
+#### 1.4 POST REQUEST - Login
 
 ---
 
@@ -150,11 +160,11 @@ Manage the user access to the server, providing _Json Web Tokens_ to those users
 
 <br>
 
-<h2 id="channel">2. ChannelController</h2>
+<h3 id="channel">2. <b>ChannelController</b></h3>
 
 Create, update, delete and get information for the different communication channels that the service is going to be provided on. Takes care of all the CRUD methods, working with the database through an internal Service.
 
-### 2.1 GET REQUEST - Get Channel by ID
+#### 2.1 GET REQUEST - Get Channel by ID
 
 ---
 
@@ -182,13 +192,13 @@ Create, update, delete and get information for the different communication chann
     <tr>
         <td>return</td>
         <td>Channel</td>
-        <td>A 200 ok with the channel as a JSON if found or a 4000 bad request if it wasn't.</td>
+        <td>A 200 ok with the channel as a JSON if found or a 400 bad request if it wasn't.</td>
     </tr>
 </table>
 
 <br>
 
-### 2.2 GET REQUEST - Get Channel by name
+#### 2.2 GET REQUEST - Get Channel by name
 
 ---
 
@@ -222,7 +232,7 @@ Create, update, delete and get information for the different communication chann
 
 <br>
 
-### 2.3 GET REQUEST - Get all Channels
+#### 2.3 GET REQUEST - Get all Channels
 
 ---
 
@@ -250,7 +260,7 @@ Create, update, delete and get information for the different communication chann
 
 <br>
 
-### 2.4 POST REQUEST - Create a new Channel
+#### 2.4 POST REQUEST - Create a new Channel
 
 ---
 
@@ -278,17 +288,17 @@ Create, update, delete and get information for the different communication chann
     <tr>
         <td>return</td>
         <td>Channel</td>
-        <td>A 200 ok with the channel as a JSON if created or a 400 bad request if it wasn't.</td>
+        <td>A 201 created with the channel as a JSON if created or a 400 bad request if it wasn't.</td>
     </tr>
 </table>
 
 <br>
 
-### 2.5 POST REQUEST - Create an X amount of Channels
+#### 2.5 POST REQUEST - Create an X amount of Channels
 
 ---
 
-    Add an X amount of new Channels to the database, once they are added, an ID will be added to those Channels.
+    Save an X amount of new Channels to the database, once they are added, an ID will be added to those Channels.
 
 <ul>
     <li>Consumes: application/json</li>
@@ -312,13 +322,13 @@ Create, update, delete and get information for the different communication chann
     <tr>
         <td>return</td>
         <td>List of Channels</td>
-        <td>A 200 ok with the channels as a JSON if created or a 400 bad request if they weren't.</td>
+        <td>A 201 created with the channels as a JSON if created or a 400 bad request if they weren't.</td>
     </tr>
 </table>
 
 <br>
 
-### 2.6 PUT REQUEST - Update a Channel
+#### 2.6 PUT REQUEST - Update a Channel
 
 ---
 
@@ -330,7 +340,7 @@ Create, update, delete and get information for the different communication chann
     <li>Requires: Access and Refresh tokens as headers.</li>
 </ul>
 
-> https://klimu.eus/RestAPI/channel/create/update
+> https://klimu.eus/RestAPI/channel/update
 
 <table>
     <tr>
@@ -341,7 +351,7 @@ Create, update, delete and get information for the different communication chann
     <tr>
         <td>param</td>
         <td>channels</td>
-        <td>A list of Data Transfer Objects for the channels that are going to be created.</td>
+        <td>A Data Transfer Object for the channel that is going to be updated.</td>
     </tr>
     <tr>
         <td>return</td>
@@ -352,7 +362,7 @@ Create, update, delete and get information for the different communication chann
 
 <br>
 
-### 2.7 DELETE REQUEST - Delete a Channel by ID
+#### 2.7 DELETE REQUEST - Delete a Channel by ID
 
 ---
 
@@ -378,14 +388,14 @@ Create, update, delete and get information for the different communication chann
     </tr>
     <tr>
         <td>return</td>
-        <td>List of Channels</td>
-        <td>A 200 ok with the channels was deleted or a 400 bad request if it wasn't.</td>
+        <td>Response Entity</td>
+        <td>A 200 ok if the channels was deleted or a 400 bad request if it wasn't.</td>
     </tr>
 </table>
 
 <br>
 
-### 2.8 DELETE REQUEST - Delete a Channel
+#### 2.8 DELETE REQUEST - Delete a Channel
 
 ---
 
@@ -407,27 +417,821 @@ Create, update, delete and get information for the different communication chann
     <tr>
         <td>param</td>
         <td>channels</td>
-        <td>A ChannelDTO for the channel that is going to be deleted.</td>
+        <td>A Channel Data Transfer Object for the channel that is going to be deleted.</td>
     </tr>
     <tr>
         <td>return</td>
-        <td>List of Channels</td>
-        <td>A 200 ok with the channels was deleted or a 400 bad request if it wasn't.</td>
+        <td>Response Entity</td>
+        <td>A 200 ok if the channel was deleted or a 400 bad request if it wasn't.</td>
     </tr>
 </table>
 
 <br>
 
-<h2 id="local_notification">3. LocalizedNotificationController</h2>
+<h3 id="local_notification">3. <b>LocalizedNotificationController</b></h3>
 
-<h2 id="location">4. LocationController</h2>
+Create, update, delete and get information for the Localized Notifications. They represent the different types of notification a user wants to receive through the system. Takes care of all the CRUD methods, working with the database through an internal Service.
 
-<h2 id="notification">5. NotificationController</h2>
+#### 3.1 GET REQUEST - Get a Localized Notification by ID
 
-<h2 id="type_notification">6. NotificationTypeController</h2>
+---
 
-<h2 id="role">7. RoleController</h2>
+    Get a localized notification based on it's ID.
 
-<h2 id="user">8. UserController</h2>
+<ul>
+    <li>Consumes: text/plain</li>
+    <li>Produces: application/json, application/xml</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
 
-<h2 id="user_notification">9. UserNotificationController</h2>
+> https://klimu.eus/RestAPI/localized-notification/{id}
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>id</td>
+        <td>The ID of the localized notification the function is going to look for.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>Channel</td>
+        <td>A 200 ok with the localized notification as a JSON if found or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
+
+<br>
+
+#### 3.2 GET REQUEST - Get a Localized Notification
+
+---
+
+    Get a localized notification based on it's location and it's notification type.
+
+<ul>
+    <li>Consumes: application/json, application/xml</li>
+    <li>Produces: application/json, application/xml</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
+> https://klimu.eus/RestAPI/localized-notification
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>location</td>
+        <td>A Data Transfer Object of a location.</td>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>notificationType</td>
+        <td>A Data Transfer Object of a notification type.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>Channel</td>
+        <td>A 200 ok with the localized notification as a JSON if found or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
+
+<br>
+
+### 3.3 GET REQUEST - Get all the Localized Notifications
+
+---
+
+    Get all the localized notifications from the database.
+
+<ul>
+    <li>Produces: application/json</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
+> https://klimu.eus/RestAPI/localized-notification/all
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>Channel</td>
+        <td>A 200 ok with the channel as a JSON if found or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
+
+<br>
+
+### 3.4 GET REQUEST - Get all the Localized Notifications
+
+---
+
+    Get all the localized notifications by location from the database.
+
+<ul>
+    <li>Consumes: application/json, application/xml</li>
+    <li>Produces: application/json</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
+> https://klimu.eus/RestAPI/localized-notification/all/location
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>location</td>
+        <td>A Data Transfer Object of a location.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>Channel</td>
+        <td>A 200 ok with the channel as a JSON if found or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
+
+<br>
+
+### 3.5 GET REQUEST - Get all the Localized Notifications
+
+---
+
+    Get all the localized notifications by location from the database.
+
+<ul>
+    <li>Consumes: application/json, application/xml</li>
+    <li>Produces: application/json</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
+> https://klimu.eus/RestAPI/localized-notification/all/type
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>notificationType</td>
+        <td>A Data Transfer Object of a notification type.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>Channel</td>
+        <td>A 200 ok with the channel as a JSON if found or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
+
+<br>
+
+### 3.6 POST REQUEST - Save a new Localized Notification
+
+---
+
+    Save a new localized notification on the database, once it's added, an ID will be added to that localized notification.
+
+<ul>
+    <li>Consumes: application/json, application/xml</li>
+    <li>Produces: application/json, application/xml</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
+> https://klimu.eus/RestAPI/localized-notification/create
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>channel</td>
+        <td>A Data Transfer Object of the localized notification.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>Channel</td>
+        <td>A 201 created with the channel as a JSON if found or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
+
+<br>
+
+### 3.7 POST REQUEST - Save an X amount of Localized Notifications
+
+---
+
+    Save an X amount of new localized notification to the database, once they are added, an ID will be added to those localized notifications.
+
+<ul>
+    <li>Consumes: application/json</li>
+    <li>Produces: application/json</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
+> https://klimu.eus/RestAPI/localized-notification/create/all
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>channels</td>
+        <td>A list of Data Transfer Objects for the localized notifications that are going to be created.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>List of Channels</td>
+        <td>A 201 created with the localized notifications as a JSON if created or a 400 bad request if they weren't.</td>
+    </tr>
+</table>
+
+<br>
+
+### 3.8 PUT REQUEST - Update a Localized Notification
+
+---
+
+    Modify an existing channel on the database.
+
+<ul>
+    <li>Consumes: application/json, application/xml</li>
+    <li>Produces: application/json, application/xml</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
+> https://klimu.eus/RestAPI/localized-notification/update
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>id</td>
+        <td>A Data Transfer Object for the localized notification that is going to be updated.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>Channel</td>
+        <td>A 200 ok with the localized notification as a JSON if updated or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
+
+<br>
+
+### 3.9 DELETE REQUEST - Delete a Localized Notification by ID
+
+---
+
+    Delete a channel from the database based on it's ID.
+
+<ul>
+    <li>Consumes: application/json, application/xml</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
+> https://klimu.eus/RestAPI/localized-notification/delete/{id}
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>channels</td>
+        <td>A Localized Notification Data Transfer Object for the localized notification that is going to be deleted.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>Response Entity</td>
+        <td>A 200 ok if the localized notification was deleted or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
+
+<br>
+
+### 3.10 DELETE REQUEST - Delete a Localized Notification
+
+---
+
+    Delete a channel from the database.
+
+<ul>
+    <li>Consumes: application/json, application/xml</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
+> https://klimu.eus/RestAPI/localized-notification/delete
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>channels</td>
+        <td>A Channel Data Transfer Object for the localized notification that is going to be deleted.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>List of Channels</td>
+        <td>A 200 ok if the localized notification was deleted or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
+
+<br>
+
+<h3 id="location">4. <b>LocationController</b></h3>
+
+Create, update, delete and get information for the Notifications. They represent the different places the notifications can come from. Takes care of all the CRUD methods, working with the database through an internal Service.
+
+#### 4.1 GET REQUEST - Get a Location by ID
+
+---
+
+> https://klimu.eus/RestAPI/location/{id}
+
+<br>
+
+#### 4.2 GET REQUEST - Get a Location by City
+
+---
+
+> https://klimu.eus/RestAPI/location/city/{city}
+
+<br>
+
+#### 4.3 GET REQUEST - Get a Location by Country
+
+---
+
+> https://klimu.eus/RestAPI/location/country/{country}
+
+<br>
+
+#### 4.4 GET REQUEST - Get a Location by City and Country
+
+---
+
+> https://klimu.eus/RestAPI/location/{city}/{country}
+
+<br>
+
+#### 4.5 GET REQUEST - Get all Locations
+
+---
+
+> https://klimu.eus/RestAPI/location/all
+
+<br>
+
+#### 4.6 POST REQUEST - Save a new Location
+
+---
+
+> https://klimu.eus/RestAPI/location/create
+
+<br>
+
+#### 4.7 POST REQUEST - Save an X amount of Locations
+
+---
+
+> https://klimu.eus/RestAPI/location/create/all
+
+<br>
+
+#### 4.8 PUT REQUEST - Update a Location
+
+---
+
+> https://klimu.eus/RestAPI/location/update
+
+<br>
+
+#### 4.9 DELETE REQUEST - Delete a Location by ID
+
+---
+
+> https://klimu.eus/RestAPI/location/delete/{id}
+
+<br>
+
+#### 4.10 DELETE REQUEST - Delete a Location by City
+
+---
+
+> https://klimu.eus/RestAPI/location/delete/city/{city}
+
+<br>
+
+#### 4.11 DELETE REQUEST - Delete a Location by Country
+
+---
+
+> https://klimu.eus/RestAPI/location/delete/country/{country}
+
+<br>
+
+#### 4.12 DELETE REQUEST - Delete a Location by City and Country
+
+---
+
+> https://klimu.eus/RestAPI/location/delete/country/{country}
+
+<br>
+
+#### 4.13 DELETE REQUEST - Delete a Location
+
+---
+
+> https://klimu.eus/RestAPI/location/delete
+
+<br>
+
+<h3 id="notification">5. <b>NotificationController</b></h3>
+
+Create, update, delete and get information for the Notifications. They represent the different notifications generated by the KLIMU alert system. Takes care of all the CRUD methods, working with the database through an internal Service.
+
+#### 5.1 GET REQUEST - Get a Notification by ID
+
+---
+
+> https://klimu.eus/RestAPI/notification/{id}
+
+<br>
+
+#### 5.2 GET REQUEST - Get a Notification by Location
+
+---
+
+> https://klimu.eus/RestAPI/notification/location
+
+<br>
+
+#### 5.3 GET REQUEST - Get a Notification by Type
+
+---
+
+> https://klimu.eus/RestAPI/notification/type
+
+<br>
+
+#### 5.4 GET REQUEST - Get a Notification by Location and Date
+
+---
+
+> https://klimu.eus/RestAPI/notification/date/location
+
+<br>
+
+#### 5.5 GET REQUEST - Get a Notification by Type and Date
+
+---
+
+> https://klimu.eus/RestAPI/notification/date/type
+
+<br>
+
+#### 5.6 GET REQUEST - Get all Notifications
+
+---
+
+> https://klimu.eus/RestAPI/notification/all
+
+<br>
+
+#### 5.7 GET REQUEST - Get the last 50 Notifications
+
+---
+
+> https://klimu.eus/RestAPI/notification/all/limited
+
+<br>
+
+#### 5.8 POST REQUEST - Save a new Notification
+
+---
+
+> https://klimu.eus/RestAPI/notification/create
+
+<br>
+
+#### 5.9 POST REQUEST - Save an X amount of Locations
+
+---
+
+> https://klimu.eus/RestAPI/notification/create/all
+
+<br>
+
+#### 5.10 UPDATE REQUEST - Update a Notification
+
+---
+
+> https://klimu.eus/RestAPI/notification/update
+
+<br>
+
+#### 5.11 DELETE REQUEST - Delete a Notification by ID
+
+---
+
+> https://klimu.eus/RestAPI/notification/delete/{id}
+
+<br>
+
+#### 5.12 DELETE REQUEST - Delete a Notification
+
+---
+
+> https://klimu.eus/RestAPI/notification/delete
+
+<br>
+
+<h3 id="type_notification">6. <b>NotificationTypeController</b></h3>
+
+Create, update, delete and get information for the Notification Types. They represent the different notifications that can be generated. Takes care of all the CRUD methods, working with the database through an internal Service.
+
+#### 6.1 GET REQUEST - Get a Notification Type by ID
+
+---
+
+> https://klimu.eus/RestAPI/notification-type/{id}
+
+#### 6.2 GET REQUEST - Get a Notification Type by name
+
+---
+
+> https://klimu.eus/RestAPI/notification-type/name/{name}
+
+#### 6.3 GET REQUEST - Get all the Notification Types
+
+---
+
+> https://klimu.eus/RestAPI/notification-type/all
+
+#### 6.4 GET REQUEST - Get all the Notification Types by Type
+
+---
+
+> https://klimu.eus/RestAPI/notification-type/all/{type}
+
+#### 6.5 POST REQUEST - Save a new Notification Type
+
+---
+
+> https://klimu.eus/RestAPI/notification-type/create
+
+#### 6.6 POST REQUEST - Save an X amount of Notification Types
+
+---
+
+> https://klimu.eus/RestAPI/notification-type/create/all
+
+#### 6.7 PUT REQUEST - Update a Notification Type
+
+---
+
+> https://klimu.eus/RestAPI/notification-type/update
+
+#### 6.8 DELETE REQUEST - Delete a Notification Type by ID
+
+---
+
+> https://klimu.eus/RestAPI/notification-type/delete/{id}
+
+#### 6.9 DELETE REQUEST - Delete a Notification Type
+
+---
+
+> https://klimu.eus/RestAPI/notification-type/delete
+
+<h3 id="role">7. <b>RoleController</b></h3>
+
+Create, update, delete and get information for the Roles. They represent the different types of users the application has, granting different permissions depending on the role. Takes care of all the CRUD methods, working with the database through an internal Service.
+
+#### 7.1 GET REQUEST - Get a Role by ID
+
+---
+
+> https://klimu.eus/RestAPI/role/{id}
+
+#### 7.2 GET REQUEST - Get a Role by name
+
+---
+
+> https://klimu.eus/RestAPI/role/name/{roleName}
+
+#### 7.3 GET REQUEST - Get all Roles
+
+---
+
+> https://klimu.eus/RestAPI/role/all
+
+#### 7.4 POST REQUEST - Save a new Role
+
+---
+
+> https://klimu.eus/RestAPI/role/create
+
+#### 7.5 POST REQUEST - Save an X amount of Roles
+
+---
+
+> https://klimu.eus/RestAPI/role/create/all
+
+#### 7.6 PUT REQUEST - Update a Role
+
+---
+
+> https://klimu.eus/RestAPI/role/update
+
+#### 7.7 PUT REQUEST - Set a Role to an AppUser
+
+---
+
+> https://klimu.eus/RestAPI/role/set
+
+#### 7.8 DELETE REQUEST - Delete a Role by ID
+
+---
+
+> https://klimu.eus/RestAPI/role/delete/{id}
+
+#### 7.9 DELETE REQUEST - Delete a Role
+
+---
+
+> https://klimu.eus/RestAPI/role/delete
+
+<h3 id="user">8. <b>UserController</b></h3>
+
+Create, update, delete and get information for the AppUsers. They save the information about the users of the application. Takes care of all the CRUD methods, working with the database through an internal Service.
+
+#### 8.1 GET REQUEST - Get an AppUser by ID
+
+---
+
+> https://klimu.eus/RestAPI/user/{id}
+
+#### 8.2 GET REQUEST - Get an AppUser by name
+
+---
+
+> https://klimu.eus/RestAPI/user/username/{username}
+
+#### 8.3 GET REQUEST - Get an AppUser by ChatId
+
+---
+
+> https://klimu.eus/RestAPI/user/chatId/{chatId}
+
+#### 8.4 GET REQUEST - Get an AppUser from a Token
+
+---
+
+> https://klimu.eus/RestAPI/user/from-token/{token}
+
+#### 8.5 GET REQUEST - Get all the AppUsers with a LocalizedNotification
+
+---
+
+> https://klimu.eus/RestAPI/user/{locationId}/{typeId}
+
+#### 8.6 POST REQUEST - Save a new AppUser
+
+---
+
+> https://klimu.eus/RestAPI/user/create
+
+#### 8.7 POST REQUEST - Save an X amount of AppUsers
+
+---
+
+> https://klimu.eus/RestAPI/user/create/all
+
+#### 8.8 POST REQUEST - Add a new LocalizedNotification to an AppUser
+
+---
+
+> https://klimu.eus/RestAPI/user/add/{chatId}/{channel}/{locationId}/{typeId}
+
+#### 8.9 POST REQUEST - Set a ChatId to an AppUser
+
+---
+
+> https://klimu.eus/RestAPI/user/set/chatId/{username}/{chatId}
+
+#### 8.10 PUT REQUEST - Update an AppUser
+
+---
+
+> https://klimu.eus/RestAPI/user/update
+
+#### 8.11 DELETE REQUEST - Delete an AppUser by ID
+
+---
+
+> https://klimu.eus/RestAPI/user/delete/{id}
+
+#### 8.12 DELETE REQUEST - Delete an AppUser
+
+---
+
+> https://klimu.eus/RestAPI/user/delete
+
+<h3 id="user_notification">9. <b>UserNotificationController</b></h3>
+
+Create, update, delete and get information for the UserNotifications. They represent the different notifications a user has configured for a specific channel. Takes care of all the CRUD methods, working with the database through an internal Service.
+
+#### 9.1 GET REQUEST - Get a User Notification by ID
+
+---
+
+> https://klimu.eus/RestAPI/user-notification/{id}
+
+#### 9.2 GET REQUEST - Get all the User Notifications
+
+---
+
+> https://klimu.eus/RestAPI/user-notification/all
+
+#### 9.3 GET REQUEST - Get all User Notifications for a Channel
+
+---
+
+> https://klimu.eus/RestAPI/user-notification/all/channel
+
+#### 9.4 GET REQUEST - Get all User Notifications for a Localized Notification
+
+---
+
+> https://klimu.eus/RestAPI/user-notification/all/notification
+
+#### 9.5 POST REQUEST - Save a new User Notification
+
+---
+
+> https://klimu.eus/RestAPI/user-notification/create
+
+#### 9.6 POST REQUEST - Save an X amount of User Notifications
+
+---
+
+> https://klimu.eus/RestAPI/user-notification/create/all
+
+#### 9.7 PUT REQUEST - Update a User Notification
+
+---
+
+> https://klimu.eus/RestAPI/user-notification/update
+
+#### 9.8 DELETE REQUEST - Delete a User Notification by ID
+
+---
+
+> https://klimu.eus/RestAPI/user-notification/delete/{id}
+
+#### 9.9 DELETE REQUEST - Delete a User Notification
+
+---
+
+> https://klimu.eus/RestAPI/user-notification/delete
+
+<h2 id="data">Data Variables</h2>
+
+---
+
+<h2 id="auth">Application Authentication</h2>
+
+
+---

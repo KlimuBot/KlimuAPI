@@ -14,6 +14,11 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 
+/**
+ * Create, update, delete and get information for the Roles. They represent the different types of users the
+ * application has, granting different permissions depending on the role. Takes care of all the CRUD methods,
+ * working with the database through an internal Service.
+ */
 @Controller
 @RequestMapping("/role")
 @RequiredArgsConstructor

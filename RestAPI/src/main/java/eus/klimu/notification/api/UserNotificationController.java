@@ -18,6 +18,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Create, update, delete and get information for the UserNotifications. They represent the different notifications a
+ * user has configured for a specific channel. Takes care of all the CRUD methods, working with the database through
+ * an internal Service.
+ */
 @Controller
 @RequestMapping("/user-notification")
 @RequiredArgsConstructor
