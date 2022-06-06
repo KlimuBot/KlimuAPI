@@ -86,10 +86,18 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.0</version>
                 <configuration>
+                    <update>true</update>
                     <url>https://klimu.eus/manager/text</url>
                     <server>maven-tomcat-war-deployment-server</server>
                     <path>/RestAPI</path>
+                    <username>deployer</username>
+                    <password>deployer</password>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.2.0</version>
             </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
