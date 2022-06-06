@@ -186,7 +186,7 @@ public class UserController {
     ) {
         AppUser user = userService.getUser(username);
 
-        if (user != null && user.getTelegramId().isEmpty() && userService.getUserFromTelegram(chatId) == null) {
+        if (user != null && user.getTelegramId() == null && userService.getUserFromTelegram(chatId) == null) {
             user.setTelegramId(chatId);
             return ResponseEntity.ok().body(userService.updateUser(user));
         }
