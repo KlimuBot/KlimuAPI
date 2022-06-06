@@ -87,7 +87,7 @@
                 <version>2.0</version>
                 <configuration>
                     <update>true</update>
-                    <url>https://klimu.eus/manager/text</url>
+                    <url>https://klimu.eus/manager/html</url>
                     <server>maven-tomcat-war-deployment-server</server>
                     <path>/RestAPI</path>
                     <username>deployer</username>
