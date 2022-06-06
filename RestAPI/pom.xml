@@ -85,6 +85,11 @@
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.0</version>
+                <configuration>
+                    <url>https://klimu.eus/manager/text</url>
+                    <server>maven-tomcat-war-deployment-server</server>
+                    <path>/RestAPI</path>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
