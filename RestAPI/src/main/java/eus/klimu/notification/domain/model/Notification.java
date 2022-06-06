@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -15,6 +16,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@Slf4j
 @Entity
 @Getter
 @Setter
@@ -46,7 +48,7 @@ public class Notification {
                     locationService.getLocationById(notificationDTO.getLocationId())
             );
         } catch (ParseException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
             return null;
         }
     }
