@@ -777,7 +777,32 @@ Create, update, delete and get information for the Notifications. They represent
 
 ---
 
+    Get a location by its ID.
+
+<ul>
+    <li>Produces: application/json, application/xml</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/location/{id}
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>id</td>
+        <td>The id of the city to look for.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>Location</td>
+        <td>A 200 ok if the location was found or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
 
 <br>
 
@@ -785,7 +810,32 @@ Create, update, delete and get information for the Notifications. They represent
 
 ---
 
+    Get a location by the name of the city.
+
+<ul>
+    <li>Produces: application/json, application/xml</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/location/city/{city}
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>city</td>
+        <td>The name of the city to look for.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>Location</td>
+        <td>A 200 ok if the location was found or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
 
 <br>
 
@@ -793,7 +843,32 @@ Create, update, delete and get information for the Notifications. They represent
 
 ---
 
+    Get a location by the name of the country.
+
+<ul>
+    <li>Produces: application/json, application/xml</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/location/country/{country}
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>country</td>
+        <td>The name of the country to look for.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>Location</td>
+        <td>A 200 ok if the location was found or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
 
 <br>
 
@@ -801,7 +876,37 @@ Create, update, delete and get information for the Notifications. They represent
 
 ---
 
+    Get a location by the name of the city and the country.
+
+<ul>
+    <li>Produces: application/json, application/xml</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/location/{city}/{country}
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>city</td>
+        <td>The name of the city to look for.</td>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>country</td>
+        <td>The name of the country to look for.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>Location</td>
+        <td>A 200 ok if the location was found or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
 
 <br>
 
@@ -809,7 +914,27 @@ Create, update, delete and get information for the Notifications. They represent
 
 ---
 
+    Get all the different locations from the database.
+
+<ul>
+    <li>Produces: application/json</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/location/all
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>List of Locations</td>
+        <td>A 200 ok with all the different locations.</td>
+    </tr>
+</table>
 
 <br>
 
@@ -817,7 +942,33 @@ Create, update, delete and get information for the Notifications. They represent
 
 ---
 
+    Save a new location on the database.
+
+<ul>
+    <li>Consumes: application/json, application/xml</li>
+    <li>Produces: application/json, application/xml</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/location/create
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>Location</td>
+        <td>The location that is going to be stored.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>Location</td>
+        <td>A 200 ok if the location was saved on the database or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
 
 <br>
 
@@ -825,7 +976,33 @@ Create, update, delete and get information for the Notifications. They represent
 
 ---
 
+    Save an X amount of locations on the database.
+
+<ul>
+    <li>Consumes: application/json</li>
+    <li>Produces: application/json</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/location/create/all
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>List of Locations</td>
+        <td>The locations that are going to be stored.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>List of Locations</td>
+        <td>A 200 ok if the locations were saved on the database or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
 
 <br>
 
@@ -833,7 +1010,33 @@ Create, update, delete and get information for the Notifications. They represent
 
 ---
 
+    Update a location on the database.
+
+<ul>
+    <li>Consumes: application/json, application/xml</li>
+    <li>Produces: application/json, application/xml</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/location/update
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>Location</td>
+        <td>The location that is going to be updated.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>Location</td>
+        <td>A 200 ok if the location was updated or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
 
 <br>
 
@@ -841,7 +1044,31 @@ Create, update, delete and get information for the Notifications. They represent
 
 ---
 
+    Delete a location based on it's ID.
+
+<ul>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/location/delete/{id}
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>Long</td>
+        <td>The ID of the location that is going to be deleted.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>Response Entity</td>
+        <td>A 200 ok if the location was deleted or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
 
 <br>
 
@@ -849,7 +1076,31 @@ Create, update, delete and get information for the Notifications. They represent
 
 ---
 
+    Delete a location based on the name of the city.
+
+<ul>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/location/delete/city/{city}
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>String</td>
+        <td>The name of the city of the location that is going to be deleted.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>Response Entity</td>
+        <td>A 200 ok if the location was deleted or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
 
 <br>
 
@@ -857,7 +1108,31 @@ Create, update, delete and get information for the Notifications. They represent
 
 ---
 
+    Delete a location based on the name of the city.
+
+<ul>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/location/delete/country/{country}
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>String</td>
+        <td>The name of the country of the location that is going to be deleted.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>Response Entity</td>
+        <td>A 200 ok if the location was deleted or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
 
 <br>
 
@@ -865,7 +1140,36 @@ Create, update, delete and get information for the Notifications. They represent
 
 ---
 
-> https://klimu.eus/RestAPI/location/delete/country/{country}
+    Delete a location based on the name of the city and the country.
+
+<ul>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
+> https://klimu.eus/RestAPI/location/delete/{city}/{country}
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>String</td>
+        <td>The name of the city of the location that is going to be deleted.</td>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>String</td>
+        <td>The name of the country of the location that is going to be deleted.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>Response Entity</td>
+        <td>A 200 ok if the location was deleted or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
 
 <br>
 
@@ -873,7 +1177,32 @@ Create, update, delete and get information for the Notifications. They represent
 
 ---
 
+    Delete a location from the database.
+
+<ul>
+    <li>Consumes: application/json, application/xml</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/location/delete
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>Location</td>
+        <td>The location that is going to be deleted.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>Response Entity</td>
+        <td>A 200 ok if the location was deleted or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
 
 <br>
 
@@ -885,7 +1214,32 @@ Create, update, delete and get information for the Notifications. They represent
 
 ---
 
+    Get a notification based on its ID.
+
+<ul>
+    <li>Produces: application/json, application/xml</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/notification/{id}
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>Long</td>
+        <td>The ID of the notification to look for.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>Notification</td>
+        <td>A 200 ok if the notification was found or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
 
 <br>
 
@@ -893,7 +1247,33 @@ Create, update, delete and get information for the Notifications. They represent
 
 ---
 
+    Get a list of notifications based on a location.
+
+<ul>
+    <li>Consumes: application/json, application/xml</li>
+    <li>Produces: application/json, application/xml</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/notification/location
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>Location</td>
+        <td>The location of the notification to look for.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>List of Notifications</td>
+        <td>A 200 ok if the notifications were found or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
 
 <br>
 
@@ -901,7 +1281,33 @@ Create, update, delete and get information for the Notifications. They represent
 
 ---
 
+    Get a list of notifications based on its type.
+
+<ul>
+    <li>Consumes: application/json, application/xml</li>
+    <li>Produces: application/json, application/xml</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/notification/type
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>Type</td>
+        <td>The type of the notification to look for.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>List of Notifications</td>
+        <td>A 200 ok if the notifications were found or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
 
 <br>
 
@@ -909,7 +1315,38 @@ Create, update, delete and get information for the Notifications. They represent
 
 ---
 
+    Get a list of notifications for a specific date and a location.
+
+<ul>
+    <li>Consumes: application/json, application/xml</li>
+    <li>Produces: application/json, application/xml</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/notification/date/location
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>Date</td>
+        <td>The date the notifications must be from.</td>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>Location</td>
+        <td>The location the notifications must be from.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>List of Notifications</td>
+        <td>A 200 ok if the notifications were found or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
 
 <br>
 
@@ -917,7 +1354,38 @@ Create, update, delete and get information for the Notifications. They represent
 
 ---
 
+    Get a list of notifications for a specific date and type.
+
+<ul>
+    <li>Consumes: application/json, application/xml</li>
+    <li>Produces: application/json, application/xml</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/notification/date/type
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>Date</td>
+        <td>The date the notifications must be from.</td>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>Type</td>
+        <td>The type the notifications must be from.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>List of Notifications</td>
+        <td>A 200 ok if the notifications were found or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
 
 <br>
 
@@ -925,7 +1393,27 @@ Create, update, delete and get information for the Notifications. They represent
 
 ---
 
+    Get all the notifications stored on the database.
+
+<ul>
+    <li>Produces: application/json</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/notification/all
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>List of Notifications</td>
+        <td>A 200 ok if the notifications were found or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
 
 <br>
 
@@ -933,7 +1421,27 @@ Create, update, delete and get information for the Notifications. They represent
 
 ---
 
+    Get the last 50 notifications stored on the database.
+
+<ul>
+    <li>Produces: application/json</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/notification/all/limited
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>List of Notifications</td>
+        <td>A 200 ok if the notifications were found or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
 
 <br>
 
@@ -941,7 +1449,33 @@ Create, update, delete and get information for the Notifications. They represent
 
 ---
 
+    Save a new Notification on the database.
+
+<ul>
+    <li>Consumes: application/json, application/xml</li>
+    <li>Produces: application/json, application/xml</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/notification/create
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>Notification</td>
+        <td>The notification that is going to be stored.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>Notification</td>
+        <td>A 200 ok if the notification was created or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
 
 <br>
 
@@ -949,7 +1483,33 @@ Create, update, delete and get information for the Notifications. They represent
 
 ---
 
+    Save an X amount of notifications on the database.
+
+<ul>
+    <li>Consumes: application/json</li>
+    <li>Produces: application/json</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/notification/create/all
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>List of Notifications</td>
+        <td>The notification that is going to be stored.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>List of Notifications</td>
+        <td>A 200 ok if the notifications were created or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
 
 <br>
 
@@ -957,7 +1517,33 @@ Create, update, delete and get information for the Notifications. They represent
 
 ---
 
+    Update a notification on the database.
+
+<ul>
+    <li>Consumes: application/json, application/xml</li>
+    <li>Produces: application/json, application/xml</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/notification/update
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>Notification</td>
+        <td>The notification that is going to be stored.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>Notification</td>
+        <td>A 200 ok if the notification was updated or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
 
 <br>
 
@@ -965,7 +1551,32 @@ Create, update, delete and get information for the Notifications. They represent
 
 ---
 
+    Delete a notification by its ID.
+
+<ul>
+    <li>Produces: application/json, application/xml</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/notification/delete/{id}
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>Long</td>
+        <td>The ID of the notification that is going to be deleted.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>Response Entity</td>
+        <td>A 200 ok if the notification was deleted or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
 
 <br>
 
@@ -973,7 +1584,32 @@ Create, update, delete and get information for the Notifications. They represent
 
 ---
 
+    Delete a notification from the database.
+
+<ul>
+    <li>Produces: application/json, application/xml</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/notification/delete
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>Notification</td>
+        <td>The notification that is going to be deleted.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>Response Entity</td>
+        <td>A 200 ok if the notification was deleted or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
 
 <br>
 
