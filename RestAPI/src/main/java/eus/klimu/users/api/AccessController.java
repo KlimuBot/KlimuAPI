@@ -133,7 +133,7 @@ public class AccessController {
             tokens.put("errorMsg", "The access and refresh tokens have expired");
             log.error("Incorrect token structure");
         }
-        return ResponseEntity.badRequest().body(tokens);
+        return ResponseEntity.ok().body(tokens);
     }
 
     /**
