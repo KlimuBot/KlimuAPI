@@ -62,16 +62,6 @@ public class TokenManagement {
                 .sign(algorithm);
     }
 
-    public Map<String, String> getTokensFromJSON(String json) {
-        JSONObject jsonObject = new JSONObject(json);
-        Map<String, String> tokens = new HashMap<>();
-
-        tokens.put(TokenManagement.ACCESS_TOKEN, jsonObject.getString(TokenManagement.ACCESS_TOKEN));
-        tokens.put(TokenManagement.REFRESH_TOKEN, jsonObject.getString(TokenManagement.REFRESH_TOKEN));
-
-        return tokens;
-    }
-
     public void setTokenOnResponse(String accessToken, String refreshToken, HttpServletResponse response) throws IOException {
         Map<String, String> responseBody = new HashMap<>();
 
