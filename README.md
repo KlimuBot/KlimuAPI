@@ -1915,55 +1915,301 @@ Create, update, delete and get information for the Roles. They represent the dif
 
 ---
 
+    Get a role based on its ID.
+
+<ul>
+    <li>Produces: application/json, application/xml</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/role/{id}
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>Long</td>
+        <td>The ID of the role that is going to be fetch.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>Role</td>
+        <td>A 200 ok if the role was found or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
+
+<br>
 
 #### 7.2 GET REQUEST - Get a Role by name
 
 ---
 
+    Get a role based on its name.
+
+<ul>
+    <li>Produces: application/json, application/xml</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/role/name/{roleName}
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>String</td>
+        <td>The name of the role that is going to be fetch.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>Role</td>
+        <td>A 200 ok if the role was found or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
+
+<br>
 
 #### 7.3 GET REQUEST - Get all Roles
 
 ---
 
+    Get all roles from the database.
+
+<ul>
+    <li>Produces: application/json</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/role/all
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>Role</td>
+        <td>A 200 ok if the roles were found or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
+
+<br>
 
 #### 7.4 POST REQUEST - Save a new Role
 
 ---
 
+    Save a new role on the database.
+
+<ul>
+    <li>Consumes: application/json, application/xml</li>
+    <li>Produces: application/json, application/xml</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/role/create
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>Role</td>
+        <td>The role that is going to be created.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>Role</td>
+        <td>A 200 ok if the role was created or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
+
+<br>
 
 #### 7.5 POST REQUEST - Save an X amount of Roles
 
 ---
 
+    Save an X amount of roles on the database.
+
+<ul>
+    <li>Consumes: application/json</li>
+    <li>Produces: application/json</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/role/create/all
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>List of Roles</td>
+        <td>The list of roles that are going to be created.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>Role</td>
+        <td>A 200 ok if the roles were created or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
+
+<br>
 
 #### 7.6 PUT REQUEST - Update a Role
 
 ---
 
+    Update a role on the database.
+
+<ul>
+    <li>Consumes: application/json, application/xml</li>
+    <li>Produces: application/json, application/xml</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/role/update
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>Role</td>
+        <td>The role that is going to be updated.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>Role</td>
+        <td>A 200 ok if the role was updated or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
+
+<br>
 
 #### 7.7 PUT REQUEST - Set a Role to an AppUser
 
 ---
 
+    Set the role of a user.
+
+<ul>
+    <li>Consumes: application/json, application/xml</li>
+    <li>Produces: application/json, application/xml</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/role/set
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>String</td>
+        <td>The username of the user.</td>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>String</td>
+        <td>The name of the role.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>Role</td>
+        <td>A 200 ok if the role was updated or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
+
+<br>
 
 #### 7.8 DELETE REQUEST - Delete a Role by ID
 
 ---
 
+    Delete a request based on its ID.
+
+<ul>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/role/delete/{id}
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>Long</td>
+        <td>The ID of the role that is going to be deleted.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>Response Entity</td>
+        <td>A 200 ok if the role was deleted or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
+
+<br>
 
 #### 7.9 DELETE REQUEST - Delete a Role
 
 ---
 
+    Delete a role from the database.
+
+<ul>
+    <li>Consumes: application/json, application/xml</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/role/delete
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>Role</td>
+        <td>The role that is going to be deleted.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>Response Entity</td>
+        <td>A 200 ok if the role was deleted or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
+
+<br>
 
 <h3 id="user">8. <b>UserController</b></h3>
 
@@ -1973,73 +2219,469 @@ Create, update, delete and get information for the AppUsers. They save the infor
 
 ---
 
+    Fetch an AppUser based on its ID.
+
+<ul>
+    <li>Produces: application/json, application/xml</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/user/{id}
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>Long</td>
+        <td>The ID of the AppUser that is going to be fetched.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>AppUser</td>
+        <td>A 200 ok if the AppUser was found or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
+
+<br>
 
 #### 8.2 GET REQUEST - Get an AppUser by name
 
 ---
 
+    Fetch an AppUser based on its username.
+
+<ul>
+    <li>Produces: application/json, application/xml</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/user/username/{username}
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>String</td>
+        <td>The username of the AppUser that is going to be fetched.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>AppUser</td>
+        <td>A 200 ok if the AppUser was found or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
+
+<br>
 
 #### 8.3 GET REQUEST - Get an AppUser by ChatId
 
 ---
 
+    Fetch an AppUser based on its telegramId.
+
+<ul>
+    <li>Produces: application/json, application/xml</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/user/chatId/{chatId}
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>String</td>
+        <td>The telegramId of the AppUser that is going to be fetched.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>AppUser</td>
+        <td>A 200 ok if the AppUser was found or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
+
+<br>
 
 #### 8.4 GET REQUEST - Get an AppUser from a Token
 
 ---
 
+    Get an AppUser from a token.
+
+<ul>
+    <li>Produces: application/json, application/xml</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/user/from-token/{token}
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>String</td>
+        <td>The token the AppUser that is going to be fetched from.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>AppUser</td>
+        <td>A 200 ok if the AppUser was generated or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
+
+<br>
 
 #### 8.5 GET REQUEST - Get all the AppUsers with a LocalizedNotification
 
 ---
 
+    Get a list of AppUsers that have a localized notification configured.
+
+<ul>
+    <li>Produces: application/json</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/user/{locationId}/{typeId}
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>Long</td>
+        <td>The ID of the location that is going to be used on the query.</td>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>Long</td>
+        <td>The ID of the notification type that is going to be used on the query.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>AppUser</td>
+        <td>A 200 ok if the AppUsers were found or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
+
+<br>
 
 #### 8.6 POST REQUEST - Save a new AppUser
 
 ---
 
+    Save a new AppUser on the database.
+
+<ul>
+    <li>Consumes: application/json, application/xml</li>
+    <li>Produces: application/json, application/xml</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/user/create
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>AppUser</td>
+        <td>The AppUser that is going to be created.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>AppUser</td>
+        <td>A 200 ok if the AppUser was created or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
+
+<br>
 
 #### 8.7 POST REQUEST - Save an X amount of AppUsers
 
 ---
 
+    Save an X amount of AppUsers on the database.
+
+<ul>
+    <li>Consumes: application/json</li>
+    <li>Produces: application/json</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/user/create/all
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>List of AppUsers</td>
+        <td>The lisf of AppUsers that are going to be created.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>AppUser</td>
+        <td>A 200 ok if the AppUsers were created or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
+
+<br>
 
 #### 8.8 POST REQUEST - Add a new LocalizedNotification to an AppUser
 
 ---
 
+    Add a new localized notification to an AppUser.
+
+<ul>
+    <li>Produces: application/json, application/xml</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/user/add/{chatId}/{channel}/{locationId}/{typeId}
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>String</td>
+        <td>The telegramId of the user that is going to be updated.</td>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>String</td>
+        <td>The name of the channel that the notification is going to be created for.</td>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>Long</td>
+        <td>The ID of the location for the notification.</td>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>Long</td>
+        <td>The ID of the notification type for the notification.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>AppUser</td>
+        <td>A 200 ok if the localized notification was created or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
+
+<br>
 
 #### 8.9 POST REQUEST - Set a ChatId to an AppUser
 
 ---
 
+    Set the chat ID of a user based on the username.
+
+<ul>
+    <li>Produces: application/json, application/xml</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/user/set/chatId/{username}/{chatId}
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>String</td>
+        <td>The username of the AppUser that is going to be created.</td>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>AppUser</td>
+        <td>The telegramId of the AppUser that is going to be created.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>AppUser</td>
+        <td>A 200 ok if the relation was created, a 404 if the AppUser was not found or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
+
+<br>
 
 #### 8.10 PUT REQUEST - Update an AppUser
 
 ---
 
+    Update an AppUser on the database.
+
+<ul>
+    <li>Consumes: application/json, application/xml</li>
+    <li>Produces: application/json, application/xml</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/user/update
 
-#### 8.11 DELETE REQUEST - Delete an AppUser by ID
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>AppUser</td>
+        <td>The AppUser that is going to be updated.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>AppUser</td>
+        <td>A 200 ok if the AppUser was updated or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
+
+<br>
+
+#### 8.11 PUT REQUEST - Update an AppUser's localized notification
 
 ---
+
+    Update an AppUser's localized notification list for an specific channel.
+
+<ul>
+    <li>Produces: application/json, application/xml</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
+> https://klimu.eus/RestAPI/user/remove/{username}/{channelName}/{notificationId}
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>String</td>
+        <td>The username of the AppUser that is going to be updated.</td>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>String</td>
+        <td>The name of the Channel that is going to be updated.</td>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>Long</td>
+        <td>The id of the Localized Notification that is going to be removed from the user's list.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>AppUser</td>
+        <td>A 200 ok if the AppUser was updated or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
+
+<br>
+
+#### 8.12 DELETE REQUEST - Delete an AppUser by ID
+
+---
+
+    Delete an AppUser based on its ID.
+
+<ul>
+    <li>Produces: application/json, application/xml</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
 
 > https://klimu.eus/RestAPI/user/delete/{id}
 
-#### 8.12 DELETE REQUEST - Delete an AppUser
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>Long</td>
+        <td>The ID of the AppUser that is going to be created.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>Response Entity</td>
+        <td>A 200 ok if the AppUser was deleted or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
+
+<br>
+
+#### 8.13 DELETE REQUEST - Delete an AppUser
 
 ---
 
+    Delete an AppUser from the database.
+
+<ul>
+    <li>Consumes: application/json, application/xml</li>
+    <li>Produces: application/json, application/xml</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/user/delete
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>AppUser</td>
+        <td>The AppUser that is going to be deleted.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>Response Entity</td>
+        <td>A 200 ok if the AppUser was deleted or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
+
+<br>
 
 <h3 id="user_notification">9. <b>UserNotificationController</b></h3>
 
@@ -2049,23 +2691,106 @@ Create, update, delete and get information for the UserNotifications. They repre
 
 ---
 
+    Get a user notification based on its ID.
+
+<ul>
+    <li>Produces: application/json, application/xml</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/user-notification/{id}
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>Long</td>
+        <td>The ID of the user notification that is going to be fetched.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>User Notification</td>
+        <td>A 200 ok if the AppUser was found or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
+
+<br>
 
 #### 9.2 GET REQUEST - Get all the User Notifications
 
 ---
 
+    Get all the user notifications from the database.
+
+<ul>
+    <li>Produces: application/json</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/user-notification/all
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>List of User Notifications</td>
+        <td>A 200 ok if the User Notifications were found or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
+
+<br>
 
 #### 9.3 GET REQUEST - Get all User Notifications for a Channel
 
 ---
 
+    Get all the user notifications for an specific channel.
+
+<ul>
+    <li>Produces: application/json</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/user-notification/all/channel
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>String</td>
+        <td>The channel that is going to be used on the query.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>List of User Notifications</td>
+        <td>A 200 ok if the User Notifications were found or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
+
+<br>
 
 #### 9.4 GET REQUEST - Get all User Notifications for a Localized Notification
 
 ---
+
+    Get all the user notifications for an specific localized notification.
+
+<ul>
+    <li>Produces: application/json</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
 
 > https://klimu.eus/RestAPI/user-notification/all/notification
 
@@ -2073,35 +2798,174 @@ Create, update, delete and get information for the UserNotifications. They repre
 
 ---
 
+    Save a new user notification on the database.
+
+<ul>
+    <li>Consumes: application/json, application/xml</li>
+    <li>Produces: application/json, application/xml</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/user-notification/create
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>User Notification</td>
+        <td>The User Notification that is going to be created.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>User Notification</td>
+        <td>A 200 ok if the User Notification was created or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
+
+<br>
 
 #### 9.6 POST REQUEST - Save an X amount of User Notifications
 
 ---
 
+    Save an X amount of user notifications on the database.
+
+<ul>
+    <li>Consumes: application/json</li>
+    <li>Produces: application/json</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/user-notification/create/all
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>List of User Notifications</td>
+        <td>The User Notifications that are going to be created.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>List of User Notifications</td>
+        <td>A 200 ok if the User Notifications were created or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
+
+<br>
 
 #### 9.7 PUT REQUEST - Update a User Notification
 
 ---
 
+    Update a user notification on the database.
+
+<ul>
+    <li>Consumes: application/json, application/xml</li>
+    <li>Produces: application/json, application/xml</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/user-notification/update
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>User Notification</td>
+        <td>The User Notification that is going to be updated.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>User Notification</td>
+        <td>A 200 ok if the User Notification was updated or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
+
+<br>
 
 #### 9.8 DELETE REQUEST - Delete a User Notification by ID
 
 ---
 
+    Delete a user notification based on its ID.
+
+<ul>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/user-notification/delete/{id}
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>Long</td>
+        <td>The ID of the User Notification that is going to be deleted.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>Response Entity</td>
+        <td>A 200 ok if the User Notification was deleted or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
+
+<br>
 
 #### 9.9 DELETE REQUEST - Delete a User Notification
 
 ---
 
+    Delete a user notification from the database.
+
+<ul>
+    <li>Consumes: application/json, application/xml</li>
+    <li>Requires: Access and Refresh tokens as headers.</li>
+</ul>
+
 > https://klimu.eus/RestAPI/user-notification/delete
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>User Notification</td>
+        <td>The User Notification that is going to be deleted.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>Response Entity</td>
+        <td>A 200 ok if the User Notification was deleted or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
+
+<br>
 
 <h2 id="data">Data Variables</h2>
 
 ---
+
+
 
 <h2 id="auth">Application Authentication</h2>
 

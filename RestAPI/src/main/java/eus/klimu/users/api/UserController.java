@@ -1,6 +1,8 @@
 package eus.klimu.users.api;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import eus.klimu.channel.domain.model.Channel;
+import eus.klimu.channel.domain.service.definition.ChannelService;
 import eus.klimu.location.domain.model.Location;
 import eus.klimu.location.domain.service.definition.LocationService;
 import eus.klimu.notification.domain.model.LocalizedNotification;
@@ -23,6 +25,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -38,6 +41,7 @@ public class UserController {
 
     private final UserService userService;
     private final RoleService roleService;
+    private final ChannelService channelService;
     private final LocationService locationService;
     private final UserNotificationService userNotificationService;
     private final NotificationTypeService notificationTypeService;
@@ -206,6 +210,39 @@ public class UserController {
             return ResponseEntity.badRequest().header(ERROR_HEADER, msg).build();
         }
         return ResponseEntity.ok().body(userService.updateUser(appUser));
+    }
+
+    @PutMapping(value = "/remove/{username}/{channelName}/{notificationId}")
+    public ResponseEntity<AppUser> removeLocalizedNotificationFromUser(
+            @PathVariable String username,
+            @PathVariable String channelName,
+            @PathVariable long notificationId
+    ) {
+        AppUser user = userService.getUser(username);
+
+        if (user != null) {
+            LocalizedNotification notification = localizedNotificationService.getLocalizedNotification(notificationId);
+            Channel channel = channelService.getChannel(channelName);
+
+            if (notification != null && channel != null) {
+                // Remove the notification from the user notification for that channel.
+                user.getNotifications().forEach(userNotification -> {
+                    if (userNotification.getChannel().getName().equals(channel.getName())) {
+                        Collection<LocalizedNotification> lnList = userNotification.getNotifications();
+
+                        lnList.removeIf(ln -> ln.getId().equals(notification.getId()));
+                        userNotification.setNotifications(lnList);
+
+                        userNotificationService.updateUserNotification(userNotification);
+                    }
+                });
+                return ResponseEntity.ok().body(user);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping(value = "/delete/{id}")
