@@ -192,33 +192,34 @@ public class RestApiApplication {
                 }
                 roleService.addRoleToUser(appUsers.get(1).getUsername(), roles.get(1).getName());
 
-                AppUser admin = appUsers.get(1);
                 List<Location> locations = locationService.getAllLocations();
                 List<NotificationType> types = notificationTypeService.getAllNotificationTypes();
 
-                List<UserNotification> userNotifications = new ArrayList<>();
-                channelService.getAllChannels().forEach(channel -> {
-                    List<LocalizedNotification> localizedNotifications = new ArrayList<>();
+                for (AppUser user : appUsers) {
+                    List<UserNotification> userNotifications = new ArrayList<>();
+                    channelService.getAllChannels().forEach(channel -> {
+                        List<LocalizedNotification> localizedNotifications = new ArrayList<>();
 
-                    for (int i = 0; i < 6; i++) {
-                        localizedNotifications.add(
-                                localizedNotificationService.addNewLocalizedNotification(
-                                        new LocalizedNotification(
-                                                null,
-                                                types.get(random.nextInt(types.size())),
-                                                locations.get(random.nextInt(locations.size()))
-                                        )
+                        for (int i = 0; i < 6; i++) {
+                            localizedNotifications.add(
+                                    localizedNotificationService.addNewLocalizedNotification(
+                                            new LocalizedNotification(
+                                                    null,
+                                                    types.get(random.nextInt(types.size())),
+                                                    locations.get(random.nextInt(locations.size()))
+                                            )
+                                    )
+                            );
+                        }
+                        userNotifications.add(
+                                userNotificationService.addNewUserNotification(
+                                        new UserNotification(null, channel, localizedNotifications)
                                 )
                         );
-                    }
-                    userNotifications.add(
-                            userNotificationService.addNewUserNotification(
-                                    new UserNotification(null, channel, localizedNotifications)
-                            )
-                    );
-                });
-                admin.setNotifications(userNotifications);
-                userService.updateUser(admin);
+                    });
+                    user.setNotifications(userNotifications);
+                    userService.updateUser(user);
+                }
             }
             List<Location> locations = locationService.getAllLocations();
             List<NotificationType> types = notificationTypeService.getAllNotificationTypes();
