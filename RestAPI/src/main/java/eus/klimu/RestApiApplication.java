@@ -187,8 +187,9 @@ public class RestApiApplication {
                 appUsers.forEach(user -> user.setPassword(passwordEncoder.encode(user.getPassword())));
 
                 userService.saveAllUsers(appUsers);
-                roleService.addRoleToUser(appUsers.get(0).getUsername(), roles.get(0).getName());
-                roleService.addRoleToUser(appUsers.get(1).getUsername(), roles.get(0).getName());
+                for (AppUser user : appUsers) {
+                    roleService.addRoleToUser(user.getUsername(), roles.get(0).getName());
+                }
                 roleService.addRoleToUser(appUsers.get(1).getUsername(), roles.get(1).getName());
 
                 AppUser admin = appUsers.get(1);
