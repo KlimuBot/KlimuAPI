@@ -24,13 +24,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ChannelController {
 
+    /**
+     * A class that allows modifying the channels.
+     */
     private final ChannelService channelService;
 
     /**
-     * <h1>GET REQUEST</h1>
-     * <h2>Get a Channel by ID</h2>
-     *
-     * <p>Get a channel based on it's ID.</p>
+     * <p>Get a channel based on its ID.</p>
      *
      * <p><a href='https://klimu.eus/RestAPI/channel/{id}'>https://klimu.eus/RestAPI/channel/{id}</a></p>
      *
@@ -56,9 +56,6 @@ public class ChannelController {
     }
 
     /**
-     * <h1>GET REQUEST</h1>
-     * <h2>Get a Channel by it's name</h2>
-     *
      * <p>Get a channel based on it's name.</p>
      *
      * <ul>
@@ -85,9 +82,6 @@ public class ChannelController {
     }
 
     /**
-     * <h1>GET REQUEST</h1>
-     * <h2>Get all the Channels</h2>
-     *
      * <p>Get all the Channels from the database.</p>
      *
      * <ul>
@@ -108,9 +102,6 @@ public class ChannelController {
     }
 
     /**
-     * <h1>POST REQUEST</h1>
-     * <h2>Create a new Channel</h2>
-     *
      * <p>Add a new Channel to the database, once it's added, an ID will be added to that Channel.</p>
      *
      * <ul>
@@ -140,9 +131,6 @@ public class ChannelController {
     }
 
     /**
-     * <h1>POST REQUEST</h1>
-     * <h2>Create an X amount of Channels</h2>
-     *
      * <p>Add an X amount of new Channels to the database, once they are added, an ID will be added
      * to those Channels.</p>
      *
@@ -176,9 +164,6 @@ public class ChannelController {
     }
 
     /**
-     * <h1>PUT REQUEST</h1>
-     * <h2>Update a channel</h2>
-     *
      * <p>Modify an existing channel on the database.</p>
      *
      * <ul>
@@ -206,9 +191,6 @@ public class ChannelController {
     }
 
     /**
-     * <h1>DELETE REQUEST</h1>
-     * <h2>Delete a Channel by ID</h2>
-     *
      * <p>Delete a channel from the database based on it's ID.</p>
      *
      * <ul>
@@ -232,9 +214,6 @@ public class ChannelController {
     }
 
     /**
-     * <h1>DELETE REQUEST</h1>
-     * <h2>Delete a Channel</h2>
-     *
      * <p>Delete a channel from the database.</p>
      *
      * <ul>

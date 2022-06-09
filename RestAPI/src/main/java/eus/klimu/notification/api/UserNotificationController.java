@@ -28,12 +28,40 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserNotificationController {
 
+    /**
+     * A class that allows modifying the channels.
+     */
     private final ChannelService channelService;
+    /**
+     * A class that allows modifying the locations.
+     */
     private final LocationService locationService;
+    /**
+     * A class that allows modifying the user notifications.
+     */
     private final UserNotificationService userNotificationService;
+    /**
+     * A class that allows modifying the notification types.
+     */
     private final NotificationTypeService notificationTypeService;
+    /**
+     * A class that allows modifying the localized notifications.
+     */
     private final LocalizedNotificationService localizedNotificationService;
 
+    /**
+     * <p>Get a user notification based on its ID.</p>
+     *
+     * <p><a href="https://klimu.eus/RestAPI/user-notification/{id}">https://klimu.eus/RestAPI/user-notification/{id}</a></p>
+     *
+     * <ul>
+     *     <li>Produces: application/json, application/xml</li>
+     *     <li>Requires: Access and Refresh tokens as headers.</li>
+     * </ul>
+     *
+     * @param id The ID of the user notification that is going to be fetched.
+     * @return A 200 ok if the AppUser was found or a 400 bad request if it wasn't.
+     */
     @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<UserNotification> getUserNotification(@PathVariable long id) {
         if (id > 0) {
@@ -43,11 +71,36 @@ public class UserNotificationController {
         }
     }
 
+    /**
+     * <p>Get all the user notifications from the database.</p>
+     *
+     * <p><a href="https://klimu.eus/RestAPI/user-notification/all">https://klimu.eus/RestAPI/user-notification/all</a></p>
+     *
+     * <ul>
+     *     <li>Produces: application/json</li>
+     *     <li>Requires: Access and Refresh tokens as headers.</li>
+     * </ul>
+     *
+     * @return A 200 ok if the User Notifications were found or a 400 bad request if it wasn't.
+     */
     @GetMapping(value = "/all", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<List<UserNotification>> getUserNotifications() {
         return ResponseEntity.ok().body(userNotificationService.getUserNotifications());
     }
 
+    /**
+     * <p>Get all the user notifications for an specific channel.</p>
+     *
+     * <p><a href="https://klimu.eus/RestAPI/user-notification/all/channel">https://klimu.eus/RestAPI/user-notification/all/channel</a></p>
+     *
+     * <ul>
+     *     <li>Produces: application/json</li>
+     *     <li>Requires: Access and Refresh tokens as headers.</li>
+     * </ul>
+     *
+     * @param channel The channel that is going to be used on the query.
+     * @return A 200 ok if the User Notifications were found or a 400 bad request if it wasn't.
+     */
     @GetMapping(
             value = "/all/channel",
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
@@ -63,6 +116,19 @@ public class UserNotificationController {
         }
     }
 
+    /**
+     * <p>Get all the user notifications for an specific localized notification.</p>
+     *
+     * <p><a href="https://klimu.eus/RestAPI/user-notification/all/notification">https://klimu.eus/RestAPI/user-notification/all/notification</a></p>
+     *
+     * <ul>
+     *     <li>Produces: application/json</li>
+     *     <li>Requires: Access and Refresh tokens as headers.</li>
+     * </ul>
+     *
+     * @param notification The localized notification that is going to be used on the query.
+     * @return A 200 ok if the User Notifications were found or a 400 bad request if it wasn't.
+     */
     @GetMapping(
             value = "/all/notification",
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
@@ -85,6 +151,20 @@ public class UserNotificationController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
+    /**
+     * <p>Save a new user notification on the database.</p>
+     *
+     * <p><a href="https://klimu.eus/RestAPI/user-notification/create">https://klimu.eus/RestAPI/user-notification/create</a></p>
+     *
+     * <ul>
+     *     <li>Consumes: application/json, application/xml</li>
+     *     <li>Produces: application/json, application/xml</li>
+     *     <li>Requires: Access and Refresh tokens as headers.</li>
+     * </ul>
+     *
+     * @param userNotification The User Notification that is going to be created.
+     * @return A 200 ok if the User Notification was created or a 400 bad request if it wasn't.
+     */
     @PostMapping(
             value = "/create",
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
@@ -99,6 +179,20 @@ public class UserNotificationController {
         }
     }
 
+    /**
+     * <p>Save an X amount of user notifications on the database.</p>
+     *
+     * <p><a href="https://klimu.eus/RestAPI/user-notification/create/all">https://klimu.eus/RestAPI/user-notification/create/all</a></p>
+     *
+     * <ul>
+     *     <li>Consumes: application/json</li>
+     *     <li>Produces: application/json</li>
+     *     <li>Requires: Access and Refresh tokens as headers.</li>
+     * </ul>
+     *
+     * @param userNotifications The User Notifications that are going to be created.
+     * @return A 200 ok if the User Notifications were created or a 400 bad request if it wasn't.
+     */
     @PostMapping(
             value = "/create/all",
             consumes = {MediaType.APPLICATION_JSON_VALUE},
@@ -119,6 +213,20 @@ public class UserNotificationController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
+    /**
+     * <p>Update a user notification on the database.</p>
+     *
+     * <p><a href="https://klimu.eus/RestAPI/user-notification/update">https://klimu.eus/RestAPI/user-notification/update</a></p>
+     *
+     * <ul>
+     *     <li>Consumes: application/json, application/xml</li>
+     *     <li>Produces: application/json, application/xml</li>
+     *     <li>Requires: Access and Refresh tokens as headers.</li>
+     * </ul>
+     *
+     * @param userNotification The User Notification that is going to be updated.
+     * @return A 200 ok if the User Notification was updated or a 400 bad request if it wasn't.
+     */
     @PutMapping(
             value = "/update",
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
@@ -134,6 +242,18 @@ public class UserNotificationController {
         }
     }
 
+    /**
+     * <p>Delete a user notification based on its ID.</p>
+     *
+     * <p><a href="https://klimu.eus/RestAPI/user-notification/delete/{id}">https://klimu.eus/RestAPI/user-notification/delete/{id}</a></p>
+     *
+     * <ul>
+     *     <li>Requires: Access and Refresh tokens as headers.</li>
+     * </ul>
+     *
+     * @param id The ID of the User Notification that is going to be deleted.
+     * @return A 200 ok if the User Notification was deleted or a 400 bad request if it wasn't.
+     */
     @DeleteMapping(value = "/delete/{id}")
     public ResponseEntity<Object> deleteUserNotification(@PathVariable long id) {
         if (id > 0 && userNotificationService.getUserNotification(id) != null) {
@@ -146,6 +266,19 @@ public class UserNotificationController {
         }
     }
 
+    /**
+     * <p>Delete a user notification from the database.</p>
+     *
+     * <p><a href="https://klimu.eus/RestAPI/user-notification/delete">https://klimu.eus/RestAPI/user-notification/delete</a></p>
+     *
+     * <ul>
+     *     <li>Consumes: application/json, application/xml</li>
+     *     <li>Requires: Access and Refresh tokens as headers.</li>
+     * </ul>
+     *
+     * @param userNotification The User Notification that is going to be deleted.
+     * @return A 200 ok if the User Notification was deleted or a 400 bad request if it wasn't.
+     */
     @DeleteMapping(value = "/delete", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<Object> deleteUserNotification(@RequestBody UserNotificationDTO userNotification) {
         if (userNotification != null && userNotificationService.getUserNotification(userNotification.getId()) != null) {

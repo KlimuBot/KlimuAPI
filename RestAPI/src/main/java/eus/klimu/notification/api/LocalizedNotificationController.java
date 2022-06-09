@@ -30,14 +30,20 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LocalizedNotificationController {
 
+    /**
+     * A class that allows modifying the localized notifications.
+     */
     private final LocalizedNotificationService localizedNotificationService;
+    /**
+     * A class that allows modifying the notification types.
+     */
     private final NotificationTypeService notificationTypeService;
+    /**
+     * A class that allows modifying the locations.
+     */
     private final LocationService locationService;
 
     /**
-     * <h1>GET REQUEST</h1>
-     * <h2>Get a localized notification by ID</h2>
-     *
      * <p>Get a localized notification based on it's ID.</p>
      *
      * <p><a href="https://klimu.eus/RestAPI/localized-notification/{id}">https://klimu.eus/RestAPI/localized-notification/{id}</a></p>
@@ -63,9 +69,6 @@ public class LocalizedNotificationController {
     }
 
     /**
-     * <h1>GET REQUEST</h1>
-     * <h2>Get a Localized Notification</h2>
-     *
      * <p>Get a localized notification based on it's location and it's notification type.</p>
      *
      * <p><a href="https://klimu.eus/RestAPI/localized-notification">https://klimu.eus/RestAPI/localized-notification</a></p>
@@ -99,9 +102,6 @@ public class LocalizedNotificationController {
     }
 
     /**
-     * <h1>GET REQUEST</h1>
-     * <h2>Get all the Localized Notifications</h2>
-     *
      * <p>Get all the localized notifications from the database.</p>
      *
      * <p><a href="https://klimu.eus/RestAPI/localized-notification/all">https://klimu.eus/RestAPI/localized-notification/all</a></p>
@@ -119,9 +119,6 @@ public class LocalizedNotificationController {
     }
 
     /**
-     * <h1>GET REQUEST</h1>
-     * <h2>Get all the Localized Notifications</h2>
-     *
      * <p>Get all the localized notifications by location from the database.</p>
      *
      * <ul>
@@ -150,9 +147,6 @@ public class LocalizedNotificationController {
     }
 
     /**
-     * <h1>GET REQUEST</h1>
-     * <h2>Get all the Localized Notifications</h2>
-     *
      * <p>Get all the localized notifications by location from the database.</p>
      *
      * <p><a href="https://klimu.eus/RestAPI/localized-notification/all/type">https://klimu.eus/RestAPI/localized-notification/all/type</a></p>
@@ -183,9 +177,6 @@ public class LocalizedNotificationController {
     }
 
     /**
-     * <h1>POST REQUEST</h1>
-     * <h2>Save a new Localized Notification</h2>
-     *
      * <p>Save a new localized notification on the database, once it's added, an ID will be added to that
      * localized notification.</p>
      *
@@ -229,9 +220,6 @@ public class LocalizedNotificationController {
     }
 
     /**
-     * <h1>POST REQUEST</h1>
-     * <h2>Save an X amount of Localized Notifications</h2>
-     *
      * <p>Save an X amount of new localized notification to the database, once they are added, an ID will be added to
      * those localized notifications.</p>
      *
@@ -268,9 +256,6 @@ public class LocalizedNotificationController {
     }
 
     /**
-     * <h1>PUT REQUEST</h1>
-     * <h2>Update a Localized Notification</h2>
-     *
      * <p>Modify an existing channel on the database.</p>
      *
      * <p><a href="https://klimu.eus/RestAPI/localized-notification/update">https://klimu.eus/RestAPI/localized-notification/update</a></p>
@@ -302,9 +287,6 @@ public class LocalizedNotificationController {
     }
 
     /**
-     * <h1>DELETE REQUEST</h1>
-     * <h2>Delete a Localized Notification by ID</h2>
-     *
      * <p>Delete a channel from the database based on it's ID.</p>
      *
      * <p><a href="https://klimu.eus/RestAPI/channel/delete/{id}">https://klimu.eus/RestAPI/channel/delete/{id}</a></p>
@@ -330,9 +312,6 @@ public class LocalizedNotificationController {
     }
 
     /**
-     * <h1>DELETE REQUEST</h1>
-     * <h2>Delete a Localized Notification</h2>
-     *
      * <p>Delete a channel from the database.</p>
      *
      * <p><a href="https://klimu.eus/RestAPI/localized-notification/delete">https://klimu.eus/RestAPI/localized-notification/delete</a></p>

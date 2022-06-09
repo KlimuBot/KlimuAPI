@@ -795,7 +795,7 @@ Create, update, delete and get information for the Notifications. They represent
     <tr>
         <td>param</td>
         <td>id</td>
-        <td>The id of the city to look for.</td>
+        <td>The id of the location to look for.</td>
     </tr>
     <tr>
         <td>return</td>
@@ -1729,6 +1729,11 @@ Create, update, delete and get information for the Notification Types. They repr
         <th>Type</th>
         <th>Name</th>
         <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>String</td>
+        <td>The notification type to filter with.</td>
     </tr>
     <tr>
         <td>return</td>
@@ -2769,7 +2774,7 @@ Create, update, delete and get information for the UserNotifications. They repre
     </tr>
     <tr>
         <td>param</td>
-        <td>String</td>
+        <td>Channel</td>
         <td>The channel that is going to be used on the query.</td>
     </tr>
     <tr>
@@ -2793,6 +2798,26 @@ Create, update, delete and get information for the UserNotifications. They repre
 </ul>
 
 > https://klimu.eus/RestAPI/user-notification/all/notification
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>param</td>
+        <td>LocalizedNotification</td>
+        <td>The localized notification that is going to be used on the query.</td>
+    </tr>
+    <tr>
+        <td>return</td>
+        <td>List of User Notifications</td>
+        <td>A 200 ok if the User Notifications were found or a 400 bad request if it wasn't.</td>
+    </tr>
+</table>
+
+<br>
 
 #### 9.5 POST REQUEST - Save a new User Notification
 
@@ -2965,6 +2990,104 @@ Create, update, delete and get information for the UserNotifications. They repre
 
 ---
 
+The application makes use of different data type variables for transmitiing the data between services. Those data types are transformed back a for between normal objects and Data Transfer Objects. Those DTOs are used to transmit the data from a request to another, avoiding any destruction of data in the process. The different data types are:
+
+- [Channel](#channel_data)
+- [Localized Notification](#ln_data)
+- [Location](#location_data)
+- [Notification](#n_data)
+- [Notification Type](#ntype_data)
+- [Role](#role_data)
+- [AppUser](#user_data)
+- [User Notification](#userN_data)
+
+<h3 id="channel_data">Channel</h3>
+
+---
+
+A channel represents a type of communication system that the service uses for sending the notifications. The channels default to: Telegram, Email and Desktop.
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>Long</td>
+        <td>id</td>
+        <td>The identification number of the channel.</td>
+    </tr>
+    <tr>
+        <td>String</td>
+        <td>name</td>
+        <td>The name of the channel.</td>
+    </tr>
+    <tr>
+        <td>String</td>
+        <td>icon</td>
+        <td>The icon of the channel.</td>
+    </tr>
+</table>
+
+<h3 id="ln_data">Localized Notification</h3>
+
+---
+
+
+
+<h3 id="location_data">Location</h3>
+
+---
+
+A place on the globe that allows the users to configure notifications for that place.
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>Long</td>
+        <td>id</td>
+        <td>The identification number of the location.</td>
+    </tr>
+    <tr>
+        <td>String</td>
+        <td>city</td>
+        <td>The city of the location.</td>
+    </tr>
+    <tr>
+        <td>String</td>
+        <td>country</td>
+        <td>The country of the location.</td>
+    </tr>
+</table>
+
+<h3 id="n_data">Notification</h3>
+
+---
+
+
+<h3 id="ntype_data">Notification Type</h3>
+
+---
+
+
+<h3 id="role_data">Role</h3>
+
+---
+
+
+<h3 id="user_data">AppUser</h3>
+
+---
+
+
+<h3 id="userN_data">User Notification</h3>
+
+---
 
 
 <h2 id="auth">Application Authentication</h2>

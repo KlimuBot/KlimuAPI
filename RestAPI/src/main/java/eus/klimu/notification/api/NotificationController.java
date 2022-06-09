@@ -29,10 +29,32 @@ import java.util.List;
 @RequiredArgsConstructor
 public class NotificationController {
 
+    /**
+     * A class that allows modifying the notification types.
+     */
     private final NotificationTypeService notificationTypeService;
+    /**
+     * A class that allows modifying the notifications.
+     */
     private final NotificationService notificationService;
+    /**
+     * A class that allows modifying the locations.
+     */
     private final LocationService locationService;
 
+    /**
+     * <p>Get a notification based on its ID.</p>
+     *
+     * <p><a href="https://klimu.eus/RestAPI/notification/{id}">https://klimu.eus/RestAPI/notification/{id}</a></p>
+     *
+     * <ul>
+     *     <li>Produces: application/json, application/xml</li>
+     *     <li>Requires: Access and Refresh tokens as headers.</li>
+     * </ul>
+     *
+     * @param id The ID of the notification to look for.
+     * @return A 200 ok if the notification was found or a 400 bad request if it wasn't.
+     */
     @GetMapping(
             value = "/{id}",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
@@ -45,6 +67,20 @@ public class NotificationController {
         }
     }
 
+    /**
+     * <p>Get a list of notifications based on a location.</p>
+     *
+     * <p><a href="https://klimu.eus/RestAPI/notification/location">https://klimu.eus/RestAPI/notification/location</a></p>
+     *
+     * <ul>
+     *     <li>Consumes: application/json, application/xml</li>
+     *     <li>Produces: application/json, application/xml</li>
+     *     <li>Requires: Access and Refresh tokens as headers.</li>
+     * </ul>
+     *
+     * @param location The location of the notification to look for.
+     * @return A 200 ok if the notifications were found or a 400 bad request if it wasn't.
+     */
     @GetMapping(
             value = "/location",
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
@@ -59,6 +95,20 @@ public class NotificationController {
         }
     }
 
+    /**
+     * <p>Get a list of notifications based on its type.</p>
+     *
+     * <p><a href="https://klimu.eus/RestAPI/notification/type">https://klimu.eus/RestAPI/notification/type</a></p>
+     *
+     * <ul>
+     *     <li>Consumes: application/json, application/xml</li>
+     *     <li>Produces: application/json, application/xml</li>
+     *     <li>Requires: Access and Refresh tokens as headers.</li>
+     * </ul>
+     *
+     * @param notificationType The type of the notification to look for.
+     * @return A 200 ok if the notifications were found or a 400 bad request if it wasn't.
+     */
     @GetMapping(
             value = "/type",
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
@@ -73,6 +123,22 @@ public class NotificationController {
         }
     }
 
+    /**
+     * <p>Get a list of notifications for a specific date and a location.</p>
+     *
+     * <p><a href="https://klimu.eus/RestAPI/notification/date/location">https://klimu.eus/RestAPI/notification/date/location</a></p>
+     *
+     * <ul>
+     *     <li>Consumes: application/json, application/xml</li>
+     *     <li>Produces: application/json, application/xml</li>
+     *     <li>Requires: Access and Refresh tokens as headers.</li>
+     * </ul>
+     *
+     * @param location The location the notifications must be from.
+     * @param startDate The date the notifications must be higher from.
+     * @param endDate The date the notification must be lower from.
+     * @return A 200 ok if the notifications were found or a 400 bad request if it wasn't.
+     */
     @GetMapping(
             value = "/date/location",
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
@@ -97,6 +163,22 @@ public class NotificationController {
         }
     }
 
+    /**
+     * <p>Get a list of notifications for a specific date and type.</p>
+     *
+     * <p><a href="https://klimu.eus/RestAPI/notification/date/type">https://klimu.eus/RestAPI/notification/date/type</a></p>
+     *
+     * <ul>
+     *     <li>Consumes: application/json, application/xml</li>
+     *     <li>Produces: application/json, application/xml</li>
+     *     <li>Requires: Access and Refresh tokens as headers.</li>
+     * </ul>
+     *
+     * @param notificationType The type the notifications must be from.
+     * @param startDate The date the notifications must be higher from.
+     * @param endDate The date the notification must be lower from.
+     * @return A 200 ok if the notifications were found or a 400 bad request if it wasn't.
+     */
     @GetMapping(
             value = "/date/type",
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
@@ -122,6 +204,18 @@ public class NotificationController {
         }
     }
 
+    /**
+     * <p>Get all the notifications stored on the database.</p>
+     *
+     * <p><a href="https://klimu.eus/RestAPI/notification/all">https://klimu.eus/RestAPI/notification/all</a></p>
+     *
+     * <ul>
+     *     <li>Produces: application/json</li>
+     *     <li>Requires: Access and Refresh tokens as headers.</li>
+     * </ul>
+     *
+     * @return A 200 ok if the notifications were found or a 400 bad request if it wasn't.
+     */
     @GetMapping(
             value = "/all",
             produces = {MediaType.APPLICATION_JSON_VALUE}
@@ -130,6 +224,18 @@ public class NotificationController {
         return ResponseEntity.ok().body(notificationService.getAllNotifications());
     }
 
+    /**
+     * <p>Get the last 50 notifications stored on the database.</p>
+     *
+     * <p><a href="https://klimu.eus/RestAPI/notification/all/limited">https://klimu.eus/RestAPI/notification/all/limited</a></p>
+     *
+     * <ul>
+     *     <li>Produces: application/json</li>
+     *     <li>Requires: Access and Refresh tokens as headers.</li>
+     * </ul>
+     *
+     * @return A 200 ok if the notifications were found or a 400 bad request if it wasn't.
+     */
     @GetMapping(
             value = "/all/limited",
             produces = {MediaType.APPLICATION_JSON_VALUE}
@@ -138,6 +244,20 @@ public class NotificationController {
         return ResponseEntity.ok().body(notificationService.getAllNotificationsLimited());
     }
 
+    /**
+     * <p>Save a new Notification on the database.</p>
+     *
+     * <p><a href="https://klimu.eus/RestAPI/notification/create">https://klimu.eus/RestAPI/notification/create</a></p>
+     *
+     * <ul>
+     *     <li>Consumes: application/json, application/xml</li>
+     *     <li>Produces: application/json, application/xml</li>
+     *     <li>Requires: Access and Refresh tokens as headers.</li>
+     * </ul>
+     *
+     * @param notification The notification that is going to be stored.
+     * @return A 200 ok if the notification was created or a 400 bad request if it wasn't.
+     */
     @PostMapping(
             value = "/create",
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
@@ -155,6 +275,20 @@ public class NotificationController {
         }
     }
 
+    /**
+     * <p>Save an X amount of notifications on the database.</p>
+     *
+     * <p><a href="https://klimu.eus/RestAPI/notification/create/all">https://klimu.eus/RestAPI/notification/create/all</a></p>
+     *
+     * <ul>
+     *     <li>Consumes: application/json</li>
+     *     <li>Produces: application/json</li>
+     *     <li>Requires: Access and Refresh tokens as headers.</li>
+     * </ul>
+     *
+     * @param notifications The notification that is going to be stored.
+     * @return A 200 ok if the notifications were created or a 400 bad request if it wasn't.
+     */
     @PostMapping(
             value = "/create/all",
             consumes = {MediaType.APPLICATION_JSON_VALUE},
@@ -175,6 +309,20 @@ public class NotificationController {
         }
     }
 
+    /**
+     * <p>Update a notification on the database.</p>
+     *
+     * <p><a href="https://klimu.eus/RestAPI/notification/update">https://klimu.eus/RestAPI/notification/update</a></p>
+     *
+     * <ul>
+     *     <li>Consumes: application/json, application/xml</li>
+     *     <li>Produces: application/json, application/xml</li>
+     *     <li>Requires: Access and Refresh tokens as headers.</li>
+     * </ul>
+     *
+     * @param notification The notification that is going to be stored.
+     * @return A 200 ok if the notification was updated or a 400 bad request if it wasn't.
+     */
     @PutMapping(
             value = "/update",
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
@@ -190,6 +338,19 @@ public class NotificationController {
         }
     }
 
+    /**
+     * <p>Delete a notification by its ID.</p>
+     *
+     * <p><a href="https://klimu.eus/RestAPI/notification/delete/{id}">https://klimu.eus/RestAPI/notification/delete/{id}</a></p>
+     *
+     * <ul>
+     *     <li>Produces: application/json, application/xml</li>
+     *     <li>Requires: Access and Refresh tokens as headers.</li>
+     * </ul>
+     *
+     * @param id The ID of the notification that is going to be deleted.
+     * @return A 200 ok if the notification was deleted or a 400 bad request if it wasn't.
+     */
     @DeleteMapping(value = "/delete/{id}")
     public ResponseEntity<Object> deleteNotification(@PathVariable long id) {
         if (id > 0) {
@@ -200,6 +361,19 @@ public class NotificationController {
         }
     }
 
+    /**
+     * <p>Delete a notification from the database.</p>
+     *
+     * <p><a href="https://klimu.eus/RestAPI/notification/delete">https://klimu.eus/RestAPI/notification/delete</a></p>
+     *
+     * <ul>
+     *     <li>Produces: application/json, application/xml</li>
+     *     <li>Requires: Access and Refresh tokens as headers.</li>
+     * </ul>
+     *
+     * @param notification The notification that is going to be deleted.
+     * @return A 200 ok if the notification was deleted or a 400 bad request if it wasn't.
+     */
     @DeleteMapping(value = "/delete", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<Object> deleteNotification(@RequestBody NotificationDTO notification) {
         if (notification != null && notificationService.getNotificationById(notification.getId()) != null) {
