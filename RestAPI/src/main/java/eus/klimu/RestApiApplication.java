@@ -45,7 +45,9 @@ public class RestApiApplication {
 
     private static final String DANGER = "Dangerous";
     private static final String WARNING = "Warning";
-    private static final String INFORMATION = "Information";
+
+    private static final String DEFAULT_PASSWORD = "12345678aA@";
+    private static final String DEFAULT_NUMBER = "612345789";
 
     /**
      * Default roles for the application.
@@ -64,7 +66,27 @@ public class RestApiApplication {
                     new ArrayList<>(), new ArrayList<>()
             ),
             new AppUser(null, "klimu.admin", "klimu@admin", "klimu", "admin",
-                    "popbl6_talde2-group@alumni.mondragon.edu", "654321987", "998339641",
+                    "popbl6_talde2-group@alumni.mondragon.edu", "654321987", null,
+                    new ArrayList<>(), new ArrayList<>()
+            ),
+            new AppUser(null, "joseba.izaguirre", DEFAULT_PASSWORD, "Joseba", "Izaguirre",
+                    "joseba.izaguirre@alumni.mondragon.edu", DEFAULT_NUMBER, null,
+                    new ArrayList<>(), new ArrayList<>()
+            ),
+            new AppUser(null, "aitor.alzola", DEFAULT_PASSWORD, "Aitor", "Alzola",
+                    "aitor.alzola@alumni.mondragon.edu", DEFAULT_NUMBER, null,
+                    new ArrayList<>(), new ArrayList<>()
+            ),
+            new AppUser(null, "jon.navaridas", DEFAULT_PASSWORD, "Jon", "Navaridas",
+                    "jon.navaridas@alumni.mondragon.edu", DEFAULT_NUMBER, null,
+                    new ArrayList<>(), new ArrayList<>()
+            ),
+            new AppUser(null, "gorka.urzelai", DEFAULT_PASSWORD, "Gorka", "Urzelai",
+                    "gorka.urzelai@alumni.mondragon.edu", DEFAULT_NUMBER, null,
+                    new ArrayList<>(), new ArrayList<>()
+            ),
+            new AppUser(null, "peio.mena", DEFAULT_PASSWORD, "Peio", "Mena",
+                    "peio.mena@alumni.mondragon.edu", DEFAULT_NUMBER, null,
                     new ArrayList<>(), new ArrayList<>()
             )
     );
@@ -79,17 +101,20 @@ public class RestApiApplication {
     );
 
     private static final List<NotificationType> notificationTypes = Arrays.asList(
-            new NotificationType(null, "Earthquake", "Earthquake", DANGER),
-            new NotificationType(null, "Heavy Rain", "Heavy Rain", DANGER),
-            new NotificationType(null, "Rain", "Rain", WARNING),
-            new NotificationType(null, "Light Rain", "Light Rain", INFORMATION),
-            new NotificationType(null, "Heatwave", "Heatwave", DANGER),
-            new NotificationType(null, "High Temperature", "High Temperature", DANGER),
-            new NotificationType(null, "Cold", "Cold", WARNING),
-            new NotificationType(null, "Freezing Cold", "Freezing Cold", DANGER),
-            new NotificationType(null, "Foggy", "Foggy", WARNING),
-            new NotificationType(null, "Light Snow", "Light Snow", INFORMATION),
-            new NotificationType(null, "Heavy Snow", "Heavy Snow", DANGER)
+            new NotificationType(null, "Earthquake",
+                    "You will receive a notification if an earthquake is detected.", DANGER),
+            new NotificationType(null, "Rain",
+                    "You will receive a notification when the probability of rain is high.", WARNING),
+            new NotificationType(null, "Heatwave",
+                    "You will receive a notification when the temperature reaches a high value" +
+                            "for more than five days.", DANGER),
+            new NotificationType(null, "High Temperature",
+                    "You will receive a notification when the temperature reaches a high value.", DANGER),
+            new NotificationType(null, "Cold",
+                    "You will receive a notification when the temperature reaches a low value.", WARNING),
+            new NotificationType(null, "Snow",
+                    "You will receive a notification when the temperature reaches a low value " +
+                            "and the humidity is high.", WARNING)
     );
 
     @Value("classpath:files/country-by-capital-city.json")
@@ -107,8 +132,15 @@ public class RestApiApplication {
     /**
      * Generate the default elements for the application. The function checks if the elements have already been
      * created and if they exist in the database it won't create them.
-     * @param userService The service for managing the users.
-     * @param roleService The service for managing the roles.
+     *
+     * @param userService                  The service for managing the users.
+     * @param roleService                  The service for managing the roles.
+     * @param channelService               The service for managing the channels.
+     * @param locationService              The service for managing the locations.
+     * @param notificationTypeService      The service for managing the notification types.
+     * @param userNotificationService      The service for managing the user notifications.
+     * @param notificationService          The service for managing the notifications.
+     * @param localizedNotificationService The service for managing the localized notifications.
      * @return A collection of functions that will be executed at the beginning of execution.
      */
     @Bean
@@ -191,11 +223,39 @@ public class RestApiApplication {
             List<NotificationType> types = notificationTypeService.getAllNotificationTypes();
 
             for (int i = 0; i < 20; i++) {
+                NotificationType type = types.get(random.nextInt(types.size()));
+                String msg;
+
+                switch (type.getName()) {
+                    case "Earthquake":
+                        msg = "un terremoto de magnitud considerable";
+                        break;
+                    case "Rain":
+                        msg = "lluvias";
+                        break;
+                    case "Heatwave":
+                        msg = "una ola de calor";
+                        break;
+                    case "High Temperature":
+                        msg = "una temperatura elevada";
+                        break;
+                    case "Cold":
+                        msg = "una temperatura considerablemente baja";
+                        break;
+                    case "Snow":
+                        msg = "peligro por nieves";
+                        break;
+                    default:
+                        msg = "peligro";
+                        break;
+                }
+
                 notificationService.addNewNotification(new Notification(
-                        null, "Danger notification, be careful",
+                        null,
+                        (type.getType().equals(DANGER)) ? "Mucho cuidado, se ha detectado " + msg + " en la zona." :
+                                "Aviso, se ha detectado " + msg + " en la zona.",
                         Date.from(LocalDate.now().atTime(LocalTime.now()).toInstant(ZoneOffset.UTC)),
-                        types.get(random.nextInt(types.size())),
-                        locations.get(random.nextInt(locations.size()))
+                        type, locations.get(random.nextInt(locations.size()))
                 ));
             }
             log.info("All the elements have already been generated");
