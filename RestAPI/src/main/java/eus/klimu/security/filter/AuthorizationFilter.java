@@ -12,9 +12,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Manage the authorization of the user.
+ */
 @Slf4j
 public class AuthorizationFilter extends OncePerRequestFilter {
 
+    /**
+     * Filter each request to the server, allowing or denying access if needed.
+     * @param request The HttpServletRequest to the server.
+     * @param response The HttpServletResponse from the server.
+     * @param filterChain The filtering chain of the requests and responses.
+     * @throws ServletException Exception generated if the access and refresh tokens are not valid or expired.
+     * @throws IOException Exception if an I/O operation was interrupted or failed.
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {

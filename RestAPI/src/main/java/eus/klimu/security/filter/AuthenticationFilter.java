@@ -15,15 +15,33 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Manage the attempts to authenticate the user, the token generation when successfully authenticated and
+ * the error generation when the authentication is unsuccessful.
+ */
 @Slf4j
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
+    /**
+     * Manager of the authentication of the users.
+     */
     private final AuthenticationManager authenticationManager;
 
+    /**
+     * Create a new instance of an AuthenticationFilter.
+     * @param authenticationManager The manager of the authentication of the user.
+     */
     public AuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
 
+    /**
+     * Try to authenticate a user with username and password.
+     * @param request The HttpServletRequest to the server.
+     * @param response The HttpServletResponse from the server.
+     * @return The authentication of the user.
+     * @throws AuthenticationException Exception if the user could not be authenticated.
+     */
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         // Get the user parameters.
@@ -44,6 +62,15 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         return authenticationManager.authenticate(authenticationToken);
     }
 
+    /**
+     * The user was successfully authenticated, so their tokens must be generated.
+     * @param request The HttpServletRequest to the server.
+     * @param response The HttpServletResponse from the server.
+     * @param chain The filtering chain of the requests and responses.
+     * @param authentication The authentication service of the application.
+     * @throws IOException Exception if an I/O operation was interrupted or failed.
+     * @throws ServletException Ignored.
+     */
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
                                             Authentication authentication) throws IOException, ServletException {
@@ -61,6 +88,14 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         tokenManagement.setTokenOnResponse(accessToken, refreshToken, response);
     }
 
+    /**
+     * The user was not authenticated so an error must be sent.
+     * @param request The HttpServletRequest to the server.
+     * @param response The HttpServletResponse from the server.
+     * @param failed Exception that indicates why the authentication failed.
+     * @throws IOException Exception if an I/O operation was interrupted or failed.
+     * @throws ServletException Ignored.
+     */
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
                                               AuthenticationException failed) throws IOException, ServletException {

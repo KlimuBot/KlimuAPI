@@ -13,6 +13,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.Collection;
 
+/**
+ * The information of a user that has the ability to access into the system.
+ * It contains all the configuration and user credentials.
+ */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -21,22 +25,59 @@ import java.util.Collection;
 @Entity(name = "app_user")
 public class AppUser {
 
+    /**
+     * The identification number of the AppUser.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    /**
+     * The username of the user, must be unique.
+     */
     @Column(unique = true)
     private String username;
+    /**
+     * The password of the user after going through a hashing algorithm.
+     */
     private String password;
+    /**
+     * The name of the user.
+     */
     private String name;
+    /**
+     * The surname of the user.
+     */
     private String surname;
+    /**
+     * The email of the user.
+     */
     private String email;
+    /**
+     * The telephone number of the user.
+     */
     private String number;
+    /**
+     * The telegram ID of the user.
+     */
     private String telegramId;
+    /**
+     * The roles of the user.
+     */
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Role> roles = new ArrayList<>();
+    /**
+     * The user notifications that the user has configured for the different channels.
+     */
     @ManyToMany(fetch = FetchType.LAZY)
     private Collection<UserNotification> notifications = new ArrayList<>();
 
+    /**
+     * Generate an AppUser form an AppUser Data Transfer Object.
+     * @param appUserDTO The AppUser Data Transfer Object.
+     * @param roleService The role managing service.
+     * @param userNotificationService The user notification managing service.
+     * @return An AppUser generated from a Data Transfer Object.
+     */
     public static AppUser generateAppUser(
             AppUserDTO appUserDTO, RoleService roleService, UserNotificationService userNotificationService
     ) {

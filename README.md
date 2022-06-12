@@ -1971,7 +1971,7 @@ Create, update, delete and get information for the Roles. They represent the dif
     <tr>
         <td>param</td>
         <td>String</td>
-        <td>The name of the role that is going to be fetch.</td>
+        <td>The name of the role that is going to be fetched.</td>
     </tr>
     <tr>
         <td>return</td>
@@ -2447,7 +2447,7 @@ Create, update, delete and get information for the AppUsers. They save the infor
     <tr>
         <td>param</td>
         <td>List of AppUsers</td>
-        <td>The lisf of AppUsers that are going to be created.</td>
+        <td>The list of AppUsers that are going to be created.</td>
     </tr>
     <tr>
         <td>return</td>

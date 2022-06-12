@@ -4,6 +4,9 @@ import eus.klimu.location.domain.model.Location;
 
 import java.util.List;
 
+/**
+ * Definition of the different functions available for a location.
+ */
 public interface LocationService {
 
     /**

@@ -31,9 +31,6 @@ public class AccessController {
     private final Gson gson;
 
     /**
-     * <h1>GET REQUEST</h1>
-     * <h2>Authenticate User Token</h2>
-     *
      * <p>Get a UsernamePasswordToken from a JWT token. Transforms the UsernamePasswordToken into a JSON string.</p>
      *
      * <ul>
@@ -64,9 +61,6 @@ public class AccessController {
     }
 
     /**
-     * <h1>GET REQUEST</h1>
-     * <h2>Refresh User Token</h2>
-     *
      * <p>Get a new pack of tokens (accessToken and refreshToken) from the server as a JSON. Requires a request body
      * with an access and a refresh token. One of the tokens need to not be expired for it to work.</p>
      *
@@ -137,9 +131,6 @@ public class AccessController {
     }
 
     /**
-     * <h1>GET REQUEST</h1>
-     * <h2>Deny Access</h2>
-     *
      * <p>Obtains an error message as a JSON with a DENIED type of response.</p>
      *
      * <ul>

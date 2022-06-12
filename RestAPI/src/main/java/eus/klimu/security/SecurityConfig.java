@@ -15,6 +15,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/**
+ * Manage the configuration of the security on the application.
+ */
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -34,11 +37,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
+    /**
+     * Configure the userDetailsService and the password encoder.
+     * @param auth The authentication manager builder.
+     * @throws Exception Generated if any operation failed.
+     */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
     }
 
+    /**
+     * Configure the http security of the application.
+     * @param http The http security of the application.
+     * @throws Exception Generated if any operation failed.
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         AuthenticationFilter authenticationFilter = new AuthenticationFilter(authenticationManagerBean());
@@ -64,6 +77,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(new AuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
+    /**
+     * The authentication manager bean.
+     * @return An authentication manager.
+     * @throws Exception Generated if any operation failed.
+     */
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {

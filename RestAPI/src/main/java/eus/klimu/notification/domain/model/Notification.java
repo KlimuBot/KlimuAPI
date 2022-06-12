@@ -16,6 +16,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * The information about a notification type on a specific location at a specific date.
+ * Contains the information that is going to be sent to the users.
+ */
 @Slf4j
 @Entity
 @Getter
@@ -25,18 +29,40 @@ import java.util.Date;
 @XmlRootElement
 public class Notification {
 
+    /**
+     * The identification number of the notification.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    /**
+     * The message of the notification.
+     */
     private String message;
+    /**
+     * The date when the notification was created.
+     */
     private Date date;
+    /**
+     * The type of the notification.
+     */
     @ManyToOne
     @JoinColumn(name = "notification_type_id")
     private NotificationType type;
+    /**
+     * The location the notification was generated on.
+     */
     @ManyToOne
     @JoinColumn(name = "location_id")
     private Location location;
 
+    /**
+     * Transform a notification Data Transfer Object into a notification.
+     * @param notificationDTO The notification Data Transfer Object.
+     * @param notificationTypeService The managing service for the notification types.
+     * @param locationService The managing service for the location.
+     * @return The notification Data Transfer Object as a notification.
+     */
     public static Notification generateNotification(
             NotificationDTO notificationDTO, NotificationTypeService notificationTypeService, LocationService locationService
     ) {

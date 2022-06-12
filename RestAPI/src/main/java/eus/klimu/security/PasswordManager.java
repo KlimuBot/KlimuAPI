@@ -1,11 +1,22 @@
 package eus.klimu.security;
 
+/**
+ * Manage the AppUser passwords, making sure they are secure.
+ */
 public class PasswordManager {
 
+    /**
+     * The minimum amount of characters a password must have.
+     */
     private static final int MIN_CHARACTERS = 8;
 
     private PasswordManager() {}
 
+    /**
+     * Check if a password is strong enough.
+     * @param password The password that is being checked.
+     * @return OK if the password is strong, or a message explaining why it's not strong enough.
+     */
     public static String check(String password) {
         int upCount = 0;
         int lowCount = 0;
@@ -38,6 +49,11 @@ public class PasswordManager {
         }
     }
 
+    /**
+     * Check the type of character.
+     * @param c The character that is being checked.
+     * @return The character type.
+     */
     private static String checkType(char c) {
         if (Character.isUpperCase(c)) {
             return "upper";
